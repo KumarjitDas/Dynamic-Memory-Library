@@ -16,12 +16,18 @@
 #define MEM_RET_SUCCESS 0
 #define MEM_RET_FAILURE 1
 
+#define MEM_IDX_S 0
+#define MEM_IDX_E 0
+
+#define MEM_AUTO_DET 0
+
 #define MEM_ERR_PTR_NULL      0x8001
-#define MEM_ERR_PTR_ADDR_NULL 0x8002
+#define MEM_ERR_ADDR_PTR_NULL 0x8002
 #define MEM_ERR_ALLOC         0x8003
 #define MEM_ERR_INVALID_SIZE  0x8004
-#define MEM_ERR_NOT_MEMLIB    0x8005
-#define MEM_ERR_NO_EXISTENCE  0x8006
+#define MEM_ERR_INVALID_IDX   0x8005
+#define MEM_ERR_NOT_MEMLIB    0x8006
+#define MEM_ERR_NOT_EXIST     0x8007
 
 #define MEM_IS_ERR(X)     ((0xF000 & X)==0X8000)
 #define MEM_IS_NOT_ERR(X) ((0xF000 & X)==0X0000)
@@ -48,7 +54,10 @@ int MEM_EXPORT freeMem(void *addr_ptr);
 size_t MEM_EXPORT memSize(void *ptr);
 
 
-int MEM_EXPORT setMem(void *ptr, size_t size, void *ptr_elem, size_t sz_elem);
+int MEM_EXPORT setMem(
+  void *ptr, size_t idx_s, size_t idx_e,
+  void *ptr_elem, size_t sz_elem
+);
 
 
 int MEM_EXPORT getMemExtraInfo(void *addr_ptr_ex_inf, void *ptr);
@@ -58,13 +67,15 @@ size_t MEM_EXPORT memExtraInfoSize(void *ptr);
 
 
 int MEM_EXPORT reallocMem(
-  void *addr_new_ptr, size_t sz_new_ptr, void *addr_ptr,
-  void *ptr_new_dat,  size_t sz_new_dat,
+  void *addr_new_ptr, size_t new_size, void *addr_ptr,
+  void *ptr_dat,      size_t sz_dat,
   void *ptr_new_inf,  size_t sz_new_inf
 );
 
 
-int MEM_EXPORT cpyMem(void *adst, void *amem);
+int MEM_EXPORT cpyMem(
+  void *addr_ptr_dst, void *ptr_src, size_t idx_s, size_t idx_e
+);
 
 
 #ifdef __cplusplus

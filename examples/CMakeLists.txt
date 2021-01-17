@@ -5,7 +5,7 @@
 # Add all the examples in the directory
 set(
   EXAMPLES
-  "ex01_allocMem" "ex02_setMem" "ex03_getMemExtraInfo"
+  "ex01_allocMem" "ex02_setMem" "ex03_getMemExtraInfo" "ex04_cpyMem"
 )
 foreach(EXAMPLE ${EXAMPLES})
 

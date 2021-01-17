@@ -27,8 +27,11 @@ int main()
   size_t size = memSize(arr);
   printf("size: %llu\n\n", size);
 
-  int val = -69;
-  setMem(arr + 1, 3 * sizeof(int), &val, sizeof(int));
+  int val = -420;
+  setMem(
+    arr, MEM_IDX_S, MEM_IDX_E,
+    &val, sizeof(int)
+  );
 
   printf("arr content:\n\n> ");
   for(int i = 0; i < len; i++) printf("%d, ", arr[i]);

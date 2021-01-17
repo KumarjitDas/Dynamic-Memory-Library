@@ -20,6 +20,8 @@
 #define MEM_ERR_PTR_ADDR_NULL 0x8002
 #define MEM_ERR_ALLOC         0x8003
 #define MEM_ERR_INVALID_SIZE  0x8004
+#define MEM_ERR_NOT_MEMLIB    0x8005
+#define MEM_ERR_NO_EXISTENCE  0x8006
 
 #define MEM_IS_ERR(X)     ((0xF000 & X)==0X8000)
 #define MEM_IS_NOT_ERR(X) ((0xF000 & X)==0X0000)
@@ -43,16 +45,16 @@ int MEM_EXPORT allocMem(
 int MEM_EXPORT freeMem(void *addr_ptr);
 
 
-size_t MEM_EXPORT memSize(void *mem);
+size_t MEM_EXPORT memSize(void *ptr);
 
 
-int MEM_EXPORT setMem(void *mem, size_t size, void *ptr_elem, size_t sz_elem);
+int MEM_EXPORT setMem(void *ptr, size_t size, void *ptr_elem, size_t sz_elem);
 
 
-int MEM_EXPORT getMemExtraInfo(void *addr_ex_inf, void *mem);
+int MEM_EXPORT getMemExtraInfo(void *addr_ptr_ex_inf, void *ptr);
 
 
-size_t MEM_EXPORT memExtraInfoSize(void *mem);
+size_t MEM_EXPORT memExtraInfoSize(void *ptr);
 
 
 int MEM_EXPORT reallocMem(

@@ -4,12 +4,12 @@
 
 # Add all the examples in the directory
 set(
-  EXAMPLE_FILES
-  "ex1_allocMem"
+  EXAMPLES
+  "ex01_allocMem" "ex02_setMem" "ex03_getMemExtraInfo"
 )
-foreach(FILE "${EXAMPLE_FILES}")
+foreach(EXAMPLE ${EXAMPLES})
 
-  add_executable(${FILE} "${CMAKE_CURRENT_SOURCE_DIR}/${FILE}.c")
-  target_link_libraries(${FILE} PRIVATE "${PROJECT_NAME}::${PROJECT_NAME}")
+  add_executable(${EXAMPLE} "${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE}.c")
+  target_link_libraries(${EXAMPLE} PRIVATE "${PROJECT_NAME}::${PROJECT_NAME}")
 
 endforeach()

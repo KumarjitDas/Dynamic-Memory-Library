@@ -22,6 +22,8 @@ int main()
   );
   printf("ret: %d\n\n", ret);
 
+  printf("size: %llu\n\n", memSize(arr));
+
   printf("arr content:\n\n> ");
   for(int i = 0; i < len; i++) printf("%d, ", arr[i]);
   printf("\n\n");

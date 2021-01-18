@@ -18,18 +18,20 @@
 #define _ADDR_T _MEM_T*
 
 #define _GET_MEM_SIZE(M) (*(size_t*)((_MEM_T)(M) - (1 + sizeof(size_t))))
+#define _GET_MEM_INF_SIZE(M) \
+  (*(size_t*)((_MEM_T)(M) - _MEM_HEADER_SIZE - sizeof(size_t)))
 
 
-void _setMemExtraInfo(_MEM_T ptr, _MEM_T ptr_inf, size_t sz_inf);
+_MEM_T _SetMemExtraInfo(_MEM_T ptr, _MEM_T ptr_inf, size_t sz_inf);
 
 
-void _setMemSizeHeader(_MEM_T ptr, size_t size, int has_cont);
+_MEM_T _SetMemSizeHeader(_MEM_T ptr, size_t size, int has_cont);
 
 
-void _setMemElems(_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
+_MEM_T _SetMemElems(_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
 
 
-int _hasMemHeader(_MEM_T ptr);
+int _HasMemHeader(_MEM_T ptr);
 
 
 #endif  // _MEM__UTIL__H_

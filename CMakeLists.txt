@@ -13,7 +13,7 @@ set(
 )
 project(
   mem
-  VERSION 0.1
+  VERSION 0.1.1
   DESCRIPTION "${proj_desc}"
   HOMEPAGE_URL "https://github.com/KumarjitDas/Dynamic-Memory-Library"
   LANGUAGES C
@@ -200,6 +200,7 @@ include("CmakePackageConfigHelpers")
 # Version macros for the package configuration
 set(CONF_VERSION_MAJOR "${${PROJECT_NAME}_VERSION_MAJOR}")
 set(CONF_VERSION_MINOR "${${PROJECT_NAME}_VERSION_MINOR}")
+set(CONF_VERSION_PATCH "${${PROJECT_NAME}_VERSION_PATCH}")
 
 # Include directories macro for the package configuration for build interface
 set(
@@ -214,7 +215,7 @@ configure_package_config_file(
   "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Config.cmake"
   INSTALL_DESTINATION "lib/cmake/${PROJECT_NAME}"
   PATH_VARS CONF_INCLUDE_DIRS
-  CONF_VERSION_MAJOR CONF_VERSION_MINOR
+  CONF_VERSION_MAJOR CONF_VERSION_MINOR CONF_VERSION_PATCH
 )
 
 # Include directories macro for the package configuration for install interface
@@ -226,13 +227,19 @@ configure_package_config_file(
   "${CMAKE_CURRENT_BINARY_DIR}/cmake/install/${PROJECT_NAME}Config.cmake"
   INSTALL_DESTINATION "lib/cmake/${PROJECT_NAME}"
   PATH_VARS CONF_INCLUDE_DIRS
-  CONF_VERSION_MAJOR CONF_VERSION_MINOR
+  CONF_VERSION_MAJOR CONF_VERSION_MINOR CONF_VERSION_PATCH
 )
 
 # Configure the project version config file
+string(
+  CONCAT FULL_VERSION
+  "${${PROJECT_NAME}_VERSION_MAJOR}."
+  "${${PROJECT_NAME}_VERSION_MINOR}."
+  "${${PROJECT_NAME}_VERSION_PATCH}"
+)
 write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-  VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}"
+  VERSION "${FULL_VERSION}"
   COMPATIBILITY AnyNewerVersion
 )
 

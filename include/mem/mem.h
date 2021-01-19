@@ -10,8 +10,8 @@
 #include <stdint.h>
 
 
-#define MEM_RET_TRUE  1
-#define MEM_RET_FALSE 0
+#define MEM_TRUE  1
+#define MEM_FALSE 0
 
 #define MEM_RET_SUCCESS 0
 #define MEM_RET_FAILURE 1
@@ -46,9 +46,11 @@ int MEM_EXPORT AllocMem (void *addr_ptr, size_t size,
                         );
 
 
-int MEM_EXPORT ResizeMem (void *addr_ptr, size_t sz_old, size_t sz_new,
-                          void *ptr_dat,  size_t sz_dat
-                         );
+int MEM_EXPORT ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
+                           void *ptr_dat,  size_t sz_dat,
+                           int ch_inf,
+                           void *ptr_inf,  size_t sz_inf
+                          );
 
 
 int MEM_EXPORT FreeMem (void *addr_ptr);
@@ -75,13 +77,20 @@ int MEM_EXPORT ApnMem (void *addr_ptr_dst, size_t sz_dst,
                       );
 
 
-// size_t MEM_EXPORT MemExtraInfoSize (void *ptr);
+size_t MEM_EXPORT MemInfoSize (void *ptr);
 
 
-// int MEM_EXPORT GetMemExtraInfo (void *addr_ptr_ex_inf, void *ptr);
+int MEM_EXPORT GetMemInfo (void *addr_ptr_inf, void *ptr);
 
 
-// int MEM_EXPORT ChMemExtraInfo (void *addr_ptr, void *ptr_inf, size_t sz_inf);
+size_t MEM_EXPORT MemSizeFast (void *ptr);
+
+
+size_t MEM_EXPORT MemInfoSizeFast (void *ptr);
+
+
+int MEM_EXPORT GetMemInfoFast (void *addr_ptr_inf, void *ptr);
+
 
 
 #ifdef __cplusplus

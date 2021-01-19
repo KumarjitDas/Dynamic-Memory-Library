@@ -6,12 +6,13 @@
 
 int main()
 {
-   printf("\nExample 5\n\n");
+   printf("\nExample 10\n\n");
 
    int *arr = NULL;
-   int len = 20;
+   int len = 5;
    int ret = AllocMem(&arr, len * sizeof(int),
-                      NULL, 0, NULL, 0
+                      NULL, 0,
+                      NULL, 27
                      );
 
    printf("AllocMem ret value: %d\n\n", ret);
@@ -22,10 +23,10 @@ int main()
       return MEM_RET_FAILURE;
    }
 
-   size_t sz_arr = MemSize(arr);
-   printf("Memory size: %llu byte%s\n\n",
-          sz_arr,
-          sz_arr > 1 ?
+   size_t size = MemInfoSizeFast(arr);
+   printf("Memory info size: %llu byte%s\n\n",
+          size,
+          size > 1 ?
           "s" :
           ""
          );
@@ -35,9 +36,7 @@ int main()
    printf("FreeMem ret value: %d", ret);
    if (ret)
    {
-      printf("Unable to free memory.\n\n");
-
-      return MEM_RET_FAILURE;
+      printf("Unable to free memory.");
    }
 
    printf("\n\n");

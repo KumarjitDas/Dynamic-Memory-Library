@@ -5,8 +5,9 @@
 # Add all the examples in the directory
 set(
   EXAMPLES
-  "ex01_MemLibVersion" "ex02_AllocMem" "ex03_ResizeMem" "ex04_FreeMem"
-  "ex05_MemSize" "ex06_ClrMem" "ex07_SetMem" "ex08_CpyMem" "ex09_ApnMem"
+  "ex01_MemLibVersion" "ex02_AllocMem"    "ex03_ResizeMem"  "ex04_FreeMem"
+  "ex05_MemSize"       "ex06_ClrMem"      "ex07_SetMem"     "ex08_CpyMem"
+  "ex09_ApnMem"        "ex10_MemInfoSize" "ex11_GetMemInfo" "ex12_FastFuncs"
 )
 foreach(EXAMPLE ${EXAMPLES})
 

@@ -2,36 +2,36 @@
 #define _MEM__UTIL__H_
 
 
+
 #include "mem/mem.h"
 #include "config/memConfig.h"
 
+#include <stdint.h>
 
-#define _MEM_HEADER_SIZE    (sizeof(size_t) + 2)
-#define _MEM_HEADER1_ID     0XF0
-#define _MEM_HEADER2_ID     0X0F
-#define _MEM_HEADER2CONT_ID 0X1F
 
-#define _MEM_RET_HAS_HEADER2CONT 2
+
+// MEM ID:         M E M
+#define _MEM_ID 0x04D454D0
 
 #define _BYTE_T unsigned char
 #define _MEM_T  _BYTE_T *
 #define _ADDR_T _MEM_T*
 
-#define _GET_MEM_SIZE(M) (*(size_t*)((_MEM_T)(M) - (1 + sizeof(size_t))))
-#define _GET_MEM_INF_SIZE(M) \
-  (*(size_t*)((_MEM_T)(M) - _MEM_HEADER_SIZE - sizeof(size_t)))
 
 
-_MEM_T _SetMemExtraInfo(_MEM_T ptr, _MEM_T ptr_inf, size_t sz_inf);
+typedef struct
+{
+   void     *ptr_inf;
+   uint32_t  sz_inf;
+   size_t    sz_mem;
+   uint32_t  id_mem;
+}
+mem_head_t;
 
-
-_MEM_T _SetMemSizeHeader(_MEM_T ptr, size_t size, int has_cont);
 
 
 _MEM_T _SetMemElems(_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
 
-
-int _HasMemHeader(_MEM_T ptr);
 
 
 #endif  // _MEM__UTIL__H_

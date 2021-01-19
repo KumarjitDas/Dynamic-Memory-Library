@@ -10,7 +10,7 @@ int main()
 
    int *arr = NULL;
    int len = 7;
-   int val = 420;
+   int val = -69;
    int ret = AllocMem(&arr, len * sizeof(int),
                       &val, sizeof(int),
                       NULL, 0
@@ -34,11 +34,12 @@ int main()
 
    printf("\n\n");
 
-   len = 5;
-   val = -69;
-   ret = ResizeMem(&arr, 0, len * sizeof(int),
-                   &val, sizeof(int)
-                  );
+   len = 10;
+   val = 420;
+   ret = ReallocMem(&arr, 0, len * sizeof(int),
+                    &val, sizeof(int),
+                    MEM_FALSE, NULL, 0
+                   );
 
    printf("ResizeMem ret value: %d", ret);
    if (ret)

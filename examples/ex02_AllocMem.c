@@ -9,7 +9,7 @@ int main()
    printf("\nExample 2\n\n");
 
    int *arr = NULL;
-   int val = -42069;
+   int val = -69;
    int len = 7;
    int ret = AllocMem(&arr, len * sizeof(int),
                       &val, sizeof(int),

@@ -86,8 +86,9 @@ int main()
 
    printf("\n\n");
 
-   ret = ApnMem(&arr, MEM_MAX_SIZE, arr2, MEM_MAX_SIZE);
-
+   ret = ApnMem(&arr, MEM_MAX_SIZE,
+                arr2, MEM_MAX_SIZE
+               );
    printf("ApnMem ret value: %d", ret);
    if (ret)
    {

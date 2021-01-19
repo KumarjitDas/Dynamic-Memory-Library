@@ -30,7 +30,7 @@ int main()
 
    printf("\n\n");
 
-   int val = 420;
+   int val = -69;
    ret = SetMem(arr,
                 MEM_IDX_S,
                 MEM_IDX_E,

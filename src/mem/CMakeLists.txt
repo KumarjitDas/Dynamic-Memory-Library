@@ -3,7 +3,7 @@
 
 
 # Add the source files to the library
-set(SRC_FILES "mem.c" "_fast.c")
+set(SRC_FILES "mem.c" "_mem.c")
 foreach(SRC_FILE ${SRC_FILES})
 
    target_sources(

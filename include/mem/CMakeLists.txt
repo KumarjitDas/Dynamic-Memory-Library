@@ -3,7 +3,7 @@
 
 
 # Add the header files to the library
-set(HDR_FILES "defs" "mem" "_fast")
+set(HDR_FILES "defs" "mem" "_mem")
 foreach(HDR_FILE ${HDR_FILES})
 
    target_sources(

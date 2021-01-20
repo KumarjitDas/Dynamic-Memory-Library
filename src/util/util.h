@@ -3,6 +3,7 @@
 
 
 #include "mem/defs.h"
+#include "mem/_mem.h"
 #include "config/memConfig.h"
 
 
@@ -12,16 +13,6 @@
 #define _BYTE_T unsigned char
 #define _MEM_T  _BYTE_T *
 #define _ADDR_T _MEM_T*
-
-
-typedef struct
-{
-   void     *ptr_inf;
-   uint32_t  sz_inf;
-   size_t    sz_mem;
-   uint32_t  id_mem;
-}
-mem_head_t;
 
 
 _MEM_T _SetMemElems (_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);

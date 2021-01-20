@@ -57,8 +57,12 @@ int AllocMem (void *addr_ptr, size_t size,
 
       ptr_inf = tmp_ptr_inf;
    }
+   else
+   {
+      ptr_inf = NULL;
+   }
 
-   _MEM_T ptr = malloc(sizeof(mem_head_t) + size);
+   _MEM_T ptr = malloc(sizeof(_mem_head_t) + size);
    if (!ptr)
    {
       if (ptr_inf)
@@ -69,14 +73,14 @@ int AllocMem (void *addr_ptr, size_t size,
       return MEM_ERR_ALLOC;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)ptr;
+   _mem_head_t *mem_head = (_mem_head_t*)ptr;
 
    mem_head->ptr_inf = ptr_inf;
    mem_head->sz_inf  = (uint32_t)sz_inf;
    mem_head->sz_mem  = size;
    mem_head->id_mem  = _MEM_ID;
 
-   ptr += sizeof(mem_head_t);
+   ptr += sizeof(_mem_head_t);
    *(_ADDR_T)addr_ptr = ptr;
 
    if (ptr_dat && sz_dat)
@@ -111,7 +115,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
    *(_ADDR_T)addr_ptr = NULL;
 
-   mem_head_t *mem_head = (mem_head_t*)(ptr - sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)(ptr - sizeof(_mem_head_t));
    int is_memlib = mem_head->id_mem == _MEM_ID;
    if (is_memlib)
    {
@@ -184,7 +188,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
       ptr_inf = mem_head->ptr_inf;
       mem_head->sz_mem = sz_tot;
-      sz_tot += sizeof(mem_head_t);
+      sz_tot += sizeof(_mem_head_t);
 
    }  // if (is_memlib)
 
@@ -197,7 +201,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
    {
       if (is_memlib)
       {
-         ptr += sizeof(mem_head_t);
+         ptr += sizeof(_mem_head_t);
       }
 
       *(_ADDR_T)addr_ptr = ptr;
@@ -216,7 +220,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
       return MEM_ERR_ALLOC;
    }
 
-   ptr += sizeof(mem_head_t);
+   ptr += sizeof(_mem_head_t);
    *(_ADDR_T)addr_ptr = ptr;
 
    if (ptr_dat && sz_dat && sz_new > sz_old)
@@ -247,7 +251,7 @@ size_t MemSize (void *ptr)
       return 0;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)((_MEM_T)ptr - sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)((_MEM_T)ptr - sizeof(_mem_head_t));
 
    return mem_head->id_mem == _MEM_ID ?
           mem_head->sz_mem :
@@ -337,8 +341,8 @@ int CpyMem (void *addr_ptr_dst, void *ptr_src,
       return MEM_ERR_PTR_NULL;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)((_MEM_T)ptr_src -
-                                        sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)((_MEM_T)ptr_src -
+                                        sizeof(_mem_head_t));
    int is_memlib = mem_head->id_mem == _MEM_ID;
    if (is_memlib &&
        (!idx_e || idx_e > mem_head->sz_mem)
@@ -414,7 +418,7 @@ int ApnMem (void *addr_ptr_dst, size_t sz_dst,
       return MEM_ERR_INVALID_SIZE;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)(ptr_dst - sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)(ptr_dst - sizeof(_mem_head_t));
    if (mem_head->id_mem == _MEM_ID)
    {
       if (!sz_dst || sz_dst > mem_head->sz_mem)
@@ -460,7 +464,7 @@ size_t MemInfoSize(void *ptr)
       return 0;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)((_MEM_T)ptr - sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)((_MEM_T)ptr - sizeof(_mem_head_t));
 
    return mem_head->id_mem == _MEM_ID ?
           mem_head->sz_inf :
@@ -483,7 +487,7 @@ int GetMemInfo (void *addr_ptr_inf, void *ptr)
       return MEM_ERR_PTR_NULL;
    }
 
-   mem_head_t *mem_head = (mem_head_t*)((_MEM_T)ptr - sizeof(mem_head_t));
+   _mem_head_t *mem_head = (_mem_head_t*)((_MEM_T)ptr - sizeof(_mem_head_t));
    if (mem_head->id_mem != _MEM_ID)
    {
       return MEM_ERR_NOT_MEMLIB;

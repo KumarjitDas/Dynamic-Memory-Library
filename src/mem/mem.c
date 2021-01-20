@@ -499,27 +499,3 @@ int GetMemInfo (void *addr_ptr_inf, void *ptr)
 
    return MEM_RET_SUCCESS;
 }
-
-
-
-size_t MemSizeFast (void *ptr)
-{
-   return ((mem_head_t*)((_MEM_T)(ptr) - sizeof(mem_head_t)))->sz_mem;
-}
-
-
-
-size_t MemInfoSizeFast (void *ptr)
-{
-   return ((mem_head_t*)((_MEM_T)(ptr) - sizeof(mem_head_t)))->sz_inf;
-}
-
-
-
-int GetMemInfoFast (void *addr_ptr_inf, void *ptr)
-{
-   *(_ADDR_T)addr_ptr_inf = ((mem_head_t*)((_MEM_T)(ptr) -
-                             sizeof(mem_head_t)))->ptr_inf;
-
-   return MEM_RET_SUCCESS;
-}

@@ -24,10 +24,10 @@
 
 
 
-// size_t MemSizeFast (void *ptr)
-// {
-
-// }
+size_t MemSizeFast (void *ptr)
+{
+   return ((mem_head_t*)((_MEM_T)(ptr) - sizeof(mem_head_t)))->sz_mem;
+}
 
 
 
@@ -63,14 +63,14 @@
 
 
 
-// size_t MemInfoSizeFast (void *ptr)
-// {
+size_t MemInfoSizeFast (void *ptr)
+{
+   return ((mem_head_t*)((_MEM_T)(ptr) - sizeof(mem_head_t)))->sz_inf;
+}
 
-// }
 
 
-
-// void * GetMemInfoFast (void *ptr)
-// {
-
-// }
+void * GetMemInfoFast (void *ptr)
+{
+   return ((mem_head_t*)((_MEM_T)(ptr) - sizeof(mem_head_t)))->ptr_inf;
+}

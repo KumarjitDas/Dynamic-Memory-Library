@@ -3,8 +3,14 @@
 
 
 # Add the header files to the library
-set(HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/mem.h")
-target_sources(${PROJECT_NAME} PRIVATE "${HEADER_FILES}")
+set(HDR_FILES "defs" "mem" "_fast")
+foreach(HDR_FILE ${HDR_FILES})
+
+   target_sources(
+      ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${HDR_FILE}.h"
+   )
+
+endforeach()
 
 # Install rules for the header files
-install(FILES ${HEADER_FILES} DESTINATION "include/${PROJECT_NAME}")
+install(FILES ${HEADER_FILES} DESTINATION "include/mem")

@@ -2,12 +2,8 @@
 #define _MEM__UTIL__H_
 
 
-
-#include "mem/mem.h"
+#include "mem/defs.h"
 #include "config/memConfig.h"
-
-#include <stdint.h>
-
 
 
 // MEM ID:         M E M
@@ -16,7 +12,6 @@
 #define _BYTE_T unsigned char
 #define _MEM_T  _BYTE_T *
 #define _ADDR_T _MEM_T*
-
 
 
 typedef struct
@@ -29,9 +24,7 @@ typedef struct
 mem_head_t;
 
 
-
-_MEM_T _SetMemElems(_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
-
+_MEM_T _SetMemElems (_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
 
 
 #endif  // _MEM__UTIL__H_

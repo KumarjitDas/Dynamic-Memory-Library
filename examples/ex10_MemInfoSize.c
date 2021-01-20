@@ -23,7 +23,7 @@ int main()
       return MEM_RET_FAILURE;
    }
 
-   size_t size = MemInfoSizeFast(arr);
+   size_t size = MemInfoSize(arr);
    printf("Memory info size: %llu byte%s\n\n",
           size,
           size > 1 ?

@@ -3,4 +3,4 @@
 
 
 # Add the project include directory
-add_subdirectory("${PROJECT_NAME}")
+add_subdirectory("mem")

@@ -15,7 +15,9 @@
 #define _ADDR_T _MEM_T*
 
 
-_MEM_T _SetMemElems (_MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem);
+_MEM_T _Util_SetMemElems (
+   _MEM_T ptr, size_t size, _MEM_T ptr_elem, size_t sz_elem
+);
 
 
 #endif  // _MEM__UTIL__H_

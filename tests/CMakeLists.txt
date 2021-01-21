@@ -9,7 +9,7 @@ enable_testing()
 # Add all the subdirectories of this directory
 set(
    SUBDIRS
-   "t01_MemLibVersion" "t02_AllocMem"
+   "t01_MemLibVersion" "t02_AllocMem" "t03_ReallocMem"
 )
 foreach(SUBDIR ${SUBDIRS})
 

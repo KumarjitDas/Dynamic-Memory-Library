@@ -40,13 +40,13 @@ int main(int argc, char **argv)
       return 0;
    }
 
-   int      ret     = 0;
-   char   * mem     = NULL;
-   size_t   sz_mem  = 5;
-   info_t   inf     = {.a = 987, .b = 654321, .c = 987654321};
-   size_t   sz_inf  = sizeof(inf);
-   char     dat     = 'A';
-   size_t   sz_dat  = sizeof(dat);
+   int       ret    = 0;
+   char     *mem    = NULL;
+   size_t    sz_mem = 5;
+   info_t    inf    = {.a = 987, .b = 654321, .c = 987654321};
+   uint32_t  sz_inf = sizeof(inf);
+   char      dat    = 'A';
+   size_t    sz_dat = sizeof(dat);
 
    switch (strtol(argv[1], NULL, 10))
    {

@@ -1,15 +1,15 @@
-# dir: root/tests/t02_AllocMem
+# dir: root/tests/t03_ReallocMem
 # file: CMakeLists.txt
 
 
 # Add the executable for testing
-set(EXE_NAME "t02_AllocMem")
+set(EXE_NAME "t03_ReallocMem")
 add_executable(${EXE_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/main.c")
 target_link_libraries(${EXE_NAME} PRIVATE ${PROJECT_NAME})
 
 
 # Add the tests
-set(TOT_TESTS 9)
+set(TOT_TESTS 26)
 foreach(COUNT RANGE 1 ${TOT_TESTS})
 
    if(${COUNT} LESS 10)

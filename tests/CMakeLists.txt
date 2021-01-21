@@ -10,6 +10,7 @@ enable_testing()
 set(
    SUBDIRS
    "t01_MemLibVersion" "t02_AllocMem" "t03_ReallocMem" "t04_FreeMem"
+   "t05_MemSize"
 )
 foreach(SUBDIR ${SUBDIRS})
 

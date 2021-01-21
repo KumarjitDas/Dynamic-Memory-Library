@@ -26,8 +26,7 @@ void MemLibVersion (int *ptr_maj, int *ptr_min, int *ptr_pat)
 int AllocMem (void *addr_ptr, size_t size,
               void *ptr_dat,  size_t sz_dat,
               void *ptr_inf,  size_t sz_inf
-             )
-{
+) {
    if (!addr_ptr)
    {
       return MEM_ERR_ADDR_PTR_NULL;
@@ -97,8 +96,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
                 void *ptr_dat,  size_t sz_dat,
                 int ch_inf,
                 void *ptr_inf,  size_t sz_inf
-               )
-{
+) {
    if (!addr_ptr)
    {
       return MEM_ERR_ADDR_PTR_NULL;
@@ -260,7 +258,36 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
 int FreeMem (void *addr_ptr)
 {
-   return ReallocMem(addr_ptr, 0, 0, NULL, 0, 0, NULL, 0);
+   if (!addr_ptr)
+   {
+      return MEM_RET_SUCCESS;
+   }
+
+   _MEM_T ptr = *(_ADDR_T)addr_ptr;
+   if (!ptr)
+   {
+      return MEM_RET_SUCCESS;
+   }
+
+   *(_ADDR_T)addr_ptr = NULL;
+
+   _mem_head_t *head = (_mem_head_t*)(ptr - sizeof(_mem_head_t));
+   if (head->id_mem == _MEM_ID)
+   {
+      if (head->sz_inf &&
+          head->ptr_inf
+      ) {
+         free(head->ptr_inf);
+      }
+
+      free(head);
+   }
+   else
+   {
+      free(ptr);
+   }
+
+   return MEM_RET_SUCCESS;
 }
 
 
@@ -310,8 +337,7 @@ int ClrMem (void *ptr, size_t size)
 
 int SetMem (void *ptr, size_t idx_s, size_t idx_e,
             void *ptr_dat, size_t sz_dat
-           )
-{
+) {
    if (!ptr || !ptr_dat)
    {
       return MEM_ERR_PTR_NULL;
@@ -346,9 +372,7 @@ int SetMem (void *ptr, size_t idx_s, size_t idx_e,
 
 
 
-int CpyMem (void *addr_ptr_dst, void *ptr_src,
-            size_t idx_s, size_t idx_e
-           )
+int CpyMem (void *addr_ptr_dst, void *ptr_src, size_t idx_s, size_t idx_e)
 {
    if (!addr_ptr_dst)
    {
@@ -410,9 +434,7 @@ int CpyMem (void *addr_ptr_dst, void *ptr_src,
 
 
 
-int ApnMem (void *addr_ptr_dst, size_t sz_dst,
-            void *ptr_src, size_t sz_src
-           )
+int ApnMem (void *addr_ptr_dst, size_t sz_dst, void *ptr_src, size_t sz_src)
 {
    if (!addr_ptr_dst)
    {

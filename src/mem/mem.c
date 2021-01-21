@@ -1,4 +1,4 @@
-#include "util.h"
+#include "util.h"  // Already includes mem/_mem.h
 #include "mem/mem.h"
 
 
@@ -50,9 +50,9 @@ int AllocMem (void *addr_ptr, size_t size,
 
       if (ptr_inf)
       {
-         (void) _SetMemElems(tmp_ptr_inf, sz_inf,
-                             ptr_inf,     sz_inf
-                            );
+         (void) _Util_SetMemElems(tmp_ptr_inf, sz_inf,
+                                  ptr_inf,     sz_inf
+                                 );
       }
 
       ptr_inf = tmp_ptr_inf;
@@ -85,7 +85,7 @@ int AllocMem (void *addr_ptr, size_t size,
 
    if (ptr_dat && sz_dat)
    {
-      (void) _SetMemElems(ptr, size, ptr_dat, sz_dat);
+      (void) _Util_SetMemElems(ptr, size, ptr_dat, sz_dat);
    }
 
    return MEM_RET_SUCCESS;
@@ -124,23 +124,36 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
    if (!sz_new)
    {
-      if (is_memlib)
-      {
-         sz_new = mem_head->sz_mem;
-
-         if (mem_head->sz_inf && mem_head->ptr_inf)
-         {
-            free(mem_head->ptr_inf);
-         }
-      }
-
-      if (!ch_inf)
+      if (!is_memlib)
       {
          free(ptr);
 
          return MEM_RET_SUCCESS;
       }
-   }
+      else
+      {
+         sz_new = mem_head->sz_mem;
+
+         if (!ch_inf)
+         {
+            if (mem_head->sz_inf &&
+                mem_head->ptr_inf
+            ) {
+               free(mem_head->ptr_inf);
+            }
+
+            free(ptr);
+
+            return MEM_RET_SUCCESS;
+         }
+         else
+         {
+            sz_new = mem_head->sz_mem;
+         }
+
+      }  // if (!is_memlib) else
+
+   }  // if (!sz_new)
 
    size_t sz_tot = sz_new;
 
@@ -164,7 +177,9 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
             }
 
             mem_head->ptr_inf = NULL;
-         }
+
+         }  // if (!sz_inf)
+
          else if (sz_inf != mem_head->sz_inf)
          {
             mem_head->sz_inf  = (uint32_t)sz_inf;
@@ -175,13 +190,13 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
                return MEM_ERR_ALLOC;
             }
-         }
+         }  // else if (sz_inf != mem_head->sz_inf)
 
          if (ptr_inf && mem_head->ptr_inf)
          {
-            (void) _SetMemElems(mem_head->ptr_inf, sz_inf,
-                                ptr_inf,           sz_inf
-                               );
+            (void) _Util_SetMemElems(mem_head->ptr_inf, sz_inf,
+                                     ptr_inf,           sz_inf
+                                    );
          }
 
       }  // if (ch_inf)
@@ -192,7 +207,7 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
 
    }  // if (is_memlib)
 
-   else
+   else  // if (!is_memlib)
    {
       ptr_inf = NULL;
    }
@@ -220,16 +235,22 @@ int ReallocMem (void *addr_ptr, size_t sz_old, size_t sz_new,
       return MEM_ERR_ALLOC;
    }
 
-   ptr += sizeof(_mem_head_t);
+   if (is_memlib)
+   {
+      ptr += sizeof(_mem_head_t);
+   }
+
    *(_ADDR_T)addr_ptr = ptr;
 
-   if (ptr_dat && sz_dat && sz_new > sz_old)
-   {
-      (void) _SetMemElems(ptr + sz_old,
-                          sz_new - sz_old,
-                          ptr_dat,
-                          sz_dat
-                         );
+   if (ptr_dat         &&
+       sz_dat          &&
+       sz_new > sz_old
+   ) {
+      (void) _Util_SetMemElems(ptr + sz_old,
+                               sz_new - sz_old,
+                               ptr_dat,
+                               sz_dat
+                              );
    }
 
    return MEM_RET_SUCCESS;
@@ -314,11 +335,11 @@ int SetMem (void *ptr, size_t idx_s, size_t idx_e,
       return MEM_ERR_INVALID_IDX;
    }
 
-   (void) _SetMemElems((_MEM_T)ptr + idx_s,
-                       idx_e - idx_s,
-                       ptr_dat,
-                       sz_dat
-                      );
+   (void) _Util_SetMemElems((_MEM_T)ptr + idx_s,
+                            idx_e - idx_s,
+                            ptr_dat,
+                            sz_dat
+                           );
 
    return MEM_RET_SUCCESS;
 }
@@ -446,11 +467,11 @@ int ApnMem (void *addr_ptr_dst, size_t sz_dst,
 
    *(_ADDR_T)addr_ptr_dst = ptr_dst;
 
-   (void) _SetMemElems(ptr_dst + sz_dst,
-                       sz_src,
-                       ptr_src,
-                       sz_src
-                      );
+   (void) _Util_SetMemElems(ptr_dst + sz_dst,
+                            sz_src,
+                            ptr_src,
+                            sz_src
+                           );
 
    return MEM_RET_SUCCESS;
 }

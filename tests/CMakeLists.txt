@@ -1,22 +1,8 @@
-# dir: root/tests
-# file: CMakeLists.txt
+add_executable("tester" "test.c")
+target_link_libraries("tester" PRIVATE DynMem::dynmem)
 
-
-# Enable testing for all the tests in this directory
-enable_testing()
-
-
-# Add all the subdirectories of this directory
-set(
-   SUBDIRS
-   "t01_MemLibVersion" "t02_AllocMem" "t03_ReallocMem" "t04_FreeMem"
-   "t05_MemSize"
+# Arguments: start, end, step, size, array_size
+add_test(
+    NAME    "Test_01"
+    COMMAND "tester"
 )
-foreach(SUBDIR ${SUBDIRS})
-
-   message(
-      STATUS "${PROJECT_NAME} -- tests -- Adding tests for ${SUBDIR}"
-   )
-   add_subdirectory(${SUBDIR})
-
-endforeach()

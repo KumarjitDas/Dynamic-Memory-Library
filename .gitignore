@@ -51,8 +51,13 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# VS Code settings
-.vscode/*
-
 # CMake Build directory
 build/*
+Build/*
+
+# Clangd cache
+.cache/*
+
+# Workspace
+*.sublime-project
+*.sublime-workspace

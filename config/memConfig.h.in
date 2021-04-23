@@ -1,3 +1,0 @@
-#define mem_VERSION_MAJOR @mem_VERSION_MAJOR@
-#define mem_VERSION_MINOR @mem_VERSION_MINOR@
-#define mem_VERSION_PATCH @mem_VERSION_PATCH@

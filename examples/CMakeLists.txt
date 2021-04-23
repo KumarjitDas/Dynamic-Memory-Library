@@ -1,20 +1,5 @@
-# dir: root/examples
-# file: CMakeLists.txt
+add_executable("example_01" "example_01.c")
+target_link_libraries("example_01" PRIVATE DynMem::dynmem)
 
-
-# Add all the examples in the directory
-set(
-   EXAMPLES
-   # mem.h examples
-   "ex01_MemLibVersion" "ex02_AllocMem"    "ex03_ResizeMem"  "ex04_FreeMem"
-   "ex05_MemSize"       "ex06_ClrMem"      "ex07_SetMem"     "ex08_CpyMem"
-   "ex09_ApnMem"        "ex10_MemInfoSize" "ex11_GetMemInfo"
-   # _fast.h examples "ex12_FastFuncs"
-)
-foreach(EXAMPLE ${EXAMPLES})
-
-   # Create the executable for the example
-   add_executable(${EXAMPLE} "${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE}.c")
-   target_link_libraries(${EXAMPLE} PRIVATE "${PROJECT_NAME}::${PROJECT_NAME}")
-
-endforeach()
+add_executable("example_02" "example_02.c")
+target_link_libraries("example_02" PRIVATE DynMem::dynmem)

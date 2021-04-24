@@ -1,24 +1,42 @@
+#ifndef DYNMEM_INTERNAL_USE_utility_defines_h
+#   define DYNMEM_INTERNAL_USE_utility_defines_h
+#endif
+#include "utility/defines.h"
+
+#ifndef DYNMEM_INTERNAL_USE_utility_utility_h
+#   define DYNMEM_INTERNAL_USE_utility_utility_h
+#endif
+#include "utility/utility.h"
+
 #include "dynmem/dynmem.h"
 
 #include <stdlib.h>
 
-_Bool DynMemAllocate(dynmem_t *dynmem, intmax_t element_size, intmax_t element_count) {
-    if (!dynmem || element_size <= 0 || element_count <= 0)
+_Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t element_count, void *memory_address) {
+    if (!dynmem_address || element_size <= 0 || element_count <= 0)
         return FALSE;
 
-    dynmem->element_size = element_size;
-    dynmem->initial_size = element_size * element_count;
-    dynmem->size         = dynmem->initial_size;
-    dynmem->length       = element_count;
-    dynmem->index        = 0;
+    dynmem_address->element_size = element_size;
+    dynmem_address->initial_size = element_size * element_count;
+    dynmem_address->size         = dynmem_address->initial_size;
+    dynmem_address->length       = element_count;
+    dynmem_address->index        = 0;
 
-    dynmem->memory = malloc(dynmem->initial_size);
-    if (!dynmem->memory) {
-        dynmem->element_size = 0;
-        dynmem->initial_size = 0;
-        dynmem->size         = 0;
-        dynmem->length       = 0;
-        dynmem->index        = 0;
+    uint8_t **memory_address_ = memory_address;
+
+    if (memory_address_ && *memory_address_) {
+        dynmem_address->memory = *memory_address_;
+        *memory_address_ = NULL;
+    }
+    else 
+        dynmem_address->memory = malloc(dynmem_address->initial_size);
+
+    if (!dynmem_address->memory) {
+        dynmem_address->element_size = 0;
+        dynmem_address->initial_size = 0;
+        dynmem_address->size         = 0;
+        dynmem_address->length       = 0;
+        dynmem_address->index        = 0;
 
         return FALSE;
     }
@@ -26,41 +44,52 @@ _Bool DynMemAllocate(dynmem_t *dynmem, intmax_t element_size, intmax_t element_c
     return TRUE;
 }
 
-void DynMemDeallocate(dynmem_t *dynmem) {
-    dynmem->element_size = 0;
-    dynmem->initial_size = 0;
-    dynmem->size         = 0;
-    dynmem->length       = 0;
-    dynmem->index        = 0;
-
-    if (dynmem->memory)
-        free(dynmem->memory);
-
-    dynmem->memory = NULL;
-}
-
-_Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem, intmax_t index, void *value) {
-
-    return TRUE;
-}
-
-_Bool DYNMEM_EXPORT DynMemGet(dynmem_t *dynmem, intmax_t index, void *value) {
-
-    return TRUE;
-}
-
-_Bool DynMemAppend(dynmem_t *dynmem, void *value) {
-    if (!dynmem || !dynmem->memory || !dynmem->initial_size || !dynmem->element_size || 
-        !value  || !dynmem->size   || !dynmem->length
-       )
+_Bool DynMemDeallocate(dynmem_t *dynmem_address) {
+    if (!dynmem_address)
         return FALSE;
 
-    if (dynmem->index < dynmem->size)
-        for (; dynmem->index < dynmem->element_size && dynmem->index < dynmem->size; dynmem->index++)
-            dynmem->memory[dynmem->index] = ((uint8_t*)value)[dynmem->index];
+    dynmem_address->element_size = 0;
+    dynmem_address->initial_size = 0;
+    dynmem_address->size         = 0;
+    dynmem_address->length       = 0;
+    dynmem_address->index        = 0;
+
+    if (dynmem_address->memory)
+        free(dynmem_address->memory);
+
+    dynmem_address->memory = NULL;
+
+    return TRUE;
+}
+
+_Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+    if (index >= dynmem_address->length)
+        return FALSE;
+
+    DynMemUtilitySetMemory(dynmem_address->memory + dynmem_address->element_size * index,
+                           dynmem_address->element_size, value_address, dynmem_address->element_size
+                          );
+    return TRUE;
+}
+
+_Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+    if (index >= dynmem_address->length)
+        return FALSE;
+
+    DynMemUtilitySetMemory(value_address, dynmem_address->element_size,
+                           dynmem_address->memory + dynmem_address->element_size * index, dynmem_address->element_size
+                          );
+    return TRUE;
+}
+
+_Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
+    if (dynmem_address->index < dynmem_address->size)
+        for (; dynmem_address->index < dynmem_address->element_size && dynmem_address->index < dynmem_address->size;
+             dynmem_address->index++
+            )
+            dynmem_address->memory[dynmem_address->index] = ((uint8_t*)value_address)[dynmem_address->index];
     else {
 
     }
-
     return TRUE;
 }

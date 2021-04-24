@@ -1,8 +1,5 @@
-add_executable("tester" "test.c")
-target_link_libraries("tester" PRIVATE DynMem::dynmem)
+set(SUBDIRECTORIES "dynmem" "utility")
 
-# Arguments: start, end, step, size, array_size
-add_test(
-    NAME    "Test_01"
-    COMMAND "tester"
-)
+foreach(VAR ${SUBDIRECTORIES})
+    add_subdirectory(${VAR})
+endforeach()

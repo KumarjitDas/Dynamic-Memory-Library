@@ -21,3 +21,11 @@ add_test(
     NAME    "DynMem_dynmem_test03_DynMemSet"
     COMMAND "DynMem_dynmem_tester_DynMemSet"
 )
+
+add_executable("DynMem_dynmem_tester_DynMemGet" "test04_DynMemGet.c")
+target_link_libraries("DynMem_dynmem_tester_DynMemGet" PRIVATE DynMem::dynmem)
+
+add_test(
+    NAME    "DynMem_dynmem_test04_DynMemGet"
+    COMMAND "DynMem_dynmem_tester_DynMemGet"
+)

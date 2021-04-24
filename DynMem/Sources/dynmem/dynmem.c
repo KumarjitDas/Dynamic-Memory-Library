@@ -63,7 +63,7 @@ _Bool DynMemDeallocate(dynmem_t *dynmem_address) {
 }
 
 _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
-    if (index >= dynmem_address->length)
+    if (DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) && index >= dynmem_address->length)
         return FALSE;
 
     DynMemUtilitySetMemory(dynmem_address->memory + dynmem_address->element_size * index,
@@ -73,7 +73,7 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
 }
 
 _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
-    if (index >= dynmem_address->length)
+    if (DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) && index >= dynmem_address->length)
         return FALSE;
 
     DynMemUtilitySetMemory(value_address, dynmem_address->element_size,

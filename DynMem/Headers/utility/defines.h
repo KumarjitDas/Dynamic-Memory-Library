@@ -11,7 +11,12 @@
 #endif
 
 #define DYNMEM_UTILITY_VALIDATE(dynmem) \
-    (dynmem && dynmem.element_size && dynmem.initial_size && dynmem.size && dynmem.length && dynmem.memory)
+    (dynmem.element_size && dynmem.initial_size && dynmem.size && dynmem.length && dynmem.memory)
+
+#define DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address)                                \
+    (dynmem_address && dynmem_address->element_size && dynmem_address->initial_size && \
+     dynmem_address->size && dynmem_address->length && dynmem_address->memory          \
+    )
 
 #endif  // DYNMEM_INTERNAL_USE_utility_defines_h
 

@@ -18,6 +18,16 @@
      dynmem_address->size && dynmem_address->length && dynmem_address->memory          \
     )
 
+#define DYNMEM_UTILITY_RESET(dynmem_address) \
+{                                            \
+    dynmem_address->element_size = 0;        \
+    dynmem_address->initial_size = 0;        \
+    dynmem_address->size         = 0;        \
+    dynmem_address->length       = 0;        \
+    dynmem_address->index        = 0;        \
+    dynmem_address->memory       = NULL;     \
+}
+
 #endif  // DYNMEM_INTERNAL_USE_utility_defines_h
 
 #endif  // DYNMEM_utility_defines_h

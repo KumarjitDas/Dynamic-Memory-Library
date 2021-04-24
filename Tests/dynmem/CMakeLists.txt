@@ -29,3 +29,11 @@ add_test(
     NAME    "DynMem_dynmem_test04_DynMemGet"
     COMMAND "DynMem_dynmem_tester_DynMemGet"
 )
+
+add_executable("DynMem_dynmem_tester_DynMemAppend" "test05_DynMemAppend.c")
+target_link_libraries("DynMem_dynmem_tester_DynMemAppend" PRIVATE DynMem::dynmem)
+
+add_test(
+    NAME    "DynMem_dynmem_test05_DynMemAppend"
+    COMMAND "DynMem_dynmem_tester_DynMemAppend"
+)

@@ -61,3 +61,4 @@ Build/*
 # Workspace
 *.sublime-project
 *.sublime-workspace
+DynMem/Headers/common/export.h

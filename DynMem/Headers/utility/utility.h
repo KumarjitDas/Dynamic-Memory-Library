@@ -8,7 +8,9 @@
 #include "common/standard_includes.h"
 #include "common/types.h"
 
-void DynMemUtilitySetMemory(void *destination, intmax_t destination_size, void *source, intmax_t source_size);
+void DYNMEM_EXPORT DynMemUtilitySetMemory(void *destination, intmax_t destination_size,
+                                          void *source, intmax_t source_size
+                                         );
 
 #undef DYNMEM_INTERNAL_USE_utility_defines_h
 

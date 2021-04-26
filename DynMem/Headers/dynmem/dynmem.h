@@ -1,7 +1,7 @@
 #ifndef DYNMEM_dynmem_dynmem_h
 #define DYNMEM_dynmem_dynmem_h
 
-#include "common/export.h"
+#include "dynmem_export.h"
 #include "common/defines.h"
 #include "common/standard_includes.h"
 #include "common/types.h"

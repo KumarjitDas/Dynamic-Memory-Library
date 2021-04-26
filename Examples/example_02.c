@@ -5,23 +5,23 @@
 
 int main(int argc, char **argv)
 {
-    if (argc <= 1)
-        return 0;
+    // if (argc <= 1)
+    //     return 0;
 
-    size_t count = strtoull(argv[1], NULL, 10);
-    int *array = malloc(sizeof(int) * count);
-    if (!array) {
-        printf("Error occured while allocating memory!\n");
-        return 1;
-    }
+    // size_t count = strtoull(argv[1], NULL, 10);
+    // int *array = malloc(sizeof(int) * count);
+    // if (!array) {
+    //     printf("Error occured while allocating memory!\n");
+    //     return 1;
+    // }
 
-    dynmem_t dynmem;
-    CreateDynMem(&dynmem, &array, sizeof(int), count);
+    // dynmem_t dynmem;
+    // CreateDynMem(&dynmem, &array, sizeof(int), count);
 
-    if (dynmem.memory)
-        free(dynmem.memory);
+    // if (dynmem.memory)
+    //     free(dynmem.memory);
 
-    ClearDynMem(&dynmem);
+    // ClearDynMem(&dynmem);
 
     return 0;
 }

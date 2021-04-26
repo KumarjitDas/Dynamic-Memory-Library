@@ -3,7 +3,7 @@
 
 #ifdef DYNMEM_INTERNAL_USE_utility_utility_h
 
-#include "common/export.h"
+#include "dynmem_export.h"
 #include "common/defines.h"
 #include "common/standard_includes.h"
 #include "common/types.h"

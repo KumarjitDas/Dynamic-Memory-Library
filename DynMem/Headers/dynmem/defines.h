@@ -13,8 +13,8 @@
 
 #define DynMemPush      DynMemAppend
 #define DynMemPop       DynMemDeduct
-#define DynMemPushBack  DynMemAppend
-#define DynMemPopBack   DynMemDeduct
+#define DynMemPushBack  DynMemPush
+#define DynMemPopBack   DynMemPop
 #define DynMemPushFront
 #define DynMemPopFront
 

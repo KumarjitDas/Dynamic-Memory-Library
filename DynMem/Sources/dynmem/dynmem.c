@@ -51,13 +51,14 @@ _Bool DynMemDeallocate(dynmem_t *dynmem_address) {
 }
 
 _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
-    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || !value_address)
+    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
         return DYNMEM_FAILED;
 
     dynmem_address->end_index++;
 
     if (dynmem_address->end_index == dynmem_address->length) {
-        dynmem_address->length += dynmem_address->length / 2;
+        dynmem_address->length = dynmem_address->start_index +
+                                 (dynmem_address->length - dynmem_address->start_index) * 2;
         dynmem_address->memory = realloc(dynmem_address->memory, 
                                          dynmem_address->length * dynmem_address->element_size
                                         );
@@ -66,6 +67,8 @@ _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
             return DYNMEM_FAILED;
         }
     }
+
+    if (!value_address) return DYNMEM_SUCCEED;
 
     void *destination = dynmem_address->memory + dynmem_address->end_index * dynmem_address->element_size;
 

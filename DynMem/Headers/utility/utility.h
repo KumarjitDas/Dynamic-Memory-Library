@@ -3,16 +3,17 @@
 
 #ifdef DYNMEM_INTERNAL_USE_utility_utility_h
 
-#include "dynmem_export.h"
 #include "common/defines.h"
 #include "common/standard_includes.h"
 #include "common/types.h"
 
-void DYNMEM_EXPORT DynMemUtilitySetMemory(void *destination, intmax_t destination_size,
-                                          void *source, intmax_t source_size
-                                         );
+// source_size <= destination_size
+void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemoryBlocks(uint8_t *destination, uint8_t *source, intmax_t size);
 
-#undef DYNMEM_INTERNAL_USE_utility_defines_h
+// source_size <= destination_size
+void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemory(void *destination, intmax_t destination_size,
+                                                  void *source, intmax_t source_size
+                                                 );
 
 #endif  // DYNMEM_INTERNAL_USE_utility_utility_h
 

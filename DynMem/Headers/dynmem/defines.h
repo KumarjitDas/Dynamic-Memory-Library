@@ -11,4 +11,11 @@
 #define DYNMEM_GET_MEMORY(Type, dynmem)      ((Type*)(dynmem.memory + dynmem.element_size * dynmem.start_index))
 #define DYNMEM_VALUE_AT(Type, dynmem, index) DYNMEM_GET_MEMORY(Type, dynmem)[index]
 
+#define DynMemPush      DynMemAppend
+#define DynMemPop       DynMemDeduct
+#define DynMemPushBack  DynMemAppend
+#define DynMemPopBack   DynMemDeduct
+#define DynMemPushFront
+#define DynMemPopFront
+
 #endif  // DYNMEM_dynmem_defines_h

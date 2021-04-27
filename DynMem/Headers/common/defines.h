@@ -8,4 +8,11 @@
 #   define FALSE (_Bool)(0)
 #endif
 
+#ifndef DYNMEM_SUCCEED
+#   define DYNMEM_SUCCEED FALSE
+#endif
+#ifndef DYNMEM_FAILED
+#   define DYNMEM_FAILED  TRUE
+#endif
+
 #endif  // DYNMEM_common_defines_h

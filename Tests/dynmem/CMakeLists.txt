@@ -1,6 +1,6 @@
 set(
     TEST_FUNCTION_NAMES
-    "DynMemAllocate" "DynMemDeallocate" "DynMemAppend" "DynMemSet" "DynMemGet"
+    "DynMemAllocate" "DynMemDeallocate" "DynMemAppend" "DynMemDeduct" "DynMemSet" "DynMemGet"
 )
 set(TEST_COUNTER 0)
 

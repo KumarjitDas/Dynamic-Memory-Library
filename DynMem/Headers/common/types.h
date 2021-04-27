@@ -7,7 +7,6 @@
 struct DynMemDynMem {
     intmax_t  element_size;
     intmax_t  length;
-    intmax_t  current_length;
     intmax_t  start_index;
     intmax_t  end_index;
     uint8_t  *memory;

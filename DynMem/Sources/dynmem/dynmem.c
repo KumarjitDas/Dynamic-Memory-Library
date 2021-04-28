@@ -57,8 +57,7 @@ _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
     dynmem_address->end_index++;
 
     if (dynmem_address->end_index == dynmem_address->length) {
-        dynmem_address->length = dynmem_address->start_index +
-                                 (dynmem_address->length - dynmem_address->start_index) * 2;
+        dynmem_address->length *= 2;
         dynmem_address->memory = realloc(dynmem_address->memory, 
                                          dynmem_address->length * dynmem_address->element_size
                                         );
@@ -129,6 +128,9 @@ _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {
         }
     }
 
+    if (dynmem_address->end_index >= dynmem_address->start_index)
+        dynmem_address->end_index--;
+
     if (dynmem_address->end_index == dynmem_address->start_index) {
         dynmem_address->length = dynmem_address->start_index +
                                  (dynmem_address->length - dynmem_address->start_index) / 2;
@@ -141,8 +143,60 @@ _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {
         }
     }
 
-    if (dynmem_address->end_index >= dynmem_address->start_index)
-        dynmem_address->end_index--;
+    return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
+    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+        return DYNMEM_FAILED;
+
+    dynmem_address->start_index--;
+
+    if (dynmem_address->start_index == 0) {
+        intmax_t previous_size = dynmem_address->element_size * dynmem_address->length;
+
+        uint8_t *memory = realloc(dynmem_address->memory, previous_size * 2);
+        if (!memory) {
+            DYNMEM_UTILITY_RESET(dynmem_address);
+            return DYNMEM_FAILED;
+        }
+
+        intmax_t copy_size = (dynmem_address->end_index - dynmem_address->start_index + 1) *
+                             dynmem_address->element_size;
+        DynMemUtilitySetMemory(memory + previous_size, copy_size, memory, copy_size);
+
+        dynmem_address->memory       = memory;
+        dynmem_address->start_index += dynmem_address->length;
+        dynmem_address->end_index   += dynmem_address->length;
+        dynmem_address->length      *= 2;
+    }
+
+    if (!value_address) return DYNMEM_SUCCEED;
+
+    void *destination = dynmem_address->memory + dynmem_address->start_index * dynmem_address->element_size;
+
+    switch (dynmem_address->element_size) {
+        case sizeof(uint8_t):
+            *(uint8_t*)destination = *(uint8_t*)value_address;
+            break;
+        case sizeof(uint16_t):
+            *(uint16_t*)destination = *(uint16_t*)value_address;
+            break;
+        case sizeof(uint32_t):
+            *(uint32_t*)destination = *(uint32_t*)value_address;
+            break;
+
+        #ifdef INT64_MAX
+        case sizeof(uint64_t):
+            *(uint64_t*)destination = *(uint64_t*)value_address;
+            break;
+        #endif  // INT64_MAX
+
+        default:
+            DynMemUtilitySetMemory(destination, dynmem_address->element_size,
+                                   value_address, dynmem_address->element_size
+                                  );
+    }
 
     return DYNMEM_SUCCEED;
 }

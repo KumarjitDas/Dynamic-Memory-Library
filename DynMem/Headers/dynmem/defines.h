@@ -8,7 +8,7 @@
 #define DYNMEM_GET_SIZE(dynmem)              (dynmem.element_size * DYNMEM_GET_LENGTH(dynmem))
 #define DYNMEM_GET_ACTUAL_SIZE(dynmem)       (dynmem.element_size * dynmem.length)
 
-#define DYNMEM_GET_MEMORY(Type, dynmem)      ((Type*)(dynmem.memory + dynmem.element_size * dynmem.start_index))
+#define DYNMEM_GET_MEMORY(Type, dynmem)      ((Type*)dynmem.memory)
 #define DYNMEM_VALUE_AT(Type, dynmem, index) DYNMEM_GET_MEMORY(Type, dynmem)[index]
 
 #define DynMemPush      DynMemAppend

@@ -19,6 +19,10 @@ _Bool DYNMEM_EXPORT DynMemAppend(dynmem_t *dynmem_address, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemDeduct(dynmem_t *dynmem_address, void *value_address);
 
+_Bool DYNMEM_EXPORT DynMemPrepend(dynmem_t *dynmem_address, void *value_address);
+
+// _Bool DYNMEM_EXPORT DynMemDeductFront(dynmem_t *dynmem_address, void *value_address);
+
 _Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address);

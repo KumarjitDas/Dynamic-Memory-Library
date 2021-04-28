@@ -8,7 +8,7 @@
 #include "common/types.h"
 
 // source_size <= destination_size
-void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemoryBlocks(uint8_t *destination, uint8_t *source, intmax_t size);
+void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemoryBlock(uint8_t *destination, uint8_t *source, intmax_t size);
 
 // source_size <= destination_size
 void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemory(void *destination, intmax_t destination_size,

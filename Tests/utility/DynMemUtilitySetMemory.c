@@ -1,113 +1,209 @@
+#include "check.h"
+
 #ifndef DYNMEM_INTERNAL_USE_utility_defines_h
 #   define DYNMEM_INTERNAL_USE_utility_defines_h
 #endif
-#include "utility/defines.h"
-
 #ifndef DYNMEM_INTERNAL_USE_utility_utility_h
 #   define DYNMEM_INTERNAL_USE_utility_utility_h
 #endif
+
+#include "utility/defines.h"
 #include "utility/utility.h"
 
+
+START_TEST(with_1_byte) {
+    const size_t size = 5;
+    uint8_t array[size], value = 12;
+
+    DynMemUtilitySetMemory(array, sizeof(array), &value, sizeof(value));
+
+    ck_assert_int_eq(array[0], value);
+    ck_assert_int_eq(array[1], value);
+    ck_assert_int_eq(array[2], value);
+    ck_assert_int_eq(array[3], value);
+    ck_assert_int_eq(array[4], value);
+}
+END_TEST
+
+
+START_TEST(with_2_bytes) {
+    const size_t size = 5;
+    uint16_t array[size], value = 1234;
+
+    DynMemUtilitySetMemory(array, sizeof(array), &value, sizeof(value));
+
+    ck_assert_int_eq(array[0], value);
+    ck_assert_int_eq(array[1], value);
+    ck_assert_int_eq(array[2], value);
+    ck_assert_int_eq(array[3], value);
+    ck_assert_int_eq(array[4], value);
+}
+END_TEST
+
+
+START_TEST(with_3_bytes) {
+    const size_t size = sizeof(uint16_t) + sizeof(uint8_t);
+    uint8_t array1[size], array2[size * 2];
+
+    *(uint16_t*)array1 = 5678;
+    *(uint8_t*)(array1 + sizeof(uint16_t)) = 9;
+
+    DynMemUtilitySetMemory(array2, sizeof(array2), array1, sizeof(array1));
+
+    ck_assert_int_eq(*(uint16_t*)array1, *(uint16_t*)array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint16_t)), *(uint8_t*)(array2 + sizeof(uint16_t)));
+
+    uint8_t *temp_array2 = array2 + size;
+    ck_assert_int_eq(*(uint16_t*)array1, *(uint16_t*)temp_array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint16_t)), *(temp_array2 + sizeof(uint16_t)));
+}
+END_TEST
+
+
+START_TEST(with_4_bytes) {
+    const size_t size = 5;
+    uint32_t array[size], value = 101112;
+
+    DynMemUtilitySetMemory(array, sizeof(array), &value, sizeof(value));
+
+    ck_assert_int_eq(array[0], value);
+    ck_assert_int_eq(array[1], value);
+    ck_assert_int_eq(array[2], value);
+    ck_assert_int_eq(array[3], value);
+    ck_assert_int_eq(array[4], value);
+}
+END_TEST
+
+
+START_TEST(with_5_bytes) {
+    const size_t size = sizeof(uint32_t) + sizeof(uint8_t);
+    uint8_t array1[size], array2[size * 2];
+
+    *(uint32_t*)array1 = 131415;
+    *(uint8_t*)(array1 + sizeof(uint32_t)) = 16;
+
+    DynMemUtilitySetMemory(array2, sizeof(array2), array1, sizeof(array1));
+
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint32_t)), *(uint8_t*)(array2 + sizeof(uint32_t)));
+
+    uint8_t *temp_array2 = array2 + size;
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)temp_array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint32_t)), *(temp_array2 + sizeof(uint32_t)));
+}
+END_TEST
+
+
+START_TEST(with_6_bytes) {
+    const size_t size = sizeof(uint32_t) + sizeof(uint16_t);
+    uint8_t array1[size], array2[size * 2];
+
+    *(uint32_t*)array1 = 171819;
+    *(uint16_t*)(array1 + sizeof(uint32_t)) = 2021;
+
+    DynMemUtilitySetMemory(array2, sizeof(array2), array1, sizeof(array1));
+
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
+    ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(array2 + sizeof(uint32_t)));
+
+    uint8_t *temp_array2 = array2 + size;
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)temp_array2);
+    ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(temp_array2 + sizeof(uint32_t)));
+}
+END_TEST
+
+
+START_TEST(with_7_bytes) {
+    const size_t size = sizeof(uint32_t) + sizeof(uint16_t) + sizeof(uint8_t);
+    uint8_t array1[size], array2[size * 2];
+
+    *(uint32_t*)array1 = 222324;
+    *(uint16_t*)(array1 + sizeof(uint32_t)) = 2526;
+    *(uint8_t*)(array1 + sizeof(uint32_t) + sizeof(uint16_t)) = 27;
+
+    DynMemUtilitySetMemory(array2, sizeof(array2), array1, sizeof(array1));
+
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
+    ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(array2 + sizeof(uint32_t)));
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint32_t) + sizeof(uint16_t)),
+                     *(uint8_t*)(array2 + sizeof(uint32_t) + sizeof(uint16_t))
+                    );
+
+    uint8_t *temp_array2 = array2 + size;
+    ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)temp_array2);
+    ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(temp_array2 + sizeof(uint32_t)));
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint32_t) + sizeof(uint16_t)),
+                     *(temp_array2 + sizeof(uint32_t) + sizeof(uint16_t))
+                    );
+}
+END_TEST
+
+
+START_TEST(with_3_7_bytes) {
+    const size_t size = sizeof(uint16_t) + sizeof(uint8_t);
+    uint8_t array1[size], array2[size * 2 + 1];
+
+    *(uint16_t*)array1 = 2829;
+    *(uint8_t*)(array1 + sizeof(uint16_t)) = 30;
+
+    DynMemUtilitySetMemory(array2, sizeof(array2), array1, sizeof(array1));
+
+    ck_assert_int_eq(*(uint16_t*)array1, *(uint16_t*)array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint16_t)), *(uint8_t*)(array2 + sizeof(uint16_t)));
+
+    uint8_t *temp_array2 = array2 + size;
+    ck_assert_int_eq(*(uint16_t*)array1, *(uint16_t*)temp_array2);
+    ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint16_t)), *(temp_array2 + sizeof(uint16_t)));
+
+    ck_assert_int_eq(*array1, *(temp_array2 + sizeof(uint16_t) + sizeof(uint8_t)));
+}
+END_TEST
+
+
+#ifdef INT64_MAX
+START_TEST(with_8_bytes) {
+    const size_t size = 5;
+    uint64_t array[size], value = 31323334;
+
+    DynMemUtilitySetMemory(array, sizeof(array), &value, sizeof(value));
+
+    ck_assert_int_eq(array[0], value);
+    ck_assert_int_eq(array[1], value);
+    ck_assert_int_eq(array[2], value);
+    ck_assert_int_eq(array[3], value);
+    ck_assert_int_eq(array[4], value);
+}
+END_TEST
+#endif  // INT64_MAX
+
+
 int main() {
-    int result = 1;
-    int start, end;
+    Suite *suite = suite_create("Test suite for \"DynMemUtilitySetMemory\" function");
+    TCase *test_cases = tcase_create("Test case");
 
+    tcase_add_test(test_cases, with_1_byte);
+    tcase_add_test(test_cases, with_2_bytes);
+    tcase_add_test(test_cases, with_3_bytes);
+    tcase_add_test(test_cases, with_4_bytes);
+    tcase_add_test(test_cases, with_5_bytes);
+    tcase_add_test(test_cases, with_6_bytes);
+    tcase_add_test(test_cases, with_7_bytes);
+    tcase_add_test(test_cases, with_3_7_bytes);
+    #ifdef INT64_MAX
+    tcase_add_test(test_cases, with_8_bytes);
+    // tcase_add_test(test_cases, with_13_bytes);
+    // tcase_add_test(test_cases, with_16_bytes);
+    // tcase_add_test(test_cases, with_21_bytes);
+    // tcase_add_test(test_cases, with_25_bytes);
+    #endif  // INT64_MAX
 
-    int16_t value16   = 0;
-    int16_t array16[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    suite_add_tcase(suite, test_cases);
 
-    value16 = 420;
-    DynMemUtilitySetMemory(array16, sizeof(array16), &value16, sizeof(value16));
-    for (int i = 0; i < sizeof(array16) / sizeof(*array16); i++)
-        result &= array16[i] == value16;
+    SRunner *suite_runner = srunner_create(suite);
+    srunner_run_all(suite_runner, CK_VERBOSE);
 
-    if (!result) return 1;
+    int failed_test_case_numbers = srunner_ntests_failed(suite_runner);
+    srunner_free(suite_runner);
 
-    value16 = 123;
-    DynMemUtilitySetMemory(array16 + 0, sizeof(value16), &value16, sizeof(value16));
-    result &= array16[0] == value16;
-
-    value16 = 456;
-    DynMemUtilitySetMemory(array16 + 4, sizeof(value16), &value16, sizeof(value16));
-    result &= array16[4] == value16;
-
-    value16 = 789;
-    DynMemUtilitySetMemory(array16 + 9, sizeof(value16), &value16, sizeof(value16));
-    result &= array16[9] == value16;
-
-    if (!result) return 1;
-
-
-    start = 0; end = 5; value16 = 111;
-    DynMemUtilitySetMemory(array16 + start, sizeof(value16) * (end - start), &value16, sizeof(value16));
-    for (int i = start; i < end; i++)
-        result &= array16[i] == value16;
-
-    if (!result) return 1;
-
-
-    start = 2; end = 7; value16 = 222;
-    DynMemUtilitySetMemory(array16 + start, sizeof(value16) * (end - start), &value16, sizeof(value16));
-    for (int i = start; i < end; i++)
-        result &= array16[i] == value16;
-
-    if (!result) return 1;
-
-
-    start = 5; end = 10; value16 = 333;
-    DynMemUtilitySetMemory(array16 + start, sizeof(value16) * (end - start), &value16, sizeof(value16));
-    for (int i = start; i < end; i++)
-        result &= array16[i] == value16;
-
-    if (!result) return 1;
-
-
-    int32_t value32 = 0;
-    int32_t array32[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-    value32 = 42069;
-    DynMemUtilitySetMemory(array32, sizeof(array32), &value32, sizeof(value32));
-    for (int i = 0; i < sizeof(array32) / sizeof(*array32); i++)
-        result &= array32[i] == value32;
-
-    if (!result) return 1;
-
-
-    value32 = 123456;
-    DynMemUtilitySetMemory(array32 + 0, sizeof(value32), &value32, sizeof(value32));
-    result &= array32[0] == value32;
-
-    value32 = 789123;
-    DynMemUtilitySetMemory(array32 + 4, sizeof(value32), &value32, sizeof(value32));
-    result &= array32[4] == value32;
-
-    value32 = 456789;
-    DynMemUtilitySetMemory(array32 + 9, sizeof(value32), &value32, sizeof(value32));
-    result &= array32[9] == value32;
-
-    if (!result) return 1;
-
-
-    start = 0; end = 5; value32 = 444;
-    DynMemUtilitySetMemory(array32 + start, sizeof(value32) * (end - start), &value32, sizeof(value32));
-    for (int i = start; i < end; i++)
-        result &= array32[i] == value32;
-
-    if (!result) return 1;
-
-
-    start = 2; end = 7; value32 = 555;
-    DynMemUtilitySetMemory(array32 + start, sizeof(value32) * (end - start), &value32, sizeof(value32));
-    for (int i = start; i < end; i++)
-        result &= array32[i] == value32;
-
-    if (!result) return 1;
-
-
-    start = 5; end = 10; value32 = 666;
-    DynMemUtilitySetMemory(array32 + start, sizeof(value32) * (end - start), &value32, sizeof(value32));
-    for (int i = start; i < end; i++)
-        result &= array32[i] == value32;
-
-    return !result;
+    return failed_test_case_numbers;
 }

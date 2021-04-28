@@ -35,7 +35,7 @@ START_TEST(with_64_and_32_bit) {
     *(uint64_t*)array1 = 22232425;
     *(uint32_t*)(array1 + sizeof(uint64_t)) = 262728;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint32_t*)(array1 + sizeof(uint64_t)), *(uint32_t*)(array2 + sizeof(uint64_t)));
@@ -50,7 +50,7 @@ START_TEST(with_64_and_16_bit) {
     *(uint64_t*)array1 = 29303132;
     *(uint16_t*)(array1 + sizeof(uint64_t)) = 3334;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint64_t)), *(uint16_t*)(array2 + sizeof(uint64_t)));
@@ -65,7 +65,7 @@ START_TEST(with_64_and_8_bit) {
     *(uint64_t*)array1 = 35363738;
     *(uint8_t*)(array1 + sizeof(uint64_t)) = 39;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint64_t)), *(uint8_t*)(array2 + sizeof(uint64_t)));
@@ -81,7 +81,7 @@ START_TEST(with_64_32_and_16_bit) {
     *(uint32_t*)(array1 + sizeof(uint64_t)) = 565758;
     *(uint16_t*)(array1 + sizeof(uint64_t) + sizeof(uint32_t)) = 5960;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint32_t*)(array1 + sizeof(uint64_t)), *(uint32_t*)(array2 + sizeof(uint64_t)));
@@ -100,7 +100,7 @@ START_TEST(with_64_32_and_8_bit) {
     *(uint32_t*)(array1 + sizeof(uint64_t)) = 656667;
     *(uint8_t*)(array1 + sizeof(uint64_t) + sizeof(uint32_t)) = 68;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint32_t*)(array1 + sizeof(uint64_t)), *(uint32_t*)(array2 + sizeof(uint64_t)));
@@ -119,7 +119,7 @@ START_TEST(with_64_16_and_8_bit) {
     *(uint16_t*)(array1 + sizeof(uint64_t)) = 7374;
     *(uint8_t*)(array1 + sizeof(uint64_t) + sizeof(uint16_t)) = 75;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint64_t*)array1, *(uint64_t*)array2);
     ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint64_t)), *(uint16_t*)(array2 + sizeof(uint64_t)));
@@ -194,7 +194,7 @@ START_TEST(with_32_and_16_bit) {
     *(uint32_t*)array1 = 404142;
     *(uint16_t*)(array1 + sizeof(uint32_t)) = 4344;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
     ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(array2 + sizeof(uint32_t)));
@@ -209,7 +209,7 @@ START_TEST(with_32_and_8_bit) {
     *(uint32_t*)array1 = 454647;
     *(uint8_t*)(array1 + sizeof(uint32_t)) = 48;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
     ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint32_t)), *(uint8_t*)(array2 + sizeof(uint32_t)));
@@ -224,7 +224,7 @@ START_TEST(with_16_and_8_bit) {
     *(uint16_t*)array1 = 4950;
     *(uint8_t*)(array1 + sizeof(uint16_t)) = 51;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint16_t*)array1, *(uint16_t*)array2);
     ck_assert_int_eq(*(uint8_t*)(array1 + sizeof(uint16_t)), *(uint8_t*)(array2 + sizeof(uint16_t)));
@@ -240,7 +240,7 @@ START_TEST(with_32_16_and_8_bit) {
     *(uint16_t*)(array1 + sizeof(uint32_t)) = 8081;
     *(uint8_t*)(array1 + sizeof(uint32_t) + sizeof(uint16_t)) = 82;
 
-    DynMemUtilitySetMemoryBlock((uint8_t*)array2, (uint8_t*)array1, sizeof(array1));
+    DynMemUtilitySetMemoryBlock(array2, array1, sizeof(array1));
 
     ck_assert_int_eq(*(uint32_t*)array1, *(uint32_t*)array2);
     ck_assert_int_eq(*(uint16_t*)(array1 + sizeof(uint32_t)), *(uint16_t*)(array2 + sizeof(uint32_t)));

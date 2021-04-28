@@ -201,6 +201,59 @@ _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
     return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
+    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+        return DYNMEM_FAILED;
+
+    if (value_address) {
+        void *destination = dynmem_address->memory + dynmem_address->start_index * dynmem_address->element_size;
+
+        switch (dynmem_address->element_size) {
+            case sizeof(uint8_t):
+                *(uint8_t*)value_address = *(uint8_t*)destination;
+                break;
+            case sizeof(uint16_t):
+                *(uint16_t*)value_address = *(uint16_t*)destination;
+                break;
+            case sizeof(uint32_t):
+                *(uint32_t*)value_address = *(uint32_t*)destination;
+                break;
+
+            #ifdef INT64_MAX
+            case sizeof(uint64_t):
+                *(uint64_t*)value_address = *(uint64_t*)destination;
+                break;
+            #endif  // INT64_MAX
+
+            default:
+                DynMemUtilitySetMemory(value_address, dynmem_address->element_size,
+                                       destination, dynmem_address->element_size
+                                      );
+        }
+    }
+
+    if (dynmem_address->end_index == dynmem_address->start_index) {
+        intmax_t deduct_length = (dynmem_address->start_index + 1) / 2;
+
+        dynmem_address->length       = dynmem_address->length - dynmem_address->end_index + deduct_length;
+        dynmem_address->start_index -= deduct_length;
+        dynmem_address->end_index   -= deduct_length;
+
+        dynmem_address->memory = realloc(dynmem_address->memory,
+                                         dynmem_address->length * dynmem_address->element_size
+                                        );
+        if (!dynmem_address->memory) {
+            DYNMEM_UTILITY_RESET(dynmem_address);
+            return DYNMEM_FAILED;
+        }
+    }
+
+    if (dynmem_address->start_index <= dynmem_address->end_index)
+        dynmem_address->start_index++;
+
+    return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
     if (index < 0) index += dynmem_address->end_index + 1;
     else           index += dynmem_address->start_index;

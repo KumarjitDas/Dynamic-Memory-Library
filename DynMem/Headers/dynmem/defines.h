@@ -15,7 +15,7 @@
 #define DynMemPop       DynMemDeduct
 #define DynMemPushBack  DynMemPush
 #define DynMemPopBack   DynMemPop
-#define DynMemPushFront
-#define DynMemPopFront
+#define DynMemPushFront DynMemPrepend
+#define DynMemPopFront  DynMemDeductFront
 
 #endif  // DYNMEM_dynmem_defines_h

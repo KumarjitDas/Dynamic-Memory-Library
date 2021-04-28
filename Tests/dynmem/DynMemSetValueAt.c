@@ -18,48 +18,48 @@ int main() {
     // Test 1
 
     value = 69;
-    result &= DynMemSet(&dynmem, 0, &value) == DYNMEM_SUCCEED;
+    result &= DynMemSetValueAt(&dynmem, 0, &value) == DYNMEM_SUCCEED;
     result &= DYNMEM_VALUE_AT(int, dynmem, 0) == value;
 
 
     // Test 2
 
     value = 420;
-    result &= DynMemSet(&dynmem, length - 1, &value) == DYNMEM_SUCCEED;
+    result &= DynMemSetValueAt(&dynmem, length - 1, &value) == DYNMEM_SUCCEED;
     result &= DYNMEM_VALUE_AT(int, dynmem, length - 1) == value;
 
 
     // Test 3
 
     value = 42069;
-    result &= DynMemSet(&dynmem, length / 2, &value) == DYNMEM_SUCCEED;
+    result &= DynMemSetValueAt(&dynmem, length / 2, &value) == DYNMEM_SUCCEED;
     result &= DYNMEM_VALUE_AT(int, dynmem, length / 2) == value;
 
 
     // Test 4
 
     value = 123456;
-    result &= DynMemSet(&dynmem, length + 2, &value) == DYNMEM_FAILED;
+    result &= DynMemSetValueAt(&dynmem, length + 2, &value) == DYNMEM_FAILED;
 
 
     // Test 5
 
     value = 69;
-    result &= DynMemSet(&dynmem, -1, &value) == DYNMEM_SUCCEED;
+    result &= DynMemSetValueAt(&dynmem, -1, &value) == DYNMEM_SUCCEED;
     result &= DYNMEM_VALUE_AT(int, dynmem, length - 1) == value;
 
 
     // Test 6
 
     value = 420;
-    result &= DynMemSet(&dynmem, -3, &value) == DYNMEM_SUCCEED;
+    result &= DynMemSetValueAt(&dynmem, -3, &value) == DYNMEM_SUCCEED;
     result &= DYNMEM_VALUE_AT(int, dynmem, length - 3) == value;
 
 
     // Test 7
 
     value = 42069;
-    result &= DynMemSet(&dynmem, -100, &value) == DYNMEM_FAILED;
+    result &= DynMemSetValueAt(&dynmem, -100, &value) == DYNMEM_FAILED;
 
 
     if (DynMemDeallocate(&dynmem))

@@ -254,7 +254,7 @@ _Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
     return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+_Bool DynMemSetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
     if (index < 0) index += dynmem_address->end_index + 1;
     else           index += dynmem_address->start_index;
 
@@ -288,7 +288,7 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
     return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+_Bool DynMemGetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
     if (index < 0) index += dynmem_address->end_index + 1;
     else           index += dynmem_address->start_index;
 

@@ -21,7 +21,7 @@ foreach(TEST_FUNCTION_NAME ${TEST_FUNCTION_NAMES})
     set(EXECUTABLE_NAME  "DynMem_dynmem_tester_${TEST_FUNCTION_NAME}")
 
     add_executable("${EXECUTABLE_NAME}" "${TEST_FUNCTION_NAME}.c")
-    target_link_libraries("${EXECUTABLE_NAME}" PRIVATE DynMem::dynmem)
+    target_link_libraries("${EXECUTABLE_NAME}" PRIVATE DynMem::dynmem Check::check)
 
     add_test(
         NAME "DynMem_dynmem_test${LEADING_ZEROS}${TEST_COUNTER}_${TEST_FUNCTION_NAME}"

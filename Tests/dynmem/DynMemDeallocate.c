@@ -1,23 +1,39 @@
+#include "check.h"
 #include "dynmem/dynmem.h"
 
-int main() {
+
+START_TEST(deallocation_successfully_done) {
     dynmem_t dynmem;
-    intmax_t length = 16;
 
-    // Test 1
+    ck_assert_int_eq(DynMemDeallocate(NULL), DYNMEM_FAILED);
 
-    if (DynMemAllocate(&dynmem, sizeof(int), length, NULL) == DYNMEM_FAILED)
-        return 1;
+    ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), 5, NULL), DYNMEM_SUCCEED);
+    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
+    ck_assert_int_eq(dynmem.es, 0);
+    ck_assert_int_eq(dynmem.is, 0);
+    ck_assert_int_eq(dynmem.cs, 0);
+    ck_assert_int_eq(dynmem.bis, 0);
+    ck_assert_int_eq(dynmem.eis, 0);
+    ck_assert_int_eq(dynmem.bi, 0);
+    ck_assert_int_eq(dynmem.ei, 0);
+    ck_assert_ptr_null(dynmem.m);
+}
+END_TEST
 
-    if (DynMemDeallocate(&dynmem) == DYNMEM_FAILED)
-        return 1;
 
-    int result = 1;
-    result &= dynmem.element_size   == 0;
-    result &= dynmem.length         == 0;
-    result &= dynmem.start_index    == 0;
-    result &= dynmem.end_index      == 0;
-    result &= dynmem.memory         == NULL;
+int main() {
+    Suite *suite = suite_create("Test suite for \"DynMemDeallocate\" function");
+    TCase *test_cases = tcase_create("Test case");
 
-    return !result;
+    tcase_add_test(test_cases, deallocation_successfully_done);
+
+    suite_add_tcase(suite, test_cases);
+
+    SRunner *suite_runner = srunner_create(suite);
+    srunner_run_all(suite_runner, CK_VERBOSE);
+
+    int failed_test_case_numbers = srunner_ntests_failed(suite_runner);
+    srunner_free(suite_runner);
+
+    return failed_test_case_numbers;
 }

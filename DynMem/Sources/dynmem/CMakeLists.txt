@@ -1,6 +1,9 @@
 set(
     SOURCE_FILES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/dynmem.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/allocate.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/stack-queue.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/manipulate.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/copy.c"
 )
 set(RELATIVE_PATH "src/dynmem")
 

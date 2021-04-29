@@ -17,15 +17,16 @@ _Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t e
 
     size_t size = element_size * element_count;
 
-    if (size < sizeof(intmax_t))
-        size = ((sizeof(intmax_t) + element_size) / element_size) * element_size;
-
     uint8_t **memory_address_ = memory_address;
     if (memory_address_ && *memory_address_) {
         dynmem_address->m = *memory_address_;
         *memory_address_ = NULL;
+        size /= 2;
     }
     else {
+        if (size < sizeof(intmax_t))
+            size = ((sizeof(intmax_t) + element_size) / element_size) * element_size;
+
         dynmem_address->m = malloc(size);
         if (!dynmem_address->m) {
             DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);

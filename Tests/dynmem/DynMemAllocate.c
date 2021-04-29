@@ -68,6 +68,8 @@ START_TEST(with_preallocated_memory) {
 
     int *temporary_memory = memory;
     ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, &memory), DYNMEM_SUCCEED);
+
+    size /= 2;
     ck_assert_int_eq(dynmem.es, element_size);
     ck_assert_int_eq(dynmem.is, size);
     ck_assert_int_eq(dynmem.cs, size * 2);
@@ -83,11 +85,13 @@ START_TEST(with_preallocated_memory) {
 
     length = 2;
     element_size = 3;
-    size = ((sizeof(intmax_t) + element_size) / element_size) * element_size;
+    size = length * element_size;
     memory = malloc(size);
     temporary_memory = memory;
 
     ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, &memory), DYNMEM_SUCCEED);
+
+    size /= 2;
     ck_assert_int_eq(dynmem.es, element_size);
     ck_assert_int_eq(dynmem.is, size);
     ck_assert_int_eq(dynmem.cs, size * 2);
@@ -114,6 +118,8 @@ START_TEST(with_preallocated_memory) {
     ck_assert_int_eq(dynmem.bi, size);
     ck_assert_int_eq(dynmem.ei, size - element_size);
     ck_assert_ptr_nonnull(dynmem.m);
+
+    free(dynmem.m);
 }
 END_TEST
 

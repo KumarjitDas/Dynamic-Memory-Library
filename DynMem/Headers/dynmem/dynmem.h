@@ -17,9 +17,9 @@ _Bool DYNMEM_EXPORT DynMemDeallocate(dynmem_t *dynmem_address);
 
 _Bool DYNMEM_EXPORT DynMemAppend(dynmem_t *dynmem_address, void *value_address);
 
-_Bool DYNMEM_EXPORT DynMemDeduct(dynmem_t *dynmem_address, void *value_address);
-
 _Bool DYNMEM_EXPORT DynMemPrepend(dynmem_t *dynmem_address, void *value_address);
+
+_Bool DYNMEM_EXPORT DynMemDeduct(dynmem_t *dynmem_address, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemDeductFront(dynmem_t *dynmem_address, void *value_address);
 

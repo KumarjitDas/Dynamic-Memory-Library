@@ -55,6 +55,9 @@ dkms.conf
 build/*
 Build/*
 
+# VS Code project
+.vscode/*
+
 # Clangd cache
 .cache/*
 

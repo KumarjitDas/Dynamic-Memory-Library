@@ -1,17 +1,16 @@
 #ifndef DYNMEM_dynmem_dynmem_h
 #define DYNMEM_dynmem_dynmem_h
 
-#include "dynmem_export.h"
 #include "common/defines.h"
 #include "common/standard_includes.h"
 #include "common/types.h"
 #include "defines.h"
+#include "dynmem_export.h"
 
 _Bool DYNMEM_EXPORT DynMemAllocate(dynmem_t *dynmem_address,
-                                   intmax_t  element_size,
-                                   intmax_t  element_count,
-                                   void     *memory_address
-                                  );
+                                   intmax_t element_size,
+                                   intmax_t element_count,
+                                   void *memory_address);
 
 _Bool DYNMEM_EXPORT DynMemDeallocate(dynmem_t *dynmem_address);
 

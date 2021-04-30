@@ -70,18 +70,15 @@ _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
 }
 
 _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {
-   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || dynmem_address->ei < dynmem_address->bi)
       return DYNMEM_FAILED;
 
    if (value_address != NULL) {
-      uint8_t *destination = dynmem_address->m + dynmem_address->bi;
+      uint8_t *destination = dynmem_address->m + dynmem_address->ei;
       DYNMEM_UTILITY_ASSIGN(dynmem_address->es, value_address, destination);
    }
 
-   if (dynmem_address->ei >= dynmem_address->bi)
-      dynmem_address->ei -= dynmem_address->es;
-   else
-      return DYNMEM_SUCCEED;
+   dynmem_address->ei -= dynmem_address->es;
 
    if (dynmem_address->csh <= dynmem_address->is)
       return DYNMEM_SUCCEED;
@@ -95,6 +92,51 @@ _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {
       dynmem_address->bi = dynmem_address->is;
       dynmem_address->ei = dynmem_address->is - dynmem_address->es;
    } else if (dynmem_address->ei < dynmem_address->csh) {
+      size = dynmem_address->csh;
+      dynmem_address->cs = dynmem_address->csh;
+      dynmem_address->csh /= 2;
+   }
+
+   if (size > 0) {
+      dynmem_address->m = realloc(dynmem_address->m, size);
+
+      if (dynmem_address->m == NULL) {
+         DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
+         return DYNMEM_FAILED;
+      }
+   }
+
+   return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || dynmem_address->bi > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   if (value_address != NULL) {
+      uint8_t *destination = dynmem_address->m + dynmem_address->bi;
+      DYNMEM_UTILITY_ASSIGN(dynmem_address->es, value_address, destination);
+   }
+
+   dynmem_address->bi += dynmem_address->es;
+
+   if (dynmem_address->csh <= dynmem_address->is)
+      return DYNMEM_SUCCEED;
+
+   intmax_t size = 0;
+
+   if (dynmem_address->bi > dynmem_address->ei) {
+      size = dynmem_address->is * 2;
+      dynmem_address->cs = size;
+      dynmem_address->csh = dynmem_address->is;
+      dynmem_address->bi = dynmem_address->is;
+      dynmem_address->ei = dynmem_address->is - dynmem_address->es;
+   } else if (dynmem_address->bi > dynmem_address->csh) {
+      dynmem_address->ei -= dynmem_address->bi;
+
+      DynMemUtilitySetMemoryBlock(dynmem_address->m, dynmem_address->m + dynmem_address->bi,
+                                  dynmem_address->ei + dynmem_address->es);
+      dynmem_address->bi = 0;
       size = dynmem_address->csh;
       dynmem_address->cs = dynmem_address->csh;
       dynmem_address->csh /= 2;

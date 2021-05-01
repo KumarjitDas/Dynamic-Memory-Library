@@ -11,21 +11,18 @@
 
 void DynMemUtilitySetMemoryBlock(uint8_t *destination, uint8_t *source, intmax_t size) {
 #ifdef INT64_MAX
-   intmax_t factor = sizeof(uint64_t);
-#else
-   intmax_t factor = sizeof(uint32_t);
-#endif  // INT64_MAX
-
-   while (factor <= size) {
-#ifdef INT64_MAX
+   while (sizeof(uint64_t) <= size) {
       *(uint64_t *)destination = *(uint64_t *)source;
+      destination += sizeof(uint64_t);
+      source += sizeof(uint64_t);
+      size -= sizeof(uint64_t);
 #else
+   while (sizeof(uint32_t) <= size) {
       *(uint32_t *)destination = *(uint32_t *)source;
+      destination += sizeof(uint32_t);
+      source += sizeof(uint32_t);
+      size -= sizeof(uint32_t);
 #endif  // INT64_MAX
-
-      destination += factor;
-      source += factor;
-      size -= factor;
    }
 
 #ifdef INT64_MAX
@@ -50,9 +47,11 @@ void DynMemUtilitySetMemoryBlock(uint8_t *destination, uint8_t *source, intmax_t
 
 void DynMemUtilitySetMemory(void *destination, intmax_t destination_size, void *source, intmax_t source_size) {
    intmax_t length = destination_size / source_size;
+
    while (length--) {
       DynMemUtilitySetMemoryBlock(destination, source, source_size);
       destination = (uint8_t *)destination + source_size;
    }
+
    DynMemUtilitySetMemoryBlock(destination, source, destination_size % source_size);
 }

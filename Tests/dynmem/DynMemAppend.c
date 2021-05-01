@@ -88,7 +88,7 @@ START_TEST(nonnull_dynmem_null_value_increase_size) {
 END_TEST
 
 START_TEST(null_dynmem_nonnull_value) {
-   int value;
+   int value = 420;
    ck_assert_int_eq(DynMemAppend(NULL, &value), DYNMEM_FAILED);
 }
 END_TEST
@@ -99,32 +99,32 @@ START_TEST(nonnull_dynmem_nonnull_value) {
    intmax_t element_size = sizeof(int);
    intmax_t current_size_half = length * element_size;
    intmax_t initial_size = current_size_half;
-   int value;
+   int value = 42069;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
 
    intmax_t end_index = dynmem.ei;
 
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
    ck_assert_int_eq(DynMemAppend(&dynmem, &value), DYNMEM_SUCCEED);
-   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value);
+   ck_assert_int_eq(*(int *)(dynmem.m + (end_index += element_size)), value); value++;
 
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }

@@ -25,9 +25,9 @@
 #define DYNMEM_UTILITY_VALIDATE(dynmem) \
    (dynmem.es > 0 && dynmem.is > 0 && dynmem.cs > 0 && dynmem.csh > 0 && dynmem.m != NULL)
 
-#define DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address)                              \
-   (dynmem_address->es > 0 && dynmem_address->is > 0 && dynmem_address->cs > 0 && \
-    dynmem_address->csh > 0 && dynmem_address->m != NULL)
+#define DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address)                           \
+   (dynmem_address != NULL && dynmem_address->es > 0 && dynmem_address->is > 0 && \
+    dynmem_address->cs > 0 && dynmem_address->csh > 0 && dynmem_address->m != NULL)
 
 #define DYNMEM_UTILITY_RESET(dynmem) \
    {                                 \

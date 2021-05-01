@@ -94,36 +94,5 @@ _Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
 
    dynmem_address->bi += dynmem_address->es;
 
-   if (dynmem_address->csh <= dynmem_address->is)
-      return DYNMEM_SUCCEED;
-
-   intmax_t size = 0;
-
-   if (dynmem_address->bi > dynmem_address->ei) {
-      size = dynmem_address->is * 2;
-      dynmem_address->cs = size;
-      dynmem_address->csh = dynmem_address->is;
-      dynmem_address->bi = dynmem_address->is;
-      dynmem_address->ei = dynmem_address->is - dynmem_address->es;
-   } else if (dynmem_address->bi > dynmem_address->csh) {
-      dynmem_address->ei -= dynmem_address->bi;
-
-      DynMemUtilitySetMemoryBlock(dynmem_address->m, dynmem_address->m + dynmem_address->bi,
-                                  dynmem_address->ei + dynmem_address->es);
-      dynmem_address->bi = 0;
-      size = dynmem_address->csh;
-      dynmem_address->cs = dynmem_address->csh;
-      dynmem_address->csh /= 2;
-   }
-
-   if (size > 0) {
-      dynmem_address->m = realloc(dynmem_address->m, size);
-
-      if (dynmem_address->m == NULL) {
-         DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
-         return DYNMEM_FAILED;
-      }
-   }
-
    return DYNMEM_SUCCEED;
 }

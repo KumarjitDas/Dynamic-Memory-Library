@@ -21,7 +21,7 @@ END_TEST
 
 START_TEST(nonnull_dynmem_nonnull_value_cannot_deduct) {
    dynmem_t dynmem;
-   int value = 123;
+   int value;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(value), 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemDeduct(&dynmem, &value), DYNMEM_FAILED);

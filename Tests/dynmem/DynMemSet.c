@@ -2,36 +2,36 @@
 #include "dynmem/dynmem.h"
 
 START_TEST(null_dynmem_null_value) {
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 0, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 50, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 999, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -1, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -50, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -999, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 0, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 50, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 999, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -1, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -50, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -999, NULL), DYNMEM_FAILED);
 }
 END_TEST
 
 START_TEST(null_dynmem_nonnull_value) {
    int value = 123;
 
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 0, &value), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 50, &value), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, 999, &value), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -1, &value), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -50, &value), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(NULL, -999, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 0, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 50, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, 999, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -1, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -50, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(NULL, -999, &value), DYNMEM_FAILED);
 }
 END_TEST
 
 START_TEST(nonnull_dynmem_null_value) {
    dynmem_t dynmem;
 
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 0, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 50, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 999, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -1, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -50, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -999, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 0, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 50, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 999, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -1, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -50, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -999, NULL), DYNMEM_FAILED);
 }
 END_TEST
 
@@ -46,13 +46,13 @@ START_TEST(nonnull_dynmem_nonnull_value_positive_index) {
    ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
 
    value = 123;
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 0, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 0, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)dynmem.m), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 1, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 1, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)(dynmem.m + dynmem.es)), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 3, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 3, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)(dynmem.m + dynmem.es * 3)), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, 999, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, 999, &value), DYNMEM_FAILED);
 
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
@@ -69,20 +69,20 @@ START_TEST(nonnull_dynmem_nonnull_value_negative_index) {
    ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
 
    value = 123;
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -1, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -1, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)(dynmem.m + dynmem.es * 3)), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -3, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -3, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)(dynmem.m + dynmem.es)), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -4, &value), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -4, &value), DYNMEM_SUCCEED);
    ck_assert_int_eq(*((int *)dynmem.m), value);
-   ck_assert_int_eq(DynMemSetValueAt(&dynmem, -999, &value), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemSet(&dynmem, -999, &value), DYNMEM_FAILED);
 
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
 
 int main() {
-   Suite *suite = suite_create("Test suite for \"DynMemSetValueAt\" function");
+   Suite *suite = suite_create("Test suite for \"DynMemSet\" function");
    TCase *test_cases = tcase_create("Test case");
 
    tcase_add_test(test_cases, null_dynmem_null_value);

@@ -1,5 +1,5 @@
-#ifndef DYNMEM_dynmem_dynmem_h
-#define DYNMEM_dynmem_dynmem_h
+#ifndef DYNMEM_DYNMEM_H
+#define DYNMEM_DYNMEM_H
 
 #include "common/defines.h"
 #include "common/standard_includes.h"
@@ -32,4 +32,4 @@ _Bool DYNMEM_EXPORT DynMemGetValueAt(dynmem_t *dynmem_address, intmax_t index, v
 
 _Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address);
 
-#endif  // DYNMEM_dynmem_dynmem_h
+#endif  // DYNMEM_DYNMEM_H

@@ -1,5 +1,5 @@
-#ifndef DYNMEM_dynmem_defines_h
-#define DYNMEM_dynmem_defines_h
+#ifndef DYNMEM_DEFINES_H
+#define DYNMEM_DEFINES_H
 
 #define DYNMEM_GET_ELEMENT_SIZE(dynmem) (dynmem.es)
 #define DYNMEM_GET_SIZE(dynmem) (dynmem.ei - dynmem.si + dynmem.es)
@@ -25,4 +25,4 @@
 #define DynMemPushFront DynMemPrepend
 #define DynMemPopFront DynMemDeductFront
 
-#endif  // DYNMEM_dynmem_defines_h
+#endif  // DYNMEM_DEFINES_H

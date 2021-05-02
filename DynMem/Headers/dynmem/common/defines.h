@@ -1,5 +1,5 @@
-#ifndef DYNMEM_common_defines_h
-#define DYNMEM_common_defines_h
+#ifndef DYNMEM_COMMON_DEFINES_H
+#define DYNMEM_COMMON_DEFINES_H
 
 #ifndef TRUE
 #   define TRUE  (_Bool)(1)
@@ -15,4 +15,4 @@
 #   define DYNMEM_FAILED  TRUE
 #endif
 
-#endif  // DYNMEM_common_defines_h
+#endif  // DYNMEM_COMMON_DEFINES_H

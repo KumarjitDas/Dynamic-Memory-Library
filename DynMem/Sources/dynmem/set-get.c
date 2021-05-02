@@ -18,7 +18,7 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
    intmax_t current_size = dynmem_address->is * 2;
 
    if (dynmem_address->bi > dynmem_address->ei && dynmem_address->cs == current_size)
-      goto go_SET_TO_ZERO;
+      DynMemUtilityResetMemory(dynmem_address->m, dynmem_address->cs);
 
    dynmem_address->cs = current_size;
    dynmem_address->bi = dynmem_address->is;
@@ -33,12 +33,7 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
       }
    }
 
-go_SET_TO_ZERO:
-   for (intmax_t i = 0, j = 0, k = dynmem_address->cs / sizeof(intmax_t); i < k; i++, j += sizeof(intmax_t))
-      *(intmax_t *)(dynmem_address->m + j) = 0;
-
-   for (intmax_t i = 0, j = 0, k = dynmem_address->cs % sizeof(intmax_t); i < k; i++, j += sizeof(intmax_t))
-      *(intmax_t *)(dynmem_address->m + j) = 0;
+   DynMemUtilityResetMemory(dynmem_address->m, dynmem_address->cs);
 
    return DYNMEM_SUCCEED;
 }

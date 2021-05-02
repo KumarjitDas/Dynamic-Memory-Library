@@ -20,9 +20,11 @@
 #define DynMemFree DynMemDeallocate
 #define DynMemPush DynMemAppend
 #define DynMemPop DynMemDeduct
-#define DynMemPushBack DynMemPush
-#define DynMemPopBack DynMemPop
+#define DynMemPushBack DynMemAppend
+#define DynMemPopBack DynMemDeduct
 #define DynMemPushFront DynMemPrepend
 #define DynMemPopFront DynMemDeductFront
+#define DynMemEnqueue DynMemAppend
+#define DynMemDequeue DynMemDeductFront
 
 #endif  // DYNMEM_DEFINES_H

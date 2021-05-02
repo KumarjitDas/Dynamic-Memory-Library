@@ -71,3 +71,27 @@ _Bool DynMemGetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_add
 
    return DYNMEM_SUCCEED;
 }
+
+_Bool DynMemSet(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
+      return DYNMEM_FAILED;
+
+   begin = begin * dynmem_address->es + dynmem_address->bi;
+   intmax_t end_offset = dynmem_address->ei + dynmem_address->es;
+
+   if (begin < 0) begin += end_offset;
+
+   if (begin < dynmem_address->bi || begin > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   end = end * dynmem_address->es + dynmem_address->bi;
+
+   if (end < 0) end += (end_offset + dynmem_address->es);
+
+   if (end <= begin || end < dynmem_address->bi || end > end_offset)
+      return DYNMEM_FAILED;
+
+   DynMemUtilitySetMemory(dynmem_address->m + begin, end - begin, value_address, dynmem_address->es);
+
+   return DYNMEM_SUCCEED;
+}

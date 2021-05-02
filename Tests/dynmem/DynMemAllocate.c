@@ -35,7 +35,6 @@ START_TEST(nonnull_dynmem_nonzero_size_without_preallocated_memory) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, size);
    ck_assert_int_eq(dynmem.cs, size * 2);
-   ck_assert_int_eq(dynmem.csh, size);
    ck_assert_int_eq(dynmem.bi, size);
    ck_assert_int_eq(dynmem.ei, size - element_size);
    ck_assert_ptr_nonnull(dynmem.m);
@@ -54,7 +53,6 @@ START_TEST(nonnull_dynmem_small_size_without_preallocated_memory) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, size);
    ck_assert_int_eq(dynmem.cs, size * 2);
-   ck_assert_int_eq(dynmem.csh, size);
    ck_assert_int_eq(dynmem.bi, size);
    ck_assert_int_eq(dynmem.ei, size - element_size);
    ck_assert_ptr_nonnull(dynmem.m);
@@ -107,7 +105,6 @@ START_TEST(nonnull_dynmem_nonzero_size_with_allocated_memory) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, size);
    ck_assert_int_eq(dynmem.cs, size * 2);
-   ck_assert_int_eq(dynmem.csh, size);
    ck_assert_int_eq(dynmem.bi, size);
    ck_assert_int_eq(dynmem.ei, size - element_size);
    ck_assert_ptr_nonnull(dynmem.m);
@@ -129,7 +126,6 @@ START_TEST(nonnull_dynmem_small_size_with_null_memory) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, size);
    ck_assert_int_eq(dynmem.cs, size * 2);
-   ck_assert_int_eq(dynmem.csh, size);
    ck_assert_int_eq(dynmem.bi, size);
    ck_assert_int_eq(dynmem.ei, size - element_size);
    ck_assert_ptr_nonnull(dynmem.m);

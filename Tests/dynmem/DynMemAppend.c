@@ -33,7 +33,6 @@ START_TEST(nonnull_dynmem_null_value) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, initial_size);
    ck_assert_int_eq(dynmem.cs, current_size_half * 2);
-   ck_assert_int_eq(dynmem.csh, current_size_half);
    ck_assert_int_eq(dynmem.bi, initial_size);
    ck_assert_ptr_nonnull(dynmem.m);
 
@@ -78,7 +77,6 @@ START_TEST(nonnull_dynmem_null_value_increase_size) {
    ck_assert_int_eq(dynmem.es, element_size);
    ck_assert_int_eq(dynmem.is, initial_size);
    ck_assert_int_eq(dynmem.cs, new_current_size_half * 2);
-   ck_assert_int_eq(dynmem.csh, new_current_size_half);
    ck_assert_int_eq(dynmem.bi, initial_size);
    ck_assert_int_eq(dynmem.ei, end_index);
    ck_assert_ptr_nonnull(dynmem.m);

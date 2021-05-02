@@ -26,8 +26,6 @@ _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
          DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
          return DYNMEM_FAILED;
       }
-
-      dynmem_address->csh *= 2;
    }
 
    if (value_address == NULL) return DYNMEM_SUCCEED;
@@ -55,7 +53,6 @@ _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
 
       DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->cs, dynmem_address->m,
                                   dynmem_address->ei + dynmem_address->es);
-      dynmem_address->csh *= 2;
       dynmem_address->bi += dynmem_address->cs;
       dynmem_address->ei += dynmem_address->cs;
       dynmem_address->cs = size;

@@ -9,7 +9,6 @@ struct DynMemHeader {
        es,   // Element size
        is,   // Initial size
        cs,   // Current size
-       csh,  // Current size half
        bi,   // Beginning index
        ei;   // Ending index
    uint8_t *m;

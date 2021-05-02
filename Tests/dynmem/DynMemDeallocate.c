@@ -14,7 +14,6 @@ START_TEST(nonnull_deallocation) {
    ck_assert_int_eq(dynmem.es, 0);
    ck_assert_int_eq(dynmem.is, 0);
    ck_assert_int_eq(dynmem.cs, 0);
-   ck_assert_int_eq(dynmem.csh, 0);
    ck_assert_int_eq(dynmem.bi, 0);
    ck_assert_int_eq(dynmem.ei, 0);
    ck_assert_ptr_null(dynmem.m);

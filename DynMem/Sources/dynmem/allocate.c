@@ -38,7 +38,6 @@ _Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t e
    }
 
    dynmem_address->es = element_size;
-   dynmem_address->csh = dynmem_address->is;
    dynmem_address->bi = dynmem_address->is;
    dynmem_address->ei = dynmem_address->is - element_size;
 

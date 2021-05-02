@@ -4,14 +4,17 @@
 #include "defines.h"
 #include "standard_includes.h"
 
-struct DynMemDynMem {
-    intmax_t  element_size;
-    intmax_t  length;
-    intmax_t  start_index;
-    intmax_t  end_index;
-    uint8_t  *memory;
+struct DynMemHeader {
+   intmax_t
+       es,   // Element size
+       is,   // Initial size
+       cs,   // Current size
+       csh,  // Current size half
+       bi,   // Beginning index
+       ei;   // Ending index
+   uint8_t *m;
 };
 
-typedef struct DynMemDynMem dynmem_t;
+typedef struct DynMemHeader dynmem_t;
 
 #endif  // DYNMEM_common_types_h

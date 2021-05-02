@@ -12,8 +12,10 @@ void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemoryBlock(uint8_t *destination, uin
 
 // source_size <= destination_size
 void DYNMEM_UTILITY_EXPORT DynMemUtilitySetMemory(void *destination, intmax_t destination_size,
-                                                  void *source, intmax_t source_size
-                                                 );
+                                                  void *source, intmax_t source_size);
+
+// source_size <= destination_size
+void DYNMEM_UTILITY_EXPORT DynMemUtilityResetMemory(uint8_t *destination, intmax_t size);
 
 #endif  // DYNMEM_INTERNAL_USE_utility_utility_h
 

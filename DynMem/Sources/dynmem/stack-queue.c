@@ -19,43 +19,21 @@ _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
    dynmem_address->ei += dynmem_address->es;
 
    if (dynmem_address->ei == dynmem_address->cs) {
-      dynmem_address->cs += dynmem_address->eis;
-      dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs + 1);
+      dynmem_address->cs *= 2;
+      dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs);
 
       if (dynmem_address->m == NULL) {
          DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
          return DYNMEM_FAILED;
       }
 
-      dynmem_address->eis *= 2;
+      dynmem_address->csh *= 2;
    }
 
    if (value_address == NULL) return DYNMEM_SUCCEED;
 
    uint8_t *destination = dynmem_address->m + dynmem_address->ei;
-
-   switch (dynmem_address->es) {
-      case sizeof(uint8_t):
-         *(uint8_t *)destination = *(uint8_t *)value_address;
-         break;
-
-      case sizeof(uint16_t):
-         *(uint16_t *)destination = *(uint16_t *)value_address;
-         break;
-
-      case sizeof(uint32_t):
-         *(uint32_t *)destination = *(uint32_t *)value_address;
-         break;
-
-#ifdef UINT64_MAX
-      case sizeof(uint64_t):
-         *(uint64_t *)destination = *(uint64_t *)value_address;
-         break;
-#endif
-
-      default:
-         DynMemUtilitySetMemoryBlock(destination, value_address, dynmem_address->es);
-   }
+   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, destination, value_address);
 
    return DYNMEM_SUCCEED;
 }
@@ -67,47 +45,54 @@ _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
    dynmem_address->bi -= dynmem_address->es;
 
    if (dynmem_address->bi < 0) {
-      dynmem_address->cs += dynmem_address->bis;
-      dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs + 1);
+      intmax_t size = dynmem_address->cs * 2;
+      dynmem_address->m = realloc(dynmem_address->m, size);
 
       if (dynmem_address->m == NULL) {
          DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
          return DYNMEM_FAILED;
       }
 
-      DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->bis, dynmem_address->m,
+      DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->cs, dynmem_address->m,
                                   dynmem_address->ei + dynmem_address->es);
-      dynmem_address->bi += dynmem_address->bis;
-      dynmem_address->ei += dynmem_address->bis;
-      dynmem_address->bis *= 2;
+      dynmem_address->csh *= 2;
+      dynmem_address->bi += dynmem_address->cs;
+      dynmem_address->ei += dynmem_address->cs;
+      dynmem_address->cs = size;
    }
 
    if (value_address == NULL) return DYNMEM_SUCCEED;
 
    uint8_t *destination = dynmem_address->m + dynmem_address->bi;
+   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, destination, value_address);
 
-   switch (dynmem_address->es) {
-      case sizeof(uint8_t):
-         *(uint8_t *)destination = *(uint8_t *)value_address;
-         break;
+   return DYNMEM_SUCCEED;
+}
 
-      case sizeof(uint16_t):
-         *(uint16_t *)destination = *(uint16_t *)value_address;
-         break;
+_Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || dynmem_address->ei < dynmem_address->bi)
+      return DYNMEM_FAILED;
 
-      case sizeof(uint32_t):
-         *(uint32_t *)destination = *(uint32_t *)value_address;
-         break;
-
-#ifdef UINT64_MAX
-      case sizeof(uint64_t):
-         *(uint64_t *)destination = *(uint64_t *)value_address;
-         break;
-#endif
-
-      default:
-         DynMemUtilitySetMemoryBlock(destination, value_address, dynmem_address->es);
+   if (value_address != NULL) {
+      uint8_t *destination = dynmem_address->m + dynmem_address->ei;
+      DYNMEM_UTILITY_ASSIGN(dynmem_address->es, value_address, destination);
    }
+
+   dynmem_address->ei -= dynmem_address->es;
+
+   return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || dynmem_address->bi > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   if (value_address != NULL) {
+      uint8_t *destination = dynmem_address->m + dynmem_address->bi;
+      DYNMEM_UTILITY_ASSIGN(dynmem_address->es, value_address, destination);
+   }
+
+   dynmem_address->bi += dynmem_address->es;
 
    return DYNMEM_SUCCEED;
 }

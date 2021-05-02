@@ -55,3 +55,35 @@ void DynMemUtilitySetMemory(void *destination, intmax_t destination_size, void *
 
    DynMemUtilitySetMemoryBlock(destination, source, destination_size % source_size);
 }
+
+void DynMemUtilityResetMemory(uint8_t *destination, intmax_t size) {
+#ifdef INT64_MAX
+   while (sizeof(uint64_t) <= size) {
+      *(uint64_t *)destination = (uint64_t)(0);
+      destination += sizeof(uint64_t);
+      size -= sizeof(uint64_t);
+#else
+   while (sizeof(uint32_t) <= size) {
+      *(uint32_t *)destination = (uint32_t)(0);
+      destination += sizeof(uint32_t);
+      size -= sizeof(uint32_t);
+#endif  // INT64_MAX
+   }
+
+#ifdef INT64_MAX
+   if (sizeof(uint32_t) <= size) {
+      *(uint32_t *)destination = (uint32_t)(0);
+      destination += sizeof(uint32_t);
+      size -= sizeof(uint32_t);
+   }
+#endif  // INT64_MAX
+
+   if (sizeof(uint16_t) <= size) {
+      *(uint16_t *)destination = (uint16_t)(0);
+      destination += sizeof(uint16_t);
+      size -= sizeof(uint16_t);
+   }
+
+   if (sizeof(uint8_t) <= size)
+      *(uint8_t *)destination = (uint8_t)(0);
+}

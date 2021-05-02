@@ -12,6 +12,11 @@
 #define DYNMEM_GET_END(dynmem) (dynmem.ei + dynmem.es)
 #define DYNMEM_GET_POINTER(dynmem) (dynmem.m)
 
+#define DYNMEM_FOREACH_ITERATOR(dynmem, iterator)                                                \
+   for (uint8_t *iterator = dynmem.m + dynmem.bi, *dynmem##iterator##end = dynmem.m + dynmem.ei; \
+        iterator <= dynmem##iterator##end; iterator = iterator + dynmem.es)
+#define DYNMEM_ITERATOR_VALUE(Type, iterator) (*((Type *)iterator))
+
 #define DynMemFree DynMemDeallocate
 #define DynMemPush DynMemAppend
 #define DynMemPop DynMemDeduct

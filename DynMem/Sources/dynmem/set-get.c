@@ -55,7 +55,7 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemGetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+_Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 

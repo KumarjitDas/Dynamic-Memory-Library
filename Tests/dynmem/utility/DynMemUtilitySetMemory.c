@@ -1,14 +1,14 @@
 #include "check.h"
 
-#ifndef DYNMEM_INTERNAL_USE_utility_defines_h
-#define DYNMEM_INTERNAL_USE_utility_defines_h
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
+#define DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 #endif
-#ifndef DYNMEM_INTERNAL_USE_utility_utility_h
-#define DYNMEM_INTERNAL_USE_utility_utility_h
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
+#define DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
 #endif
 
-#include "utility/defines.h"
-#include "utility/utility.h"
+#include "dynmem/utility/defines.h"
+#include "dynmem/utility/utility.h"
 
 START_TEST(with_1_byte) {
    uint8_t array[5], value = 12;

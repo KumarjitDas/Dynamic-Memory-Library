@@ -1,7 +1,7 @@
-#ifndef DYNMEM_utility_defines_h
-#define DYNMEM_utility_defines_h
+#ifndef DYNMEM_UTILITY_DEFINES_H
+#define DYNMEM_UTILITY_DEFINES_H
 
-#ifdef DYNMEM_INTERNAL_USE_utility_defines_h
+#ifdef DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 
 #include "dynmem_export.h"
 
@@ -87,6 +87,6 @@
    }
 #endif  // UINT64_MAX
 
-#endif  // DYNMEM_INTERNAL_USE_utility_defines_h
+#endif  // DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 
-#endif  // DYNMEM_utility_defines_h
+#endif  // DYNMEM_UTILITY_DEFINES_H

@@ -1,5 +1,5 @@
-#ifndef DYNMEM_common_types_h
-#define DYNMEM_common_types_h
+#ifndef DYNMEM_COMMON_TYPES_H
+#define DYNMEM_COMMON_TYPES_H
 
 #include "defines.h"
 #include "standard_includes.h"
@@ -16,4 +16,4 @@ struct DynMemHeader {
 
 typedef struct DynMemHeader dynmem_t;
 
-#endif  // DYNMEM_common_types_h
+#endif  // DYNMEM_COMMON_TYPES_H

@@ -1,7 +1,6 @@
 set(
    TEST_FUNCTION_NAMES
-   "DynMemAllocate" "DynMemDeallocate" "DynMemAppend" "DynMemPrepend" "DynMemDeduct" "DynMemDeductFront"
-   "DynMemReduce" "DynMemReset" "DynMemSetValueAt" "DynMemGetValueAt" "DynMemSet"
+   "DynMemUtilitySetMemoryBlock" "DynMemUtilitySetMemory" "DynMemUtilityResetMemory"
 )
 set(TEST_COUNTER 0)
 
@@ -18,19 +17,13 @@ foreach(TEST_FUNCTION_NAME ${TEST_FUNCTION_NAMES})
       set(LEADING_ZEROS "")
    endif()
 
-   set(EXECUTABLE_NAME  "DynMem_dynmem_tester_${TEST_FUNCTION_NAME}")
+   set(EXECUTABLE_NAME  "DynMem_utility_tester_${TEST_FUNCTION_NAME}")
 
    add_executable("${EXECUTABLE_NAME}" "${TEST_FUNCTION_NAME}.c")
    target_link_libraries("${EXECUTABLE_NAME}" PRIVATE DynMem::dynmem Check::check)
 
    add_test(
-      NAME "DynMem_dynmem_test${LEADING_ZEROS}${TEST_COUNTER}_${TEST_FUNCTION_NAME}"
+      NAME "DynMem_utility_test${LEADING_ZEROS}${TEST_COUNTER}_${TEST_FUNCTION_NAME}"
       COMMAND "${EXECUTABLE_NAME}"
    )
-endforeach()
-
-set(SUBDIRECTORIES "utility")
-
-foreach(VAR ${SUBDIRECTORIES})
-   add_subdirectory(${VAR})
 endforeach()

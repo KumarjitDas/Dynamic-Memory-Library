@@ -8,32 +8,32 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 option(BUILD_SHARED_LIBS "Build the project with shared libraries." ON)
 
-project("DynMem" VERSION 0.11.0 LANGUAGES C)
+project("DynMem" VERSION 0.11.1 LANGUAGES C)
 
 set(VALID_BUILD_TYPES "Release" "Debug" "MinSizeRel" "RelWithDebInfo")
 
 if(NOT CMAKE_CONFIGURATION_TYPES)
-    if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build configuration" FORCE)
-    endif()
+   if("${CMAKE_BUILD_TYPE}" STREQUAL "")
+      set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build configuration" FORCE)
+   endif()
 
-    list(FIND VALID_BUILD_TYPES "${CMAKE_BUILD_TYPE}" INDEX)
+   list(FIND VALID_BUILD_TYPES "${CMAKE_BUILD_TYPE}" INDEX)
 
-    if(${INDEX} MATCHES -1)
-        message(FATAL_ERROR "Invalid build type. Valid build types are: ${VALID_BUILD_TYPES}")
-    endif()
+   if(${INDEX} MATCHES -1)
+      message(FATAL_ERROR "Invalid build type. Valid build types are: ${VALID_BUILD_TYPES}")
+   endif()
 
-    if(DEFINED CMAKE_BUILD_TYPE)
-        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${VALID_BUILD_TYPES})
-    endif()
+   if(DEFINED CMAKE_BUILD_TYPE)
+      set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${VALID_BUILD_TYPES})
+   endif()
 endif()
 
 add_subdirectory("DynMem")
-# add_subdirectory("Examples")
+add_subdirectory("Examples")
 
 if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
-    enable_testing()
-    find_package(check CONFIG REQUIRED)
+   enable_testing()
+   find_package(check CONFIG REQUIRED)
 
-    add_subdirectory("Tests")
+   add_subdirectory("Tests")
 endif()

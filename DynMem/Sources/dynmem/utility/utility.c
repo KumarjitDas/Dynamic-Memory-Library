@@ -1,13 +1,13 @@
-#ifndef DYNMEM_INTERNAL_USE_utility_defines_h
-#define DYNMEM_INTERNAL_USE_utility_defines_h
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
+#define DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 #include <stdint.h>
 #endif
-#ifndef DYNMEM_INTERNAL_USE_utility_utility_h
-#define DYNMEM_INTERNAL_USE_utility_utility_h
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
+#define DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
 #endif
 
-#include "utility/defines.h"
-#include "utility/utility.h"
+#include "dynmem/utility/defines.h"
+#include "dynmem/utility/utility.h"
 
 void DynMemUtilitySetMemoryBlock(uint8_t *destination, uint8_t *source, intmax_t size) {
 #ifdef INT64_MAX

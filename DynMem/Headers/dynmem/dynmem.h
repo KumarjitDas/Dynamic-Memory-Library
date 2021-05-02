@@ -28,7 +28,7 @@ _Bool DYNMEM_EXPORT DynMemReset(dynmem_t *dynmem_address);
 
 _Bool DYNMEM_EXPORT DynMemSetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_address);
 
-_Bool DYNMEM_EXPORT DynMemGetValueAt(void *value_address, dynmem_t *dynmem_address, intmax_t index);
+_Bool DYNMEM_EXPORT DynMemGetValueAt(dynmem_t *dynmem_address, intmax_t index, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address);
 

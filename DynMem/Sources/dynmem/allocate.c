@@ -56,7 +56,7 @@ _Bool DynMemDeallocate(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemReduce(dynmem_t *dynmem_address, void *memory_address, intmax_t *size_address) {
+_Bool DynMemReduce_s(dynmem_t *dynmem_address, void *memory_address, intmax_t *size_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;
 
@@ -106,4 +106,16 @@ _Bool DynMemReduce(dynmem_t *dynmem_address, void *memory_address, intmax_t *siz
    dynmem_address->ei = begin_index + begin_end_difference - dynmem_address->es;
 
    return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemReduce(dynmem_t *dynmem_address, void *array_address, intmax_t *length_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   intmax_t element_size = dynmem_address->es;
+   _Bool return_value = DynMemReduce_s(dynmem_address, array_address, length_address);
+
+   if (length_address != NULL) *length_address = *length_address / element_size;
+
+   return return_value;
 }

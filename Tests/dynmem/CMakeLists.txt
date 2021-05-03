@@ -3,7 +3,7 @@ set(
    "DynMemAllocate" "DynMemDeallocate" "DynMemAppend" "DynMemPrepend" "DynMemDeduct" "DynMemDeductFront" "DynMemReduce"
    "DynMemReduce_s" "DynMemReset" "DynMemSet" "DynMemGet" "DynMemSetValues" "DynMemSetElementSize"
    "DynMemGetElementSize" "DynMemGetSize" "DynMemGetLength" "DynMemGetPointer" "DynMemGetHeapSize"
-   "DynMemGetHeapPointer"
+   "DynMemGetHeapPointer" "DynMemSetForAppending"
 )
 set(TEST_COUNTER 0)
 

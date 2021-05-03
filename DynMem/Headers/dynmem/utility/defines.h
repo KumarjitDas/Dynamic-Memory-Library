@@ -22,6 +22,10 @@
 #define FALSE (_Bool)(0)
 #endif
 
+#define DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address) (dynmem_address->ei - dynmem_address->bi + dynmem_address->es)
+#define DYNMEM_UTILITY_GET_LENGTH_ADDRESS(dynmem_address) \
+   (DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address) / dynmem_address->es)
+
 #define DYNMEM_UTILITY_VALIDATE(dynmem) \
    (dynmem.es > 0 && dynmem.is > 0 && dynmem.cs > 0 && dynmem.m != NULL)
 

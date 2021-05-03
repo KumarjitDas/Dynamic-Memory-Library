@@ -11,6 +11,24 @@
 #include "dynmem/utility/defines.h"
 #include "dynmem/utility/utility.h"
 
+_Bool DynMemSetElementSize(dynmem_t *dynmem_address, intmax_t size) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size <= 0)
+      return DYNMEM_FAILED;
+
+   dynmem_address->es = size;
+
+   return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemGetElementSize(dynmem_t *dynmem_address, intmax_t *size_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size_address == NULL)
+      return DYNMEM_FAILED;
+
+   *size_address = dynmem_address->es;
+
+   return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemReset(dynmem_t *dynmem_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;

@@ -21,6 +21,19 @@ _Bool DynMemSetElementSize(dynmem_t *dynmem_address, intmax_t size) {
 }
 
 _Bool DynMemGetElementSize(dynmem_t *dynmem_address, intmax_t *size_address) {
+   if (size_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *size_address = 0;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   *size_address = dynmem_address->es;
+
+   return DYNMEM_SUCCEED;
+}
+
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size_address == NULL)
       return DYNMEM_FAILED;
 

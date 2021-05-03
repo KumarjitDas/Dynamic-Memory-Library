@@ -90,9 +90,16 @@ _Bool DynMemGetHeapSize(dynmem_t *dynmem_address, intmax_t *size_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemGetHeapPointer(dynmem_t *dynmem_address, void *pointer_address) {
+   if (pointer_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *(void **)pointer_address = NULL;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;
 
-   *size_address = dynmem_address->es;
+   *(void **)pointer_address = dynmem_address->m;
 
    return DYNMEM_SUCCEED;
 }

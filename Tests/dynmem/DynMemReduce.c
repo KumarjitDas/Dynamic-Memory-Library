@@ -3,11 +3,102 @@
 
 START_TEST(null_dynmem) {
    int *memory;
-   intmax_t size;
+   intmax_t length;
+
    ck_assert_int_eq(DynMemReduce(NULL, NULL, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemReduce(NULL, NULL, &size), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemReduce(NULL, NULL, &length), DYNMEM_FAILED);
    ck_assert_int_eq(DynMemReduce(NULL, &memory, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemReduce(NULL, &memory, &size), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemReduce(NULL, &memory, &length), DYNMEM_FAILED);
+}
+END_TEST
+
+START_TEST(nonnull_dynmem_nonnull_memory_null_size_not_size_changed) {
+   dynmem_t dynmem;
+   intmax_t length = 5;
+   intmax_t element_size = sizeof(int);
+
+   ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
+
+   int *array;
+
+   ck_assert_int_eq(DynMemReduce(&dynmem, &array, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(dynmem.es, 0);
+   ck_assert_int_eq(dynmem.is, 0);
+   ck_assert_int_eq(dynmem.cs, 0);
+   ck_assert_int_eq(dynmem.bi, 0);
+   ck_assert_int_eq(dynmem.ei, 0);
+   ck_assert_ptr_null(dynmem.m);
+   ck_assert_ptr_null(array);
+}
+END_TEST
+
+START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_not_size_changed) {
+   dynmem_t dynmem;
+   intmax_t length = 5;
+   intmax_t element_size = sizeof(int);
+   int *array;
+
+   ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemReduce(&dynmem, &array, &length), DYNMEM_FAILED);
+   ck_assert_int_eq(dynmem.es, 0);
+   ck_assert_int_eq(dynmem.is, 0);
+   ck_assert_int_eq(dynmem.cs, 0);
+   ck_assert_int_eq(dynmem.bi, 0);
+   ck_assert_int_eq(dynmem.ei, 0);
+   ck_assert_ptr_null(dynmem.m);
+   ck_assert_ptr_null(array);
+   ck_assert_int_eq(length, 0);
+}
+END_TEST
+
+START_TEST(nonnull_dynmem_nonnull_memory_null_size_size_changed) {
+   dynmem_t dynmem;
+   intmax_t length = 5;
+   intmax_t element_size = sizeof(int);
+   int *array;
+
+   ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
+
+   for (intmax_t i = 0; i < 5; i++)
+      ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
+
+   ck_assert_int_eq(DynMemReduce(&dynmem, &array, NULL), DYNMEM_SUCCEED);
+   ck_assert_int_eq(dynmem.es, 0);
+   ck_assert_int_eq(dynmem.is, 0);
+   ck_assert_int_eq(dynmem.cs, 0);
+   ck_assert_int_eq(dynmem.bi, 0);
+   ck_assert_int_eq(dynmem.ei, 0);
+   ck_assert_ptr_null(dynmem.m);
+   ck_assert_ptr_nonnull(array);
+
+   if (array != NULL) free(array);
+}
+END_TEST
+
+START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_size_changed) {
+   dynmem_t dynmem;
+   intmax_t length = 5;
+   intmax_t element_size = sizeof(int);
+   int *array;
+
+   ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
+
+   for (intmax_t i = 0; i < 5; i++)
+      ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
+
+   length = 0;
+
+   ck_assert_int_eq(DynMemReduce(&dynmem, &array, &length), DYNMEM_SUCCEED);
+   ck_assert_int_eq(dynmem.es, 0);
+   ck_assert_int_eq(dynmem.is, 0);
+   ck_assert_int_eq(dynmem.cs, 0);
+   ck_assert_int_eq(dynmem.bi, 0);
+   ck_assert_int_eq(dynmem.ei, 0);
+   ck_assert_ptr_null(dynmem.m);
+   ck_assert_ptr_nonnull(array);
+   ck_assert_int_eq(length, 5);
+
+   if (array != NULL) free(array);
 }
 END_TEST
 
@@ -15,13 +106,12 @@ START_TEST(nonnull_dynmem_nonnull_memory_null_size_appended) {
    dynmem_t dynmem;
    intmax_t length = 5;
    intmax_t element_size = sizeof(int);
+   int *array = NULL;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
 
    for (intmax_t i = 0; i < 10; i++)
       ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
-
-   int *array = NULL;
 
    ck_assert_int_eq(DynMemReduce(&dynmem, &array, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.es, 0);
@@ -40,6 +130,7 @@ START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_appended) {
    dynmem_t dynmem;
    intmax_t length = 5;
    intmax_t element_size = sizeof(int);
+   int *array = NULL;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
 
@@ -47,7 +138,6 @@ START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_appended) {
       ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
 
    length = 0;
-   int *array = NULL;
 
    ck_assert_int_eq(DynMemReduce(&dynmem, &array, &length), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.es, 0);
@@ -67,13 +157,12 @@ START_TEST(nonnull_dynmem_nonnull_memory_null_size_prepended) {
    dynmem_t dynmem;
    intmax_t length = 5;
    intmax_t element_size = sizeof(int);
+   int *array = NULL;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
 
    for (intmax_t i = 0; i < 10; i++)
       ck_assert_int_eq(DynMemPrepend(&dynmem, NULL), DYNMEM_SUCCEED);
-
-   int *array = NULL;
 
    ck_assert_int_eq(DynMemReduce(&dynmem, &array, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.es, 0);
@@ -92,6 +181,7 @@ START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_prepended) {
    dynmem_t dynmem;
    intmax_t length = 5;
    intmax_t element_size = sizeof(int);
+   int *array = NULL;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, element_size, length, NULL), DYNMEM_SUCCEED);
 
@@ -99,7 +189,6 @@ START_TEST(nonnull_dynmem_nonnull_memory_nonnull_size_prepended) {
       ck_assert_int_eq(DynMemPrepend(&dynmem, NULL), DYNMEM_SUCCEED);
 
    length = 0;
-   int *array = NULL;
 
    ck_assert_int_eq(DynMemReduce(&dynmem, &array, &length), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.es, 0);
@@ -254,6 +343,10 @@ int main() {
    TCase *test_cases = tcase_create("Test case");
 
    tcase_add_test(test_cases, null_dynmem);
+   tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_null_size_not_size_changed);
+   tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_nonnull_size_not_size_changed);
+   tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_null_size_size_changed);
+   tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_nonnull_size_size_changed);
    tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_null_size_appended);
    tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_nonnull_size_appended);
    tcase_add_test(test_cases, nonnull_dynmem_nonnull_memory_null_size_prepended);

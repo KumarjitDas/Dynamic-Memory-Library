@@ -9,6 +9,8 @@
 
 _Bool DYNMEM_UTILITY_EXPORT DynMemUtilityReduce(dynmem_t *dynmem_address);
 
+_Bool DYNMEM_UTILITY_EXPORT DynMemUtilityReduceToMemory(dynmem_t *dynmem_address,
+                                                        void *memory_address, intmax_t *size_address);
 
 #endif  // DYNMEM_INTERNAL_USE_UTILITY_ALLOCATE_H
 

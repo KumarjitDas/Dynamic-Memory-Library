@@ -42,3 +42,28 @@ _Bool DynMemUtilityReduce(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemUtilityReduceToMemory(dynmem_t *dynmem_address, void *memory_address, intmax_t *size_address) {
+   if (size_address != NULL) *size_address = 0;
+
+   intmax_t begin_end_difference = dynmem_address->ei - dynmem_address->bi + dynmem_address->es;
+
+   if (begin_end_difference == 0) {
+      free(dynmem_address->m);
+      DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
+
+      *(void **)memory_address = NULL;
+
+      return DYNMEM_FAILED;
+   }
+
+   if (dynmem_address->bi != 0)
+      DynMemUtilitySetMemoryBlock(dynmem_address->m, dynmem_address->m + dynmem_address->bi, begin_end_difference);
+
+   uint8_t **memory_address_ = memory_address;
+
+   if (size_address != NULL) *size_address = begin_end_difference;
+   *memory_address_ = realloc(dynmem_address->m, begin_end_difference);
+   DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
+
+   return (*memory_address_ == NULL) ? DYNMEM_FAILED : DYNMEM_SUCCEED;
+}

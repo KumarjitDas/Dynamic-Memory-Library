@@ -1,6 +1,7 @@
 set(
    SOURCE_FILES
    "${CMAKE_CURRENT_SOURCE_DIR}/utility.c"
+   "${CMAKE_CURRENT_SOURCE_DIR}/allocate.c"
 )
 set(RELATIVE_PATH "src/dynmem/utility")
 

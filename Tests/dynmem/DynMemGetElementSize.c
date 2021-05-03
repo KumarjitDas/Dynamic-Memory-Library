@@ -3,8 +3,10 @@
 
 START_TEST(null_dynmem) {
    intmax_t size;
+
    ck_assert_int_eq(DynMemGetElementSize(NULL, NULL), DYNMEM_FAILED);
    ck_assert_int_eq(DynMemGetElementSize(NULL, &size), DYNMEM_FAILED);
+   ck_assert_int_eq(size, 0);
 }
 END_TEST
 

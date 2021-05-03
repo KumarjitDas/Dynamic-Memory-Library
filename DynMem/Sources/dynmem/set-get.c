@@ -34,6 +34,34 @@ _Bool DynMemGetElementSize(dynmem_t *dynmem_address, intmax_t *size_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemGetSize(dynmem_t *dynmem_address, intmax_t *size_address) {
+   if (size_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *size_address = 0;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   *size_address = DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address);
+
+   return DYNMEM_SUCCEED;
+}
+
+_Bool DynMemGetLength(dynmem_t *dynmem_address, intmax_t *length_address) {
+   if (length_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *length_address = 0;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   *length_address = DYNMEM_UTILITY_GET_LENGTH_ADDRESS(dynmem_address);
+
+   return DYNMEM_SUCCEED;
+}
+
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size_address == NULL)
       return DYNMEM_FAILED;
 

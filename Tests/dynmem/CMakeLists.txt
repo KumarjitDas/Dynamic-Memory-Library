@@ -2,7 +2,7 @@ set(
    TEST_FUNCTION_NAMES
    "DynMemAllocate" "DynMemDeallocate" "DynMemAppend" "DynMemPrepend" "DynMemDeduct" "DynMemDeductFront"
    "DynMemReduce" "DynMemReduce_s" "DynMemReset" "DynMemSet" "DynMemGet" "DynMemSetValues" "DynMemSetElementSize"
-   "DynMemGetElementSize" "DynMemGetSize" "DynMemGetLength"
+   "DynMemGetElementSize" "DynMemGetSize" "DynMemGetLength" "DynMemGetPointer"
 )
 set(TEST_COUNTER 0)
 

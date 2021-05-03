@@ -34,6 +34,8 @@ _Bool DYNMEM_EXPORT DynMemGetSize(dynmem_t *dynmem_address, intmax_t *size_addre
 
 _Bool DYNMEM_EXPORT DynMemGetLength(dynmem_t *dynmem_address, intmax_t *length_address);
 
+_Bool DYNMEM_EXPORT DynMemGetPointer(dynmem_t *dynmem_address, void *pointer_address);
+
 _Bool DYNMEM_EXPORT DynMemReset(dynmem_t *dynmem_address);
 
 _Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address);

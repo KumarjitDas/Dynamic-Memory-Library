@@ -62,7 +62,20 @@ _Bool DynMemGetLength(dynmem_t *dynmem_address, intmax_t *length_address) {
    return DYNMEM_SUCCEED;
 }
 
-   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size_address == NULL)
+_Bool DynMemGetPointer(dynmem_t *dynmem_address, void *pointer_address) {
+   if (pointer_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *(void **)pointer_address = NULL;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   *(void **)pointer_address = dynmem_address->m + dynmem_address->bi;
+
+   return DYNMEM_SUCCEED;
+}
+
       return DYNMEM_FAILED;
 
    *size_address = dynmem_address->es;

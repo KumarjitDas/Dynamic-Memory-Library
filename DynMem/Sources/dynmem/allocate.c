@@ -8,12 +8,12 @@
 #define DYNMEM_INTERNAL_USE_UTILITY_ALLOCATE_H
 #endif
 
-#include <stdlib.h>
-
 #include "dynmem/dynmem.h"
 #include "dynmem/utility/defines.h"
 #include "dynmem/utility/utility.h"
 #include "dynmem/utility/allocate.h"
+
+#include <stdlib.h>
 
 _Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t element_count, void *memory_address) {
    if (dynmem_address == NULL || element_size <= 0 || element_count <= 0)
@@ -73,10 +73,14 @@ _Bool DynMemReduce(dynmem_t *dynmem_address, void *array_address, intmax_t *leng
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;
 
+   if (array_address == NULL)
+      return DynMemUtilityReduce(dynmem_address);
+
    intmax_t element_size = dynmem_address->es;
-   _Bool return_value = DynMemReduce_s(dynmem_address, array_address, length_address);
+   _Bool status = DynMemUtilityReduceToMemory(dynmem_address, array_address, length_address);
 
-   if (length_address != NULL) *length_address = *length_address / element_size;
+   if (length_address != NULL)
+      *length_address = *length_address / element_size;
 
-   return return_value;
+   return status;
 }

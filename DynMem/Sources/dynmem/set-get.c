@@ -77,6 +77,24 @@ _Bool DynMemSetForAppending(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemSetForPrepending(dynmem_t *dynmem_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   intmax_t begin_end_difference = DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address);
+   intmax_t offset = dynmem_address->cs - dynmem_address->ei - dynmem_address->es;
+
+   if (begin_end_difference != 0 && offset != 0) {
+      uint8_t *memory = dynmem_address->m + dynmem_address->bi;
+      DynMemUtilitySetMemoryBlockReverse(memory + offset, memory, begin_end_difference);
+   }
+
+   dynmem_address->bi += offset;
+   dynmem_address->ei += offset;
+
+   return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemGetPointer(dynmem_t *dynmem_address, void *pointer_address) {
    if (pointer_address == NULL)
       return DYNMEM_FAILED;

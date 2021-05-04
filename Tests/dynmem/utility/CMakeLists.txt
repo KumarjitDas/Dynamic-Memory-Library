@@ -1,7 +1,7 @@
 set(
    TEST_FUNCTION_NAMES
    "DynMemUtilitySetMemoryBlock" "DynMemUtilitySetMemory" "DynMemUtilityResetMemory" "DynMemUtilityReduce"
-   "DynMemUtilityReduceToMemory"
+   "DynMemUtilityReduceToMemory" "DynMemUtilitySetMemoryBlockReverse"
 )
 set(TEST_COUNTER 0)
 

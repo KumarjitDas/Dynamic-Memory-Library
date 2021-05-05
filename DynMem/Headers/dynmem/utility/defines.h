@@ -22,6 +22,13 @@
 #define FALSE (_Bool)(0)
 #endif
 
+#ifndef DYNMEM_SUCCEED
+#   define DYNMEM_SUCCEED FALSE
+#endif
+#ifndef DYNMEM_FAILED
+#   define DYNMEM_FAILED  TRUE
+#endif
+
 #define DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address) (dynmem_address->ei - dynmem_address->bi + dynmem_address->es)
 #define DYNMEM_UTILITY_GET_LENGTH_ADDRESS(dynmem_address) \
    (DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address) / dynmem_address->es)
@@ -86,7 +93,7 @@
          case sizeof(uint32_t):                                                         \
             *(uint32_t *)(left_value) = *(uint32_t *)(right_value);                     \
             break;                                                                      \
-            \ default : DynMemUtilitySetMemoryBlock((left_value), (right_value), size); \
+         default : DynMemUtilitySetMemoryBlock((left_value), (right_value), size); \
       }                                                                                 \
    }
 #endif  // UINT64_MAX

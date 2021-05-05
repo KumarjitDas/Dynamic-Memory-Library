@@ -182,12 +182,18 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    return DynMemUtilitySet(dynmem_address, index * dynmem_address->es, value_address);
 }
 
+_Bool DynMemGet_s(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   void *destination = dynmem_address->m + index;
-   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, destination, value_address);
+   return DynMemUtilityGet(dynmem_address, index, value_address);
+}
 
-   return DYNMEM_SUCCEED;
+_Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
+      return DYNMEM_FAILED;
+
+   return DynMemUtilityGet(dynmem_address, index * dynmem_address->es, value_address);
 }
 
 _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {

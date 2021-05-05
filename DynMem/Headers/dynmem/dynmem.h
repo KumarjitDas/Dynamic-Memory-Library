@@ -50,6 +50,8 @@ _Bool DYNMEM_EXPORT DynMemSet_s(dynmem_t *dynmem_address, intmax_t index, void *
 
 _Bool DYNMEM_EXPORT DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address);
 
+_Bool DYNMEM_EXPORT DynMemGet_s(dynmem_t *dynmem_address, intmax_t index, void *value_address);
+
 _Bool DYNMEM_EXPORT DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address);

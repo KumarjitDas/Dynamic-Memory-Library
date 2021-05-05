@@ -2,6 +2,7 @@ set(
    TEST_FUNCTION_NAMES
    "DynMemUtilitySetMemoryBlock" "DynMemUtilitySetMemory" "DynMemUtilityResetMemory" "DynMemUtilityReduce"
    "DynMemUtilityReduceToMemory" "DynMemUtilitySetMemoryBlockReverse" "DynMemUtilitySet" "DynMemUtilityGet"
+   "DynMemUtilitySetValues"
 )
 set(TEST_COUNTER 0)
 

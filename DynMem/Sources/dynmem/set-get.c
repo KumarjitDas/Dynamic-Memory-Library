@@ -4,12 +4,16 @@
 #ifndef DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
 #define DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
 #endif
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_SET_GET_H
+#define DYNMEM_INTERNAL_USE_UTILITY_SET_GET_H
+#endif
 
 #include <stdlib.h>
 
 #include "dynmem/dynmem.h"
 #include "dynmem/utility/defines.h"
 #include "dynmem/utility/utility.h"
+#include "dynmem/utility/set-get.h"
 
 _Bool DynMemSetElementSize(dynmem_t *dynmem_address, intmax_t size) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || size <= 0)
@@ -164,15 +168,20 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemSet_s(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
+      return DYNMEM_FAILED;
+
+   return DynMemUtilitySet(dynmem_address, index, value_address);
+}
+
 _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   index = index * dynmem_address->es + dynmem_address->bi;
+   return DynMemUtilitySet(dynmem_address, index * dynmem_address->es, value_address);
+}
 
-   if (index < 0) index += (dynmem_address->ei + dynmem_address->es);
-
-   if (index < dynmem_address->bi || index > dynmem_address->ei)
       return DYNMEM_FAILED;
 
    void *destination = dynmem_address->m + index;

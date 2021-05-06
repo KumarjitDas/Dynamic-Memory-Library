@@ -15,7 +15,7 @@ _Bool DYNMEM_UTILITY_EXPORT DynMemUtilitySetValues(dynmem_t *dynmem_address, int
                                                    void *value_address);
 
 _Bool DYNMEM_UTILITY_EXPORT DynMemUtilityGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
-                                                   void *array, intmax_t size, intmax_t *got_values);
+                                                   void *array, intmax_t size, intmax_t *got_size);
 
 #endif  // DYNMEM_INTERNAL_USE_UTILITY_SET_GET_H
 

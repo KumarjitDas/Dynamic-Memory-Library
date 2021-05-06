@@ -61,10 +61,10 @@ _Bool DynMemUtilitySetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t 
    return DYNMEM_SUCCEED;
 }
 
-_Bool DYNMEM_UTILITY_EXPORT DynMemUtilityGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
-                                                   void *array, intmax_t size, intmax_t *got_values) {
-   if (got_values != NULL)
-      *got_values = 0;
+_Bool DynMemUtilityGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
+                             void *array, intmax_t size, intmax_t *got_size) {
+   if (got_size != NULL)
+      *got_size = 0;
 
    begin += dynmem_address->bi;
    intmax_t end_offset = dynmem_address->ei + dynmem_address->es;
@@ -88,8 +88,8 @@ _Bool DYNMEM_UTILITY_EXPORT DynMemUtilityGetValues(dynmem_t *dynmem_address, int
 
    DynMemUtilitySetMemoryBlock(array, dynmem_address->m + begin, size);
 
-   if (got_values != NULL)
-      *got_values = size;
+   if (got_size != NULL)
+      *got_size = size;
 
    return DYNMEM_SUCCEED;
 }

@@ -210,10 +210,13 @@ _Bool DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, vo
    return DynMemUtilitySetValues(dynmem_address, begin * dynmem_address->es, end * dynmem_address->es, value_address);
 }
 
-   if (begin < dynmem_address->bi || begin > dynmem_address->ei)
+_Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
+                        void *array, intmax_t size, intmax_t *got_size) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL)
       return DYNMEM_FAILED;
 
-   end = end * dynmem_address->es + dynmem_address->bi;
+   return DynMemUtilityGetValues(dynmem_address, begin, end, array, size, got_size);
+}
 
    if (end < 0) end += (end_offset + dynmem_address->es);
 

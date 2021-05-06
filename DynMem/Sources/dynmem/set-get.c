@@ -168,11 +168,11 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemSet_s(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+_Bool DynMemSet_s(dynmem_t *dynmem_address, intmax_t index_s, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilitySet(dynmem_address, index, value_address);
+   return DynMemUtilitySet(dynmem_address, index_s, value_address);
 }
 
 _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
@@ -182,11 +182,11 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    return DynMemUtilitySet(dynmem_address, index * dynmem_address->es, value_address);
 }
 
-_Bool DynMemGet_s(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
+_Bool DynMemGet_s(dynmem_t *dynmem_address, intmax_t index_s, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilityGet(dynmem_address, index, value_address);
+   return DynMemUtilityGet(dynmem_address, index_s, value_address);
 }
 
 _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
@@ -196,11 +196,11 @@ _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    return DynMemUtilityGet(dynmem_address, index * dynmem_address->es, value_address);
 }
 
-_Bool DynMemSetValues_s(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address) {
+_Bool DynMemSetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end_s, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilitySetValues(dynmem_address, begin, end, value_address);
+   return DynMemUtilitySetValues(dynmem_address, begin_s, end_s, value_address);
 }
 
 _Bool DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address) {
@@ -210,12 +210,12 @@ _Bool DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, vo
    return DynMemUtilitySetValues(dynmem_address, begin * dynmem_address->es, end * dynmem_address->es, value_address);
 }
 
-_Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
+_Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end_s,
                         void *array, intmax_t size, intmax_t *got_size) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilityGetValues(dynmem_address, begin, end, array, size, got_size);
+   return DynMemUtilityGetValues(dynmem_address, begin_s, end_s, array, size, got_size);
 }
 
 _Bool DynMemGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,

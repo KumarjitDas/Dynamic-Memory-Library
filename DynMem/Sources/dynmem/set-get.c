@@ -218,12 +218,15 @@ _Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
    return DynMemUtilityGetValues(dynmem_address, begin, end, array, size, got_size);
 }
 
-   if (end < 0) end += (end_offset + dynmem_address->es);
-
-   if (end <= begin || end < dynmem_address->bi || end > end_offset)
+_Bool DynMemGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
+                      void *array, intmax_t length, intmax_t *got_length) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL)
       return DYNMEM_FAILED;
 
-   DynMemUtilitySetMemory(dynmem_address->m + begin, end - begin, value_address, dynmem_address->es);
+   _Bool status = DynMemUtilityGetValues(dynmem_address, begin * dynmem_address->es, end * dynmem_address->es,
+                                         array, length * dynmem_address->es, got_length);
+   if (got_length != NULL)
+      *got_length /= dynmem_address->es;
 
-   return DYNMEM_SUCCEED;
+   return status;
 }

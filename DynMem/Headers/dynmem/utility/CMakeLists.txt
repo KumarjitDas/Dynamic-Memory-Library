@@ -7,6 +7,7 @@ set(
    "${CMAKE_CURRENT_SOURCE_DIR}/defines.h"
    "${CMAKE_CURRENT_SOURCE_DIR}/utility.h"
    "${CMAKE_CURRENT_SOURCE_DIR}/allocate.h"
+   "${CMAKE_CURRENT_SOURCE_DIR}/stack-queue.h"
    "${CMAKE_CURRENT_SOURCE_DIR}/set-get.h"
 )
 set(RELATIVE_PATH "include/dynmem/utility")

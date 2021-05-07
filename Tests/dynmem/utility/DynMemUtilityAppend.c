@@ -158,7 +158,7 @@ START_TEST(nonnull_memory__more_extended_size) {
 END_TEST
 
 int main() {
-   Suite *suite = suite_create("Test suite for \"DynMemAppend\" function");
+   Suite *suite = suite_create("Test suite for \"DynMemUtilityAppend\" function");
    TCase *test_cases = tcase_create("Test case");
 
    tcase_add_test(test_cases, null_memory__minimum_size);

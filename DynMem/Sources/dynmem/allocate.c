@@ -20,14 +20,14 @@ _Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t e
       return DYNMEM_FAILED;
 
    dynmem_address->is = element_size * element_count;
-   uint8_t **memory_address_ = memory_address;
+   uint8_t **temporary_memory_address = memory_address;
 
-   if (memory_address_ != NULL && *memory_address_ != NULL) {
-      dynmem_address->m = *memory_address_;
-      dynmem_address->is /= 2;
+   if (temporary_memory_address != NULL && *temporary_memory_address != NULL) {
+      dynmem_address->m = *temporary_memory_address;
+      dynmem_address->is = ((dynmem_address->is / element_size) / 2) * element_size;
       dynmem_address->cs = dynmem_address->is * 2;
 
-      *memory_address_ = NULL;
+      *temporary_memory_address = NULL;
    } else {
       if (dynmem_address->is < sizeof(intmax_t))
          dynmem_address->is = ((sizeof(intmax_t) + element_size) / element_size) * element_size;

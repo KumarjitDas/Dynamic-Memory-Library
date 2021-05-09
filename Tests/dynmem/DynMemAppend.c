@@ -1,5 +1,3 @@
-#include <stdint.h>
-
 #include "check.h"
 #include "dynmem/dynmem.h"
 

@@ -27,33 +27,13 @@ _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
 }
 
 _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
-   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   dynmem_address->bi -= dynmem_address->es;
+      _Bool status = DynMemUtilityPrepend(dynmem_address, value_address, dynmem_address->es);
+      dynmem_address->bi -= dynmem_address->es;
 
-   if (dynmem_address->bi < 0) {
-      intmax_t size = dynmem_address->cs * 2;
-      dynmem_address->m = realloc(dynmem_address->m, size);
-
-      if (dynmem_address->m == NULL) {
-         DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
-         return DYNMEM_FAILED;
-      }
-
-      DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->cs, dynmem_address->m,
-                                  dynmem_address->ei + dynmem_address->es);
-      dynmem_address->bi += dynmem_address->cs;
-      dynmem_address->ei += dynmem_address->cs;
-      dynmem_address->cs = size;
-   }
-
-   if (value_address == NULL) return DYNMEM_SUCCEED;
-
-   uint8_t *destination = dynmem_address->m + dynmem_address->bi;
-   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, destination, value_address);
-
-   return DYNMEM_SUCCEED;
+      return status;
 }
 
 _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {

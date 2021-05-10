@@ -22,7 +22,7 @@ _Bool DynMemUtilityAppend(dynmem_t *dynmem_address, void *memory, intmax_t size)
    intmax_t temporary_size = dynmem_address->ei + size;
 
    if (temporary_size >= dynmem_address->cs) {
-      while (dynmem_address->cs < temporary_size)
+      while (dynmem_address->cs <= temporary_size)
          dynmem_address->cs *= 2;
 
       dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs);

@@ -24,9 +24,8 @@ _Bool DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t e
 
    if (temporary_memory_address != NULL && *temporary_memory_address != NULL) {
       dynmem_address->m = *temporary_memory_address;
+      dynmem_address->cs = dynmem_address->is;
       dynmem_address->is = ((dynmem_address->is / element_size) / 2) * element_size;
-      dynmem_address->cs = dynmem_address->is * 2;
-
       *temporary_memory_address = NULL;
    } else {
       if (dynmem_address->is < sizeof(intmax_t))

@@ -78,18 +78,37 @@ START_TEST(nonnull_dynmem__with_null_memory) {
 }
 END_TEST
 
-START_TEST(nonnull_dynmem__with_preallocated_memory) {
+START_TEST(nonnull_dynmem__with_preallocated_memory__even_size) {
+   dynmem_t dynmem;
+   int *memory = malloc(24);
+   int *temporary_memory = memory;
+
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 0, 0, &memory), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 0, 6, &memory), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 0, &memory), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 6, &memory), DYNMEM_SUCCEED);
+   ck_assert_int_eq(dynmem.es, 4);
+   ck_assert_int_eq(dynmem.is, 12);
+   ck_assert_int_eq(dynmem.cs, 24);
+   ck_assert_int_eq(dynmem.bi, 12);
+   ck_assert_int_eq(dynmem.ei, 8);
+   ck_assert_ptr_nonnull(dynmem.m);
+   ck_assert_ptr_null(memory);
+   ck_assert_ptr_eq(dynmem.m, temporary_memory);
+
+   free(dynmem.m);
+}
+END_TEST
+
+START_TEST(nonnull_dynmem__with_preallocated_memory__odd_size) {
    dynmem_t dynmem;
    int *memory = malloc(20);
    int *temporary_memory = memory;
 
-   ck_assert_int_eq(DynMemAllocate(&dynmem, 0, 0, &memory), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemAllocate(&dynmem, 0, 5, &memory), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 0, &memory), DYNMEM_FAILED);
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, &memory), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.es, 4);
    ck_assert_int_eq(dynmem.is, 8);
-   ck_assert_int_eq(dynmem.cs, 16);
+   ck_assert_int_eq(dynmem.cs, 20);
    ck_assert_int_eq(dynmem.bi, 8);
    ck_assert_int_eq(dynmem.ei, 4);
    ck_assert_ptr_nonnull(dynmem.m);
@@ -109,7 +128,8 @@ int main() {
    tcase_add_test(test_cases, nonnull_dynmem__without_preallocated_memory);
    tcase_add_test(test_cases, nonnull_dynmem__without_preallocated_memory__smaller_size);
    tcase_add_test(test_cases, nonnull_dynmem__with_null_memory);
-   tcase_add_test(test_cases, nonnull_dynmem__with_preallocated_memory);
+   tcase_add_test(test_cases, nonnull_dynmem__with_preallocated_memory__even_size);
+   tcase_add_test(test_cases, nonnull_dynmem__with_preallocated_memory__odd_size);
 
    suite_add_tcase(suite, test_cases);
 

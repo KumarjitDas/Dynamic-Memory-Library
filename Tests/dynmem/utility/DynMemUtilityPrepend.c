@@ -23,6 +23,7 @@ START_TEST(null_memory__minimum_size) {
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, NULL, 4), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 40);
    ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
@@ -34,6 +35,7 @@ START_TEST(null_memory__edged_size) {
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, NULL, 20), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 40);
    ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
@@ -44,7 +46,8 @@ START_TEST(null_memory__extended_size) {
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, NULL, 40), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 80);
-   ck_assert_int_eq(dynmem.bi, 40);
+   ck_assert_int_eq(dynmem.bi, 60);
+   ck_assert_int_eq(dynmem.ei, 56);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
@@ -55,7 +58,8 @@ START_TEST(null_memory__more_extended_size) {
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, NULL, 80), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 160);
-   ck_assert_int_eq(dynmem.bi, 80);
+   ck_assert_int_eq(dynmem.bi, 140);
+   ck_assert_int_eq(dynmem.ei, 136);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
@@ -64,8 +68,6 @@ START_TEST(nonnull_memory__minimum_size) {
    dynmem_t dynmem;
    uint8_t *memory = malloc(4);
 
-   ck_assert_ptr_nonnull(memory);
-
    for (intmax_t i = 0; i < 4; i++)
       memory[i] = (uint8_t)(i + 1);
 
@@ -73,6 +75,7 @@ START_TEST(nonnull_memory__minimum_size) {
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, memory, 4), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 40);
    ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
 
    uint8_t *temporary_memory = dynmem.m + dynmem.bi - 4;
 
@@ -92,11 +95,11 @@ START_TEST(nonnull_memory__edged_size) {
    for (intmax_t i = 0; i < 20; i++)
       memory[i] = (uint8_t)(i + 1);
 
-   ck_assert_ptr_nonnull(memory);
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, memory, 20), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 40);
    ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
 
    uint8_t *temporary_memory = dynmem.m + dynmem.bi - 20;
 
@@ -116,11 +119,11 @@ START_TEST(nonnull_memory__extended_size) {
    for (intmax_t i = 0; i < 40; i++)
       memory[i] = (uint8_t)(i + 1);
 
-   ck_assert_ptr_nonnull(memory);
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, memory, 40), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 80);
-   ck_assert_int_eq(dynmem.bi, 40);
+   ck_assert_int_eq(dynmem.bi, 60);
+   ck_assert_int_eq(dynmem.ei, 56);
 
    uint8_t *temporary_memory = dynmem.m + dynmem.bi - 40;
 
@@ -140,11 +143,11 @@ START_TEST(nonnull_memory__more_extended_size) {
    for (intmax_t i = 0; i < 80; i++)
       memory[i] = (uint8_t)(i + 1);
 
-   ck_assert_ptr_nonnull(memory);
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemUtilityPrepend(&dynmem, memory, 80), DYNMEM_SUCCEED);
    ck_assert_int_eq(dynmem.cs, 160);
-   ck_assert_int_eq(dynmem.bi, 80);
+   ck_assert_int_eq(dynmem.bi, 140);
+   ck_assert_int_eq(dynmem.ei, 136);
 
    uint8_t *temporary_memory = dynmem.m + dynmem.bi - 80;
 

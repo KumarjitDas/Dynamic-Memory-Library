@@ -1,13 +1,9 @@
 #include "check.h"
 #include "dynmem/dynmem.h"
 
-START_TEST(null_dynmem__null_value) {
-   ck_assert_int_eq(DynMemPrepend(NULL, NULL), DYNMEM_FAILED);
-}
-END_TEST
-
-START_TEST(null_dynmem__nonnull_value) {
+START_TEST(null_dynmem) {
    int value;
+   ck_assert_int_eq(DynMemPrepend(NULL, NULL), DYNMEM_FAILED);
    ck_assert_int_eq(DynMemPrepend(NULL, &value), DYNMEM_FAILED);
 }
 END_TEST
@@ -84,8 +80,7 @@ int main() {
    Suite *suite = suite_create("Test suite for \"DynMemPrepend\" function");
    TCase *test_cases = tcase_create("Test case");
 
-   tcase_add_test(test_cases, null_dynmem__null_value);
-   tcase_add_test(test_cases, null_dynmem__nonnull_value);
+   tcase_add_test(test_cases, null_dynmem);
    tcase_add_test(test_cases, nonnull_dynmem__null_value);
    tcase_add_test(test_cases, nonnull_dynmem__nonnull_value__minimum_size);
    tcase_add_test(test_cases, nonnull_dynmem__nonnull_value__edged_size);

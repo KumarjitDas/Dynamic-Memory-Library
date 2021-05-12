@@ -22,15 +22,20 @@ _Bool DynMemUtilityReduce(dynmem_t *dynmem_address) {
    while (half_size > dynmem_address->is && half_size >= begin_end_difference)
       half_size /= 2;
 
-   if (temporary_half_size == half_size)
-      return DYNMEM_SUCCEED;
-
    dynmem_address->cs = half_size * 2;
    intmax_t begin_index = (((dynmem_address->cs - begin_end_difference) / dynmem_address->es) / 2) *
                           dynmem_address->es;
 
-   DynMemUtilitySetMemoryBlock(dynmem_address->m + begin_index, dynmem_address->m + dynmem_address->bi,
-                               begin_end_difference);
+   if (temporary_half_size == half_size && begin_index == dynmem_address->bi)
+      return DYNMEM_SUCCEED;
+
+   if (begin_index < dynmem_address->bi)
+      DynMemUtilitySetMemoryBlock(dynmem_address->m + begin_index, dynmem_address->m + dynmem_address->bi,
+                                  begin_end_difference);
+   else
+      DynMemUtilitySetMemoryBlockReverse(dynmem_address->m + begin_index, dynmem_address->m + dynmem_address->bi,
+                                         begin_end_difference);
+
    dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs);
 
    if (dynmem_address->m == NULL) {

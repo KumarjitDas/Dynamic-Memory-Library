@@ -1,6 +1,9 @@
 #ifndef DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 #define DYNMEM_INTERNAL_USE_UTILITY_DEFINES_H
 #endif
+#ifndef DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
+#define DYNMEM_INTERNAL_USE_UTILITY_UTILITY_H
+#endif
 #ifndef DYNMEM_INTERNAL_USE_UTILITY_ALLOCATE_H
 #define DYNMEM_INTERNAL_USE_UTILITY_ALLOCATE_H
 #endif
@@ -12,8 +15,7 @@
 #include <stdlib.h>
 
 _Bool DynMemUtilityReduce(dynmem_t *dynmem_address) {
-   intmax_t begin_end_difference = dynmem_address->ei - dynmem_address->bi + dynmem_address->es;
-
+   intmax_t begin_end_difference = DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address);
    intmax_t half_size = dynmem_address->cs / 2;
    intmax_t temporary_half_size = half_size;
 

@@ -11,6 +11,8 @@
 #include "dynmem/utility/defines.h"
 #include "dynmem/utility/allocate.h"
 
+#include <stdlib.h>
+
 START_TEST(value_not_added) {
    dynmem_t dynmem;
    int *array;

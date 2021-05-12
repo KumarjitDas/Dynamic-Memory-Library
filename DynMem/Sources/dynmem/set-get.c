@@ -108,9 +108,12 @@ _Bool DynMemGetPointer(dynmem_t *dynmem_address, void *pointer_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;
 
-   *(void **)pointer_address = dynmem_address->m + dynmem_address->bi;
+   if (dynmem_address->ei >= dynmem_address->bi) {
+      *(void **)pointer_address = dynmem_address->m + dynmem_address->bi;
+      return DYNMEM_SUCCEED;
+   }
 
-   return DYNMEM_SUCCEED;
+   return DYNMEM_FAILED;
 }
 
 _Bool DynMemGetHeapSize(dynmem_t *dynmem_address, intmax_t *size_address) {

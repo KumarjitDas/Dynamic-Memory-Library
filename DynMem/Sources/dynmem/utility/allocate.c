@@ -50,9 +50,12 @@ _Bool DynMemUtilityReduce(dynmem_t *dynmem_address) {
 }
 
 _Bool DynMemUtilityReduceToMemory(dynmem_t *dynmem_address, void *memory_address, intmax_t *size_address) {
+   uint8_t **temporary_memory_address = memory_address;
+   *temporary_memory_address = NULL;
+
    if (size_address != NULL) *size_address = 0;
 
-   intmax_t begin_end_difference = dynmem_address->ei - dynmem_address->bi + dynmem_address->es;
+   intmax_t begin_end_difference = DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address);
 
    if (begin_end_difference == 0) {
       free(dynmem_address->m);
@@ -66,11 +69,10 @@ _Bool DynMemUtilityReduceToMemory(dynmem_t *dynmem_address, void *memory_address
    if (dynmem_address->bi != 0)
       DynMemUtilitySetMemoryBlock(dynmem_address->m, dynmem_address->m + dynmem_address->bi, begin_end_difference);
 
-   uint8_t **memory_address_ = memory_address;
-
    if (size_address != NULL) *size_address = begin_end_difference;
-   *memory_address_ = realloc(dynmem_address->m, begin_end_difference);
+
+   *temporary_memory_address = realloc(dynmem_address->m, begin_end_difference);
    DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
 
-   return (*memory_address_ == NULL) ? DYNMEM_FAILED : DYNMEM_SUCCEED;
+   return (*temporary_memory_address == NULL) ? DYNMEM_FAILED : DYNMEM_SUCCEED;
 }

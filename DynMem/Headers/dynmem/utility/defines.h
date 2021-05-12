@@ -34,11 +34,7 @@
 #define DYNMEM_UTILITY_GET_LENGTH_ADDRESS(dynmem_address) \
    (DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address) / dynmem_address->es)
 
-#define DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address) \
-   (dynmem_address->ei - dynmem_address->bi + dynmem_address->es)
-
-#define DYNMEM_UTILITY_VALIDATE(dynmem) \
-   (dynmem.es > 0 && dynmem.is > 0 && dynmem.cs > 0 && dynmem.m != NULL)
+#define DYNMEM_UTILITY_VALIDATE(dynmem) (dynmem.es > 0 && dynmem.is > 0 && dynmem.cs > 0 && dynmem.m != NULL)
 
 #define DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address)                           \
    (dynmem_address != NULL && dynmem_address->es > 0 && dynmem_address->is > 0 && \

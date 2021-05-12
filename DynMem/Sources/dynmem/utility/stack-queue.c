@@ -64,7 +64,7 @@ _Bool DynMemUtilityPrepend(dynmem_t *dynmem_address, void *memory, intmax_t size
       dynmem_address->ei += temporary_size;
 
       DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->bi, source,
-                                  DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address));
+                                  DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address));
    }
 
    if (memory == NULL) return DYNMEM_SUCCEED;

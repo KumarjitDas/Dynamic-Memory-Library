@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 _Bool DynMemUtilityReduce(dynmem_t *dynmem_address) {
-   intmax_t begin_end_difference = DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address);
+   intmax_t begin_end_difference = DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address);
    intmax_t half_size = dynmem_address->cs / 2;
    intmax_t temporary_half_size = half_size;
 
@@ -55,7 +55,7 @@ _Bool DynMemUtilityReduceToMemory(dynmem_t *dynmem_address, void *memory_address
 
    if (size_address != NULL) *size_address = 0;
 
-   intmax_t begin_end_difference = DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address);
+   intmax_t begin_end_difference = DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address);
 
    if (begin_end_difference == 0) {
       free(dynmem_address->m);

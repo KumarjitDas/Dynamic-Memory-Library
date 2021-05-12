@@ -8,9 +8,6 @@
 #define DYNMEM_INTERNAL_USE_UTILITY_STACK_QUEUE_H
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "dynmem/dynmem.h"
 #include "dynmem/utility/defines.h"
 #include "dynmem/utility/utility.h"

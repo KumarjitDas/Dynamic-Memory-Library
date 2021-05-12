@@ -42,17 +42,13 @@ _Bool DynMemUtilityAppend(dynmem_t *dynmem_address, void *memory, intmax_t size)
 }
 
 _Bool DynMemUtilityPrepend(dynmem_t *dynmem_address, void *memory, intmax_t size) {
-   intmax_t beginning_index = dynmem_address->bi - size;
+   intmax_t temporary_size = dynmem_address->cs - (dynmem_address->bi - size);
 
-   if (beginning_index < 0) {
-      intmax_t temporary_size = dynmem_address->cs + (-beginning_index);
-      intmax_t half_size = dynmem_address->cs;
-      dynmem_address->cs *= 2;
+   if (temporary_size > dynmem_address->cs) {
+      intmax_t old_size = dynmem_address->cs;
 
-      while (dynmem_address->cs < temporary_size) {
+      while (dynmem_address->cs < temporary_size)
          dynmem_address->cs *= 2;
-         half_size *= 2;
-      }
 
       dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs);
 
@@ -61,10 +57,14 @@ _Bool DynMemUtilityPrepend(dynmem_t *dynmem_address, void *memory, intmax_t size
          return DYNMEM_FAILED;
       }
 
-      DynMemUtilitySetMemoryBlock(dynmem_address->m + half_size, dynmem_address->m,
-                                  dynmem_address->ei + dynmem_address->es);
-      dynmem_address->ei += half_size - dynmem_address->bi;
-      dynmem_address->bi = half_size;
+      uint8_t *source = dynmem_address->m + dynmem_address->bi;
+
+      temporary_size = dynmem_address->cs - old_size;
+      dynmem_address->bi += temporary_size;
+      dynmem_address->ei += temporary_size;
+
+      DynMemUtilitySetMemoryBlock(dynmem_address->m + dynmem_address->bi, source,
+                                  DYNMEM_UTILITY_BEGIN_END_DIFFERENCE_ADDRESS(dynmem_address));
    }
 
    if (memory == NULL) return DYNMEM_SUCCEED;

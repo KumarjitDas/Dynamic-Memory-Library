@@ -1,135 +1,75 @@
 #include "check.h"
 #include "dynmem/dynmem.h"
 
-START_TEST(null_dynmem) {
+START_TEST(value_not_added) {
+   dynmem_t dynmem;
+
    ck_assert_int_eq(DynMemReset(NULL), DYNMEM_FAILED);
-}
-END_TEST
-
-START_TEST(nonnull_dynmem) {
-   dynmem_t dynmem;
-   intmax_t length = 5;
-   intmax_t initial_size = sizeof(int) * length;
-
-   ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), length, NULL), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
    ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
-   ck_assert_int_eq(dynmem.es, sizeof(int));
-   ck_assert_int_eq(dynmem.is, initial_size);
-   ck_assert_int_eq(dynmem.cs, initial_size * 2);
-   ck_assert_int_eq(dynmem.bi, initial_size);
-   ck_assert_int_eq(dynmem.ei, initial_size - sizeof(int));
-   ck_assert_ptr_nonnull(dynmem.m);
+   ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
 
-START_TEST(nonnull_dynmem_appended_not_size_changed) {
+START_TEST(appended) {
    dynmem_t dynmem;
-   intmax_t length = 5;
-   intmax_t initial_size = sizeof(int) * length;
 
-   ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), length, NULL), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemReset(NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
 
-   for (intmax_t i = 0; i < 5; i++)
-      ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
+   for (int32_t i = 0; i < 5; i++)
+      ck_assert_int_eq(DynMemAppend(&dynmem, &i), DYNMEM_SUCCEED);
 
    ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
-   ck_assert_int_eq(dynmem.es, sizeof(int));
-   ck_assert_int_eq(dynmem.is, initial_size);
-   ck_assert_int_eq(dynmem.cs, initial_size * 2);
-   ck_assert_int_eq(dynmem.bi, initial_size);
-   ck_assert_int_eq(dynmem.ei, initial_size - sizeof(int));
-   ck_assert_ptr_nonnull(dynmem.m);
+   ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
 
-   ck_assert_int_eq(((int *)(dynmem.m))[0], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[2], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[4], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[6], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[8], (int)0);
+   for (int32_t i = 0; i < 10; i++)
+      ck_assert_int_eq(DynMemAppend(&dynmem, &i), DYNMEM_SUCCEED);
+
+   ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
+   ck_assert_int_eq(dynmem.bi, 40);
+   ck_assert_int_eq(dynmem.ei, 36);
+
+   for (int32_t i = 0; i < 20; i++)
+      ck_assert_int_eq(DynMemAppend(&dynmem, &i), DYNMEM_SUCCEED);
+
+   ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
+   ck_assert_int_eq(dynmem.bi, 80);
+   ck_assert_int_eq(dynmem.ei, 76);
 
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
 
-START_TEST(nonnull_dynmem_appended_size_changed) {
+START_TEST(prepended) {
    dynmem_t dynmem;
-   intmax_t length = 5;
-   intmax_t initial_size = sizeof(int) * length;
 
-   ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), length, NULL), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemReset(NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
 
-   for (intmax_t i = 0; i < 10; i++)
-      ck_assert_int_eq(DynMemAppend(&dynmem, NULL), DYNMEM_SUCCEED);
+   for (int32_t i = 0; i < 5; i++)
+      ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
    ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
-   ck_assert_int_eq(dynmem.es, sizeof(int));
-   ck_assert_int_eq(dynmem.is, initial_size);
-   ck_assert_int_eq(dynmem.cs, initial_size * 2);
-   ck_assert_int_eq(dynmem.bi, initial_size);
-   ck_assert_int_eq(dynmem.ei, initial_size - sizeof(int));
-   ck_assert_ptr_nonnull(dynmem.m);
+   ck_assert_int_eq(dynmem.bi, 20);
+   ck_assert_int_eq(dynmem.ei, 16);
 
-   ck_assert_int_eq(((int *)(dynmem.m))[0], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[2], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[4], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[6], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[8], (int)0);
-
-   ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
-}
-END_TEST
-
-START_TEST(nonnull_dynmem_prepended_not_size_changed) {
-   dynmem_t dynmem;
-   intmax_t length = 5;
-   intmax_t initial_size = sizeof(int) * length;
-
-   ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), length, NULL), DYNMEM_SUCCEED);
-
-   for (intmax_t i = 0; i < 5; i++)
-      ck_assert_int_eq(DynMemPrepend(&dynmem, NULL), DYNMEM_SUCCEED);
+   for (int32_t i = 0; i < 10; i++)
+      ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
    ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
-   ck_assert_int_eq(dynmem.es, sizeof(int));
-   ck_assert_int_eq(dynmem.is, initial_size);
-   ck_assert_int_eq(dynmem.cs, initial_size * 2);
-   ck_assert_int_eq(dynmem.bi, initial_size);
-   ck_assert_int_eq(dynmem.ei, initial_size - sizeof(int));
-   ck_assert_ptr_nonnull(dynmem.m);
+   ck_assert_int_eq(dynmem.bi, 40);
+   ck_assert_int_eq(dynmem.ei, 36);
 
-   ck_assert_int_eq(((int *)(dynmem.m))[0], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[2], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[4], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[6], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[8], (int)0);
-
-   ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
-}
-END_TEST
-
-START_TEST(nonnull_dynmem_prepended_size_changed) {
-   dynmem_t dynmem;
-   intmax_t length = 5;
-   intmax_t initial_size = sizeof(int) * length;
-
-   ck_assert_int_eq(DynMemAllocate(&dynmem, sizeof(int), length, NULL), DYNMEM_SUCCEED);
-
-   for (intmax_t i = 0; i < 10; i++)
-      ck_assert_int_eq(DynMemPrepend(&dynmem, NULL), DYNMEM_SUCCEED);
+   for (int32_t i = 0; i < 20; i++)
+      ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
    ck_assert_int_eq(DynMemReset(&dynmem), DYNMEM_SUCCEED);
-   ck_assert_int_eq(dynmem.es, sizeof(int));
-   ck_assert_int_eq(dynmem.is, initial_size);
-   ck_assert_int_eq(dynmem.cs, initial_size * 2);
-   ck_assert_int_eq(dynmem.bi, initial_size);
-   ck_assert_int_eq(dynmem.ei, initial_size - sizeof(int));
-   ck_assert_ptr_nonnull(dynmem.m);
-
-   ck_assert_int_eq(((int *)(dynmem.m))[0], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[2], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[4], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[6], (int)0);
-   ck_assert_int_eq(((int *)(dynmem.m))[8], (int)0);
+   ck_assert_int_eq(dynmem.bi, 80);
+   ck_assert_int_eq(dynmem.ei, 76);
 
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
@@ -139,12 +79,9 @@ int main() {
    Suite *suite = suite_create("Test suite for \"DynMemReset\" function");
    TCase *test_cases = tcase_create("Test case");
 
-   tcase_add_test(test_cases, null_dynmem);
-   tcase_add_test(test_cases, nonnull_dynmem);
-   tcase_add_test(test_cases, nonnull_dynmem_appended_not_size_changed);
-   tcase_add_test(test_cases, nonnull_dynmem_appended_size_changed);
-   tcase_add_test(test_cases, nonnull_dynmem_prepended_not_size_changed);
-   tcase_add_test(test_cases, nonnull_dynmem_prepended_size_changed);
+   tcase_add_test(test_cases, value_not_added);
+   tcase_add_test(test_cases, appended);
+   tcase_add_test(test_cases, prepended);
 
    suite_add_tcase(suite, test_cases);
 

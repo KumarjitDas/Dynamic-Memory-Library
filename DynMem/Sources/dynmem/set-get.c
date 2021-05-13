@@ -148,6 +148,12 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;
 
+   dynmem_address->bi = ((dynmem_address->cs / dynmem_address->es) / 2) * dynmem_address->es;
+   dynmem_address->ei = dynmem_address->bi - dynmem_address->es;
+
+   return DYNMEM_SUCCEED;
+}
+
    intmax_t current_size = dynmem_address->is * 2;
 
    if (dynmem_address->bi > dynmem_address->ei && dynmem_address->cs == current_size)

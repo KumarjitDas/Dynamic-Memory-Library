@@ -261,7 +261,21 @@ _Bool DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, vo
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilitySetValues(dynmem_address, begin * dynmem_address->es, end * dynmem_address->es, value_address);
+   begin *= dynmem_address->es;
+   begin += (begin < 0 ? dynmem_address->ei + dynmem_address->es
+                       : dynmem_address->bi);
+   if (begin < dynmem_address->bi || begin > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   end *= dynmem_address->es;
+   end += (end < 0 ? dynmem_address->ei + dynmem_address->es
+                   : dynmem_address->bi);
+   if (end < dynmem_address->bi || end > dynmem_address->ei || end < begin)
+      return DYNMEM_FAILED;
+
+   DynMemUtilitySetMemory(dynmem_address->m + begin, end - begin + dynmem_address->es,
+                          value_address, dynmem_address->es);
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end_s,

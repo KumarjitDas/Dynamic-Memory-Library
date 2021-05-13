@@ -154,17 +154,14 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemResetMemory(dynmem_t *dynmem_address) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
    intmax_t current_size = dynmem_address->is * 2;
 
-   if (dynmem_address->bi > dynmem_address->ei && dynmem_address->cs == current_size)
-      DynMemUtilityResetMemory(dynmem_address->m, dynmem_address->cs);
-
-   dynmem_address->cs = current_size;
-   dynmem_address->bi = dynmem_address->is;
-   dynmem_address->ei = dynmem_address->is - dynmem_address->es;
-
-   if (dynmem_address->m != NULL && dynmem_address->cs != current_size) {
-      dynmem_address->m = realloc(dynmem_address->m, dynmem_address->cs);
+   if (dynmem_address->cs != current_size) {
+      dynmem_address->m = realloc(dynmem_address->m, current_size);
 
       if (dynmem_address->m == NULL) {
          DYNMEM_UTILITY_RESET_ADDRESS(dynmem_address);
@@ -172,7 +169,9 @@ _Bool DynMemReset(dynmem_t *dynmem_address) {
       }
    }
 
-   DynMemUtilityResetMemory(dynmem_address->m, dynmem_address->cs);
+   dynmem_address->bi = dynmem_address->is;
+   dynmem_address->ei = dynmem_address->is - dynmem_address->es;
+   dynmem_address->cs = current_size;
 
    return DYNMEM_SUCCEED;
 }

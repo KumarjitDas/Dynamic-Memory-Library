@@ -195,7 +195,16 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilitySet(dynmem_address, index * dynmem_address->es, value_address);
+   index *= dynmem_address->es;
+   index += (index < 0 ? dynmem_address->ei + dynmem_address->es
+                           : dynmem_address->bi);
+   if (index < dynmem_address->bi || index > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   void *destination = dynmem_address->m + index;
+   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, destination, value_address);
+
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemGet_s(dynmem_t *dynmem_address, intmax_t index_s, void *value_address) {

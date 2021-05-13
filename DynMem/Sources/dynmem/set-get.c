@@ -211,7 +211,15 @@ _Bool DynMemGet_s(dynmem_t *dynmem_address, intmax_t index_s, void *value_addres
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilityGet(dynmem_address, index_s, value_address);
+   index_s += (index_s < 0 ? dynmem_address->ei + dynmem_address->es
+                           : dynmem_address->bi);
+   if (index_s < dynmem_address->bi || index_s > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   void *destination = dynmem_address->m + index_s;
+   DYNMEM_UTILITY_ASSIGN(dynmem_address->es, value_address, destination);
+
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {

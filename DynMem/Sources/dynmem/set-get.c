@@ -197,7 +197,7 @@ _Bool DynMemSet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
 
    index *= dynmem_address->es;
    index += (index < 0 ? dynmem_address->ei + dynmem_address->es
-                           : dynmem_address->bi);
+                       : dynmem_address->bi);
    if (index < dynmem_address->bi || index > dynmem_address->ei)
       return DYNMEM_FAILED;
 
@@ -228,7 +228,7 @@ _Bool DynMemGet(dynmem_t *dynmem_address, intmax_t index, void *value_address) {
 
    index *= dynmem_address->es;
    index += (index < 0 ? dynmem_address->ei + dynmem_address->es
-                           : dynmem_address->bi);
+                       : dynmem_address->bi);
    if (index < dynmem_address->bi || index > dynmem_address->ei)
       return DYNMEM_FAILED;
 
@@ -242,7 +242,19 @@ _Bool DynMemSetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-   return DynMemUtilitySetValues(dynmem_address, begin_s, end_s, value_address);
+   begin_s += (begin_s < 0 ? dynmem_address->ei + dynmem_address->es
+                           : dynmem_address->bi);
+   if (begin_s < dynmem_address->bi || begin_s > dynmem_address->ei)
+      return DYNMEM_FAILED;
+
+   end_s += (end_s < 0 ? dynmem_address->ei + dynmem_address->es
+                       : dynmem_address->bi);
+   if (end_s < dynmem_address->bi || end_s > dynmem_address->ei || end_s < begin_s)
+      return DYNMEM_FAILED;
+
+   DynMemUtilitySetMemory(dynmem_address->m + begin_s, end_s - begin_s + dynmem_address->es,
+                          value_address, dynmem_address->es);
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address) {

@@ -99,7 +99,7 @@ _Bool DynMemSetForPrepending(dynmem_t *dynmem_address) {
    return DYNMEM_SUCCEED;
 }
 
-_Bool DynMemGetPointer(dynmem_t *dynmem_address, void *pointer_address) {
+_Bool DynMemGetBegin(dynmem_t *dynmem_address, void *pointer_address) {
    if (pointer_address == NULL)
       return DYNMEM_FAILED;
    else

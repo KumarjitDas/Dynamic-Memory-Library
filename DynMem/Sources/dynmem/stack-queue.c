@@ -27,10 +27,10 @@ _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
       return DYNMEM_FAILED;
 
-      _Bool status = DynMemUtilityPrepend(dynmem_address, value_address, dynmem_address->es);
-      dynmem_address->bi -= dynmem_address->es;
+   _Bool status = DynMemUtilityPrepend(dynmem_address, value_address, dynmem_address->es);
+   dynmem_address->bi -= dynmem_address->es;
 
-      return status;
+   return status;
 }
 
 _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {

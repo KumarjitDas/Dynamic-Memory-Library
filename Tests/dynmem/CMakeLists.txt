@@ -2,9 +2,10 @@ set(
    TEST_FUNCTION_NAMES
    "DynMemAllocate" "DynMemDeallocate" "DynMemReduce_s" "DynMemReduce" "DynMemAppend" "DynMemPrepend" "DynMemDeduct"
    "DynMemDeductFront" "DynMemSetElementSize" "DynMemGetElementSize" "DynMemGetSize" "DynMemGetLength"
-   "DynMemSetForAppending" "DynMemSetForPrepending" "DynMemGetBegin" "DynMemGetEnd" "DynMemGetHeapSize"
-   "DynMemGetHeapPointer" "DynMemReset" "DynMemResetMemory" "DynMemSet_s" "DynMemSet" "DynMemGet_s" "DynMemGet"
-   "DynMemSetValues_s" "DynMemSetValues" "DynMemGetValues_s" "DynMemGetValues" "DynMemCopy" "DynMemCopyInitial"
+   "DynMemGetEndIndex_s" "DynMemSetForAppending" "DynMemSetForPrepending" "DynMemGetBegin" "DynMemGetEnd"
+   "DynMemGetHeapSize" "DynMemGetHeapPointer" "DynMemReset" "DynMemResetMemory" "DynMemSet_s" "DynMemSet" "DynMemGet_s"
+   "DynMemGet" "DynMemSetValues_s" "DynMemSetValues" "DynMemGetValues_s" "DynMemGetValues" "DynMemCopy"
+   "DynMemCopyInitial"
 )
 set(TEST_COUNTER 0)
 

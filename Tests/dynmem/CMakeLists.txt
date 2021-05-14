@@ -4,7 +4,7 @@ set(
    "DynMemDeductFront" "DynMemSetElementSize" "DynMemGetElementSize" "DynMemGetSize" "DynMemGetLength"
    "DynMemSetForAppending" "DynMemSetForPrepending" "DynMemGetPointer" "DynMemGetHeapSize" "DynMemGetHeapPointer"
    "DynMemReset" "DynMemResetMemory" "DynMemSet_s" "DynMemSet" "DynMemGet_s" "DynMemGet" "DynMemSetValues_s"
-   "DynMemSetValues" "DynMemGetValues_s" "DynMemGetValues"
+   "DynMemSetValues" "DynMemGetValues_s" "DynMemGetValues" "DynMemCopyInitial"
 )
 set(TEST_COUNTER 0)
 

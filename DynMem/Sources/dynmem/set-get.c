@@ -309,13 +309,32 @@ _Bool DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end
 
 _Bool DynMemGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
                       void *array, intmax_t length, intmax_t *got_length) {
+   if (got_length != NULL) *got_length = 0;
+
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL)
       return DYNMEM_FAILED;
 
-   _Bool status = DynMemUtilityGetValues(dynmem_address, begin * dynmem_address->es, end * dynmem_address->es,
-                                         array, length * dynmem_address->es, got_length);
-   if (got_length != NULL)
-      *got_length /= dynmem_address->es;
+   begin *= dynmem_address->es;
+   begin += (begin < 0 ? dynmem_address->ei + dynmem_address->es
+                       : dynmem_address->bi);
+   if (begin < dynmem_address->bi || begin > dynmem_address->ei)
+      return DYNMEM_FAILED;
 
-   return status;
+   end *= dynmem_address->es;
+   end += (end < 0 ? dynmem_address->ei + dynmem_address->es
+                   : dynmem_address->bi);
+   if (end < dynmem_address->bi || end > dynmem_address->ei || end < begin)
+      return DYNMEM_FAILED;
+
+   length *= dynmem_address->es;
+   intmax_t temporary_size = end - begin + dynmem_address->es;
+
+   if (length <= 0 || length > temporary_size)
+      length = temporary_size;
+
+   DynMemUtilitySetMemoryBlock(array, dynmem_address->m + begin, length);
+
+   if (got_length != NULL) *got_length = length / dynmem_address->es;
+
+   return DYNMEM_SUCCEED;
 }

@@ -66,6 +66,21 @@ _Bool DynMemGetLength(dynmem_t *dynmem_address, intmax_t *length_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemGetEndIndex_s(dynmem_t *dynmem_address, intmax_t *index_address_s) {
+   if (index_address_s == NULL)
+      return DYNMEM_FAILED;
+   else
+      *index_address_s = -1;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   if (dynmem_address->bi <= dynmem_address->ei)
+      *index_address_s = dynmem_address->ei - dynmem_address->bi;
+
+   return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemSetForAppending(dynmem_t *dynmem_address) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
       return DYNMEM_FAILED;

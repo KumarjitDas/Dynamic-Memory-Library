@@ -4,8 +4,8 @@
 START_TEST(null_dynmem) {
    int *pointer;
 
-   ck_assert_int_eq(DynMemGetPointer(NULL, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemGetPointer(NULL, &pointer), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemGetBegin(NULL, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemGetBegin(NULL, &pointer), DYNMEM_FAILED);
    ck_assert_ptr_null(pointer);
 }
 END_TEST
@@ -15,33 +15,33 @@ START_TEST(nonnull_dynmem) {
    int *pointer;
 
    ck_assert_int_eq(DynMemAllocate(&dynmem, 4, 5, NULL), DYNMEM_SUCCEED);
-   ck_assert_int_eq(DynMemGetPointer(&dynmem, NULL), DYNMEM_FAILED);
-   ck_assert_int_eq(DynMemGetPointer(&dynmem, &pointer), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemGetBegin(&dynmem, NULL), DYNMEM_FAILED);
+   ck_assert_int_eq(DynMemGetBegin(&dynmem, &pointer), DYNMEM_FAILED);
    ck_assert_ptr_null(pointer);
 
    for (int i = 0; i < 5; i++)
       ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
-   ck_assert_int_eq(DynMemGetPointer(&dynmem, &pointer), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemGetBegin(&dynmem, &pointer), DYNMEM_SUCCEED);
    ck_assert_ptr_eq(pointer, dynmem.m);
 
    for (int i = 0; i < 5; i++)
       ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
-   ck_assert_int_eq(DynMemGetPointer(&dynmem, &pointer), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemGetBegin(&dynmem, &pointer), DYNMEM_SUCCEED);
    ck_assert_ptr_eq(pointer, dynmem.m + 20);
 
    for (int i = 0; i < 10; i++)
       ck_assert_int_eq(DynMemPrepend(&dynmem, &i), DYNMEM_SUCCEED);
 
-   ck_assert_int_eq(DynMemGetPointer(&dynmem, &pointer), DYNMEM_SUCCEED);
+   ck_assert_int_eq(DynMemGetBegin(&dynmem, &pointer), DYNMEM_SUCCEED);
    ck_assert_ptr_eq(pointer, dynmem.m + 60);
    ck_assert_int_eq(DynMemDeallocate(&dynmem), DYNMEM_SUCCEED);
 }
 END_TEST
 
 int main() {
-   Suite *suite = suite_create("Test suite for \"DynMemGetPointer\" function");
+   Suite *suite = suite_create("Test suite for \"DynMemGetBegin\" function");
    TCase *test_cases = tcase_create("Test case");
 
    tcase_add_test(test_cases, null_dynmem);

@@ -116,6 +116,23 @@ _Bool DynMemGetBegin(dynmem_t *dynmem_address, void *pointer_address) {
    return DYNMEM_FAILED;
 }
 
+_Bool DynMemGetEnd(dynmem_t *dynmem_address, void *pointer_address) {
+   if (pointer_address == NULL)
+      return DYNMEM_FAILED;
+   else
+      *(void **)pointer_address = NULL;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address))
+      return DYNMEM_FAILED;
+
+   if (dynmem_address->ei >= dynmem_address->bi) {
+      *(void **)pointer_address = dynmem_address->m + dynmem_address->ei;
+      return DYNMEM_SUCCEED;
+   }
+
+   return DYNMEM_FAILED;
+}
+
 _Bool DynMemGetHeapSize(dynmem_t *dynmem_address, intmax_t *size_address) {
    if (size_address == NULL)
       return DYNMEM_FAILED;

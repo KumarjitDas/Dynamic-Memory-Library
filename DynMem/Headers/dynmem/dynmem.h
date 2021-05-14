@@ -40,6 +40,7 @@ _Bool DYNMEM_EXPORT DynMemSetForPrepending(dynmem_t *dynmem_address);
 
 _Bool DYNMEM_EXPORT DynMemGetBegin(dynmem_t *dynmem_address, void *pointer_address);
 
+_Bool DYNMEM_EXPORT DynMemGetEnd(dynmem_t *dynmem_address, void *pointer_address);
 
 _Bool DYNMEM_EXPORT DynMemGetHeapSize(dynmem_t *dynmem_address, intmax_t *size_address);
 

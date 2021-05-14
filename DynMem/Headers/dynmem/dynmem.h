@@ -66,6 +66,8 @@ _Bool DYNMEM_EXPORT DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin_s
 _Bool DYNMEM_EXPORT DynMemGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
                                     void *array, intmax_t length, intmax_t *got_length);
 
+_Bool DYNMEM_EXPORT DynMemCopy(dynmem_t *destination_address, dynmem_t *source_address);
+
 _Bool DYNMEM_EXPORT DynMemCopyInitial(dynmem_t *destination_address, dynmem_t *source_address);
 
 #endif  // DYNMEM_DYNMEM_H

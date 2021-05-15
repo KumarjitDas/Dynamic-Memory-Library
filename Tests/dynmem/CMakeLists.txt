@@ -6,7 +6,7 @@ set(
    "DynMemGetEndIndex" "DynMemSetForAppending" "DynMemSetForPrepending" "DynMemGetBegin" "DynMemGetEnd"
    "DynMemGetHeapSize" "DynMemGetHeapPointer" "DynMemReset" "DynMemResetMemory" "DynMemSet_s" "DynMemSet" "DynMemGet_s"
    "DynMemGet" "DynMemSetValues_s" "DynMemSetValues" "DynMemGetValues_s" "DynMemGetValues" "DynMemCopy"
-   "DynMemCopyInitial"
+   "DynMemCopyExceptValues" "DynMemCopyInitial"
 )
 set(TEST_COUNTER 0)
 

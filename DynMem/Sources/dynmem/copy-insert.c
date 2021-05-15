@@ -37,6 +37,26 @@ _Bool DynMemCopy(dynmem_t *destination_address, dynmem_t *source_address) {
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemCopyExceptValues(dynmem_t *destination_address, dynmem_t *source_address) {
+   if (destination_address == NULL || !DYNMEM_UTILITY_VALIDATE_ADDRESS(source_address))
+      return DYNMEM_FAILED;
+
+   destination_address->cs = source_address->cs;
+   destination_address->m = malloc(destination_address->cs);
+
+   if (destination_address->m == NULL) {
+      DYNMEM_UTILITY_RESET_ADDRESS(destination_address);
+      return DYNMEM_FAILED;
+   }
+
+   destination_address->es = source_address->es;
+   destination_address->is = source_address->is;
+   destination_address->bi = source_address->cs / 2;
+   destination_address->ei = destination_address->bi - source_address->es;
+
+   return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemCopyInitial(dynmem_t *destination_address, dynmem_t *source_address) {
    if (destination_address == NULL || !DYNMEM_UTILITY_VALIDATE_ADDRESS(source_address))
       return DYNMEM_FAILED;

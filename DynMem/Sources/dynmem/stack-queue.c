@@ -60,3 +60,19 @@ _Bool DynMemDeductFront(dynmem_t *dynmem_address, void *value_address) {
 
    return DYNMEM_SUCCEED;
 }
+
+_Bool DynMemAppendValues(dynmem_t *dynmem_address, void *value_address, intmax_t count) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL || count <= 0)
+      return DYNMEM_FAILED;
+
+   intmax_t size = count * dynmem_address->es;
+
+   if (DynMemUtilityAppend(dynmem_address, NULL, size) == DYNMEM_FAILED)
+      return DYNMEM_FAILED;
+
+   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->ei + dynmem_address->es, size,
+                          value_address, dynmem_address->es);
+   dynmem_address->ei += size;
+
+   return DYNMEM_SUCCEED;
+}

@@ -7,16 +7,6 @@
 #include "dynmem/common/standard_includes.h"
 #include "dynmem/common/types.h"
 
-_Bool DYNMEM_UTILITY_EXPORT DynMemUtilitySet(dynmem_t *dynmem_address, intmax_t index, void *value_address);
-
-_Bool DYNMEM_UTILITY_EXPORT DynMemUtilityGet(dynmem_t *dynmem_address, intmax_t index, void *value_address);
-
-_Bool DYNMEM_UTILITY_EXPORT DynMemUtilitySetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
-                                                   void *value_address);
-
-_Bool DYNMEM_UTILITY_EXPORT DynMemUtilityGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
-                                                   void *array, intmax_t size, intmax_t *got_size);
-
 #endif  // DYNMEM_INTERNAL_USE_UTILITY_SET_GET_H
 
 #endif  // DYNMEM_UTILITY_SET_GET_H

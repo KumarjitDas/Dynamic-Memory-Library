@@ -65,14 +65,14 @@ _Bool DynMemAppendValues(dynmem_t *dynmem_address, void *value_address, intmax_t
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL || count <= 0)
       return DYNMEM_FAILED;
 
-   intmax_t size = count * dynmem_address->es;
+   count *= dynmem_address->es;
 
-   if (DynMemUtilityAppend(dynmem_address, NULL, size) == DYNMEM_FAILED)
+   if (DynMemUtilityAppend(dynmem_address, NULL, count) == DYNMEM_FAILED)
       return DYNMEM_FAILED;
 
-   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->ei + dynmem_address->es, size,
+   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->ei + dynmem_address->es, count,
                           value_address, dynmem_address->es);
-   dynmem_address->ei += size;
+   dynmem_address->ei += count;
 
    return DYNMEM_SUCCEED;
 }
@@ -81,7 +81,16 @@ _Bool DynMemPrependValues(dynmem_t *dynmem_address, void *value_address, intmax_
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL || count <= 0)
       return DYNMEM_FAILED;
 
-   intmax_t size = count * dynmem_address->es;
+   count *= dynmem_address->es;
+
+   if (DynMemUtilityPrepend(dynmem_address, NULL, count) == DYNMEM_FAILED)
+      return DYNMEM_FAILED;
+
+   dynmem_address->bi -= count;
+   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->bi, count, value_address, dynmem_address->es);
+
+   return DYNMEM_SUCCEED;
+}
 
    if (DynMemUtilityPrepend(dynmem_address, NULL, size) == DYNMEM_FAILED)
       return DYNMEM_FAILED;

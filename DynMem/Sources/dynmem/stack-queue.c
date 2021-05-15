@@ -76,3 +76,18 @@ _Bool DynMemAppendValues(dynmem_t *dynmem_address, void *value_address, intmax_t
 
    return DYNMEM_SUCCEED;
 }
+
+_Bool DynMemPrependValues(dynmem_t *dynmem_address, void *value_address, intmax_t count) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL || count <= 0)
+      return DYNMEM_FAILED;
+
+   intmax_t size = count * dynmem_address->es;
+
+   if (DynMemUtilityPrepend(dynmem_address, NULL, size) == DYNMEM_FAILED)
+      return DYNMEM_FAILED;
+
+   dynmem_address->bi -= size;
+   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->bi, size, value_address, dynmem_address->es);
+
+   return DYNMEM_SUCCEED;
+}

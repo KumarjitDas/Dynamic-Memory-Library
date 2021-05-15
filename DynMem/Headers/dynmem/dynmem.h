@@ -7,9 +7,7 @@
 #include "defines.h"
 #include "dynmem_export.h"
 
-_Bool DYNMEM_EXPORT DynMemAllocate(dynmem_t *dynmem_address,
-                                   intmax_t element_size,
-                                   intmax_t element_count,
+_Bool DYNMEM_EXPORT DynMemAllocate(dynmem_t *dynmem_address, intmax_t element_size, intmax_t element_count,
                                    void *memory_address);
 
 _Bool DYNMEM_EXPORT DynMemDeallocate(dynmem_t *dynmem_address);
@@ -75,10 +73,10 @@ _Bool DYNMEM_EXPORT DynMemSetValues_s(dynmem_t *dynmem_address, intmax_t begin_s
 _Bool DYNMEM_EXPORT DynMemSetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end, void *value_address);
 
 _Bool DYNMEM_EXPORT DynMemGetValues_s(dynmem_t *dynmem_address, intmax_t begin_s, intmax_t end_s,
-                                      void *memory, intmax_t size, intmax_t *got_size);
+                                      void *memory, intmax_t size, intmax_t *got_size_address);
 
 _Bool DYNMEM_EXPORT DynMemGetValues(dynmem_t *dynmem_address, intmax_t begin, intmax_t end,
-                                    void *array, intmax_t length, intmax_t *got_length);
+                                    void *array, intmax_t length, intmax_t *got_length_address);
 
 _Bool DYNMEM_EXPORT DynMemCopy(dynmem_t *destination_address, dynmem_t *source_address);
 

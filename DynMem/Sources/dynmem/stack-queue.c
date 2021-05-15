@@ -102,3 +102,16 @@ _Bool DynMemAppendArray(dynmem_t *dynmem_address, void *array, intmax_t length) 
    dynmem_address->ei += length;
    return DYNMEM_SUCCEED;
 }
+
+_Bool DynMemPrependArray(dynmem_t *dynmem_address, void *array, intmax_t length) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL || length <= 0)
+      return DYNMEM_FAILED;
+
+   length *= dynmem_address->es;
+
+   if (DynMemUtilityPrepend(dynmem_address, array, length) == DYNMEM_FAILED)
+      return DYNMEM_FAILED;
+
+   dynmem_address->bi -= length;
+   return DYNMEM_SUCCEED;
+}

@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 option(BUILD_SHARED_LIBS "Build the project with shared libraries." ON)
 
-project("DynMem" VERSION 0.37.0 LANGUAGES C)
+project("DynMem" VERSION 0.38.0 LANGUAGES C)
 
 set(VALID_BUILD_TYPES "Release" "Debug" "MinSizeRel" "RelWithDebInfo")
 

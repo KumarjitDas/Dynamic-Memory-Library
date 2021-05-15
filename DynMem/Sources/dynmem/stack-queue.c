@@ -14,23 +14,21 @@
 #include "dynmem/utility/stack-queue.h"
 
 _Bool DynMemAppend(dynmem_t *dynmem_address, void *value_address) {
-   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL ||
+       DynMemUtilityAppend(dynmem_address, value_address, dynmem_address->es) == DYNMEM_FAILED)
       return DYNMEM_FAILED;
 
-   _Bool status = DynMemUtilityAppend(dynmem_address, value_address, dynmem_address->es);
    dynmem_address->ei += dynmem_address->es;
-
-   return status;
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemPrepend(dynmem_t *dynmem_address, void *value_address) {
-   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL)
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || value_address == NULL ||
+       DynMemUtilityPrepend(dynmem_address, value_address, dynmem_address->es) == DYNMEM_FAILED)
       return DYNMEM_FAILED;
 
-   _Bool status = DynMemUtilityPrepend(dynmem_address, value_address, dynmem_address->es);
    dynmem_address->bi -= dynmem_address->es;
-
-   return status;
+   return DYNMEM_SUCCEED;
 }
 
 _Bool DynMemDeduct(dynmem_t *dynmem_address, void *value_address) {

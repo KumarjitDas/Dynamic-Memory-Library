@@ -92,11 +92,15 @@ _Bool DynMemPrependValues(dynmem_t *dynmem_address, void *value_address, intmax_
    return DYNMEM_SUCCEED;
 }
 
-   if (DynMemUtilityPrepend(dynmem_address, NULL, size) == DYNMEM_FAILED)
+_Bool DynMemAppendArray(dynmem_t *dynmem_address, void *array, intmax_t length) {
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL || length <= 0)
       return DYNMEM_FAILED;
 
-   dynmem_address->bi -= size;
-   DynMemUtilitySetMemory(dynmem_address->m + dynmem_address->bi, size, value_address, dynmem_address->es);
+   length *= dynmem_address->es;
 
+   if (DynMemUtilityAppend(dynmem_address, array, length) == DYNMEM_FAILED)
+      return DYNMEM_FAILED;
+
+   dynmem_address->ei += length;
    return DYNMEM_SUCCEED;
 }

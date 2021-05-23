@@ -90,6 +90,30 @@ _Bool DynMemPrependValues(dynmem_t *dynmem_address, void *value_address, intmax_
    return DYNMEM_SUCCEED;
 }
 
+_Bool DynMemDeductValues_s(dynmem_t *dynmem_address, intmax_t count, void *memory, intmax_t size,
+                           intmax_t *got_size_address) {
+   if (got_size_address != NULL) *got_size_address = 0;
+
+   if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || dynmem_address->bi > dynmem_address->ei || count <= 0)
+      return DYNMEM_FAILED;
+
+   intmax_t begin_end_difference = DYNMEM_UTILITY_GET_SIZE_ADDRESS(dynmem_address);
+   count *= dynmem_address->es;
+
+   if (count > begin_end_difference) count = begin_end_difference;
+
+   dynmem_address->ei -= count;
+
+   if (memory == NULL) return DYNMEM_SUCCEED;
+   if (size <= 0 || size > count) size = count;
+
+   DynMemUtilitySetMemoryBlock(memory, dynmem_address->m + dynmem_address->ei + dynmem_address->es, size);
+
+   if (got_size_address != NULL) *got_size_address = size;
+
+   return DYNMEM_SUCCEED;
+}
+
 _Bool DynMemAppendArray(dynmem_t *dynmem_address, void *array, intmax_t length) {
    if (!DYNMEM_UTILITY_VALIDATE_ADDRESS(dynmem_address) || array == NULL || length <= 0)
       return DYNMEM_FAILED;

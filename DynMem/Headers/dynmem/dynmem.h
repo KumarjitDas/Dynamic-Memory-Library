@@ -28,6 +28,9 @@ _Bool DYNMEM_EXPORT DynMemAppendValues(dynmem_t *dynmem_address, void *value_add
 
 _Bool DYNMEM_EXPORT DynMemPrependValues(dynmem_t *dynmem_address, void *value_address, intmax_t count);
 
+_Bool DYNMEM_EXPORT DynMemDeductValues_s(dynmem_t *dynmem_address, intmax_t count, void *memory, intmax_t size,
+                                         intmax_t *got_size_address);
+
 _Bool DYNMEM_EXPORT DynMemAppendArray(dynmem_t *dynmem_address, void *array, intmax_t length);
 
 _Bool DYNMEM_EXPORT DynMemPrependArray(dynmem_t *dynmem_address, void *array, intmax_t length);
